@@ -1,0 +1,6 @@
+{
+  "name": "Meu Devocional",
+  "description": "App devocional diário com leituras bíblicas, orações, exame de consciência e caderno espiritual",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
