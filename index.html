@@ -1,144 +1,64 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Meu Devocional</title>
-<style>
-:root{--bg:#F6F5F1;--card:#FFFFFF;--tx:#1F1F1C;--tx2:#5F5E5A;--tx3:#8E8D86;--bd:#DDDBD2;--lit:#3F8F5B;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A1A18;--card:#242422;--tx:#EEEDE6;--tx2:#B4B2A9;--tx3:#888780;--bd:#3A3A37;--lit:#5FB07A}}
-:root[data-theme="dark"]{--bg:#1A1A18;--card:#242422;--tx:#EEEDE6;--tx2:#B4B2A9;--tx3:#888780;--bd:#3A3A37;--lit:#5FB07A}
-*{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
-#app{max-width:440px;margin:0 auto;padding:16px 16px 88px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px 18px}
-.eyebrow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx2);margin:0}
-.eyebrow i{width:16px;height:2px;background:var(--lit);display:inline-block}
-h1{font-weight:500;font-size:30px;line-height:1.15;margin:14px 0 2px}
-h2{font-weight:500;font-size:24px;line-height:1.25;margin:4px 0 0}
-.sub{margin:0 0 18px;font-size:14px;color:var(--tx2)}
-.bar{border-left:3px solid var(--lit);padding:2px 0 2px 12px;margin:0 0 14px}
-.lb{font-size:12px;color:var(--tx2);margin:0}
-.rf{font-size:16px;font-weight:500;margin:2px 0 0}
-.verse{font-style:italic;font-size:19px;line-height:1.5;margin:0 0 4px}
-.body{font-size:16px;line-height:1.75;color:var(--tx2);margin:12px 0 0}
-.hr{border-top:1px solid var(--bd);margin:20px 0 16px}
-.btn{display:block;width:100%;min-height:48px;padding:0 14px;font:500 15px system-ui,sans-serif;color:var(--tx);background:transparent;border:1.5px solid var(--lit);border-radius:8px;cursor:pointer}
-.btn:hover{background:rgba(63,143,91,0.1)}
-.link{background:none;border:none;color:var(--tx2);font:14px system-ui,sans-serif;min-height:40px;width:100%;margin-top:6px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.pg{display:flex;gap:4px;margin:0 0 8px}
-.pg span{flex:1;height:3px;background:var(--bd)}.pg span.d{background:var(--lit)}
-.top{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;font-size:13px;color:var(--tx2)}
-.top button{background:none;border:none;color:var(--tx2);font:13px system-ui,sans-serif;cursor:pointer;padding:6px 0}
-.opt{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:48px;padding:0 14px;margin:0 0 8px;font:15px system-ui,sans-serif;color:var(--tx);background:transparent;border:1px solid var(--bd);border-radius:8px;cursor:pointer;text-align:left}
-.opt.on{border:1.5px solid var(--lit)}.opt small{color:var(--tx2);font-size:13px}
-textarea{width:100%;min-height:120px;margin-top:14px;padding:12px;font:16px/1.6 system-ui,sans-serif;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;resize:vertical}
-.nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px)}
-.nav div{max-width:440px;margin:0 auto;display:flex}
-.nav button{flex:1;min-height:56px;background:none;border:none;border-top:3px solid transparent;color:var(--tx2);font:14px system-ui,sans-serif;cursor:pointer}
-.nav button.on{color:var(--tx);border-top-color:var(--lit);font-weight:500}
-.check{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--lit);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;color:var(--lit);font-size:22px}
-.timer{font-size:44px;text-align:center;margin:18px 0 4px}
-.small{font-size:13px;color:var(--tx3);margin:8px 0 0}
-.rb{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:none;border:none;border-left:3px solid var(--lit);color:inherit;font:inherit;cursor:pointer;padding:2px 0 2px 12px;margin:0 0 14px}
-.rb span.go{font-size:13px;color:var(--tx2);padding-right:2px}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px}
-.chip{min-height:40px;padding:0 14px;font:14px system-ui,sans-serif;color:var(--tx);background:transparent;border:1px solid var(--bd);border-radius:8px;cursor:pointer}
-.chip.on{border:1.5px solid var(--lit)}
-.bible-text{font-size:17px;line-height:1.8;color:var(--tx);margin-top:16px;background:var(--bg);padding:14px;border-radius:8px;border:1px solid var(--bd);max-height:280px;overflow-y:auto}
-</style>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#F6F5F1"
+  >
+
+  <title>Meu Devocional</title>
+
+  <link
+    rel="stylesheet"
+    href="css/app.css"
+  >
 </head>
+
 <body>
-<main id="app"></main>
-<nav class="nav" id="nav"><div><button data-go="home" id="n1">Hoje</button><button data-go="diary" id="n2">Diário</button></div></nav>
-<script>
-var DAY={key:'2026-10-11',label:'Domingo, 11 de outubro',season:'Tempo Comum · Ano A',verse:'“Alegrem-se sempre no Senhor…”',vref:'Filipenses 4:4',reads:[
-{title:'Antigo Testamento',ref:'Êxodo 32:1–14',text:'Vendo que Moisés tardava em descer do monte, o povo se ajuntou ao redor de Arão e lhe disse: — Levanta-te, faze-nos deuses que vão adiante de nós; pois quanto a este Moisés, o homem que nos tirou da terra do Egito, não sabemos o que lhe aconteceu...'},
-{title:'Salmo',ref:'Salmo 106:1–6, 19–23',text:'Aleluia! Rendam graças ao Senhor, porque ele é bom, porque a sua misericórdia dura para sempre. Quem poderá contar os poderosos feitos do Senhor ou anunciar todos os seus louvores?...'},
-{title:'Epístola',ref:'Filipenses 4:1–9',text:'Portanto, meus irmãos, amados e mui saudados, minha alegria e coroa, estai assim firmados no Senhor, amados. Rogo a Evódia e rogo a Síntique que pensem o mesmo no Senhor...'},
-{title:'Evangelho',ref:'Mateus 22:1–14',text:'Então Jesus, tomando a palavra, tornou a falar-lhes em parábolas, dizendo: — O Reino des Céus é semelhante a um rei que celebrou as bodas de seu filho. Enviou os seus servos a chamar os convidados para as bodas, mas estes não quiseram vir...'}
-]};
-var MODES={rapido:{n:'Rápido',t:'5 min',d:'Uma leitura e uma oração.',s:['palavra','oracao']},padrao:{n:'Padrão',t:'15 min',d:'Ler, meditar, examinar e orar.',s:['palavra','meditacao','exame','oracao']},lectio:{n:'Lectio divina',t:'20 min',d:'Leitura lenta, em quatro movimentos.',s:['lectio','meditatio','oratio','contemplatio']}};
-var ST={
-palavra:{l:'Palavra',h:'Mateus 22:1–14',b:'Leia o texto sagrado logo abaixo com atenção. Pare no versículo que mais chamar sua atenção.'},
-meditacao:{l:'Meditação',h:'O convite do Rei',b:'A festa já está preparada e o convite é feito a todos. A parábola pergunta como respondemos: com pressa, com desculpas ou com alegria.'},
-exame:{l:'Exame',h:'Onde tenho resistido ao convite de Deus?',b:'',q:1},
-oracao:{l:'Oração',h:'Responda a Deus',b:'Agradeça o convite, confesse o que o afasta da mesa e peça um coração disposto a ir.'},
-lectio:{l:'Lectio',h:'Ler',b:'Leia o texto abaixo duas vezes, bem devagar. Fique com a palavra ou a frase que mais chamar sua atenção.'},
-meditatio:{l:'Meditar',h:'Meditar',b:'Repita essa frase em silêncio. O que ela diz a você hoje, e a quem ela se dirige na sua vida?'},
-oratio:{l:'Orar',h:'Orar',b:'Fale com Deus sobre o que surgiu: gratidão, dúvida, pedido. Use suas próprias palavras.'},
-contemplatio:{l:'Contemplar',h:'Contemplar',b:'Descanse na presença de Deus, sem pedir nada. Se a mente divagar, volte com calma à sua frase.',timer:1}
-};
-var S={screen:'home',mode:'padrao',i:0,ans:'',showModes:false,r:0,ver:'NAA',prev:'home'},tm=null,app=document.getElementById('app');
-function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
-function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-S.ver=ld('md_ver','NAA');S.mode=ld('md_mode','padrao');if(!MODES[S.mode])S.mode='padrao';
-function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function head(){return '<p class="eyebrow"><i></i>'+DAY.season+'</p>'}
-function home(){var m=MODES[S.mode],n=ld('md_days',[]).length;
-var h='<div class="card">'+head()+'<h1>Meu Devocional</h1><p class="sub">'+DAY.label+'</p>'
-+'<div class="bar"><p class="verse">'+DAY.verse+'</p><p class="lb">'+DAY.vref+'</p></div><div class="hr"></div><p class="lb" style="margin-bottom:12px">Leituras de hoje</p>';
-DAY.reads.forEach(function(r,j){h+='<button class="rb" data-a="read" data-r="'+j+'"><span><span class="lb" style="display:block">'+r.title+'</span><span class="rf" style="display:block">'+r.ref+'</span></span><span class="go">Ler</span></button>'});
-h+='<div style="height:6px"></div><button class="btn" data-a="start">Começar · '+m.n+' · '+m.t+'</button><button class="link" data-a="tog">'+(S.showModes?'Fechar':'Alterar modo')+'</button>';
-if(S.showModes){h+='<div class="hr" style="margin-top:8px"></div>';Object.keys(MODES).forEach(function(k){var x=MODES[k];h+='<button class="opt'+(k===S.mode?' on':'')+'" data-a="mode" data-k="'+k+'"><span>'+x.n+'</span><small>'+x.t+'</small></button>'});h+='<p class="small">O modo escolhido fica salvo para os próximos dias.</p>'}
-h+='</div><p class="small" style="text-align:center">'+(n?n+(n>1?' devocionais concluídos':' devocional concluído'):'Seu primeiro devocional está a um toque.')+'</p>';
-return h}
-function step(){var m=MODES[S.mode],k=m.s[S.i],s=ST[k],last=S.i===m.s.length-1,h='<div class="card"><div class="top"><button data-a="back">'+(S.i?'← Voltar':'← Início')+'</button><span>'+m.n+' · '+m.t+'</span></div><div class="pg">';
-m.s.forEach(function(_,j){h+='<span class="'+(j<=S.i?'d':'')+'"></span>'});
-h+='</div><p class="eyebrow" style="margin:0 0 26px"><i></i>'+DAY.season+' · '+DAY.label+'</p><p class="lb">'+s.l+'</p><div class="bar" style="margin-top:8px"><h2>'+s.h+'</h2></div>';
-if(s.b)h+='<p class="body">'+s.b+'</p>';
-if(k==='palavra'||k==='lectio'){
-  var r = DAY.reads[3];
-  h+='<div class="bible-text"><strong>'+r.ref+'</strong><br><br>'+r.text+'</div>';
-}
-if(s.q)h+='<textarea id="ta" placeholder="Escreva em poucas linhas. Fica salvo no seu diário.">'+esc(S.ans)+'</textarea>';
-if(s.timer)h+='<div class="timer" id="tmr">2:00</div><button class="link" data-a="timer" id="tb" style="margin:0 0 6px">Iniciar 2 minutos de silêncio</button>';
-h+='<div style="height:22px"></div><button class="btn" data-a="next">'+(last?'Concluir devocional':'Continuar')+'</button>';
-if(S.mode==='rapido'&&S.i===0)h+='<button class="link" data-a="swap" data-k="padrao">Tenho mais tempo hoje</button>';
-if(S.mode==='padrao'&&S.i===0)h+='<button class="link" data-a="swap" data-k="rapido">Preciso de algo mais curto</button>';
-return h+'</div>'}
-var VER=[['NAA','NAA'],['ARA','ARA'],['NVI-PT','NVI'],['ARC','ARC']];
-function reader(){var r=DAY.reads[S.r];
-var h='<div class="card"><div class="top"><button data-a="rback">← Voltar</button><span>Leitura '+(S.r+1)+' de '+DAY.reads.length+'</span></div><p class="eyebrow" style="margin:0 0 22px"><i></i>'+DAY.season+' · '+DAY.label+'</p><p class="lb">'+r.title+'</p><div class="bar" style="margin-top:8px"><h2>'+r.ref+'</h2></div>';
-h+='<p class="lb" style="margin-top:14px">Tradução</p><div class="chips">';
-VER.forEach(function(v){h+='<button class="chip'+(v[0]===S.ver?' on':'')+'" data-a="ver" data-k="'+v[0]+'">'+v[1]+'</button>'});
-h+='</div>';
-h+='<div class="bible-text">'+r.text+'</div><div class="hr"></div>';
-h+='<div style="display:flex;gap:10px"><button class="btn" style="border-color:var(--bd)" data-a="rprev"'+(S.r?'':' disabled style="opacity:.4"')+'>Anterior</button><button class="btn" style="border-color:var(--bd)" data-a="rnext"'+(S.r<DAY.reads.length-1?'':' disabled style="opacity:.4"')+'>Seguinte</button></div></div>';return h}
-function done(){var m=MODES[S.mode],h='<div class="card"><div style="text-align:center;margin:8px 0 24px"><div class="check">✓</div><h1 style="margin:0 0 4px">Devocional concluído</h1><p class="sub" style="margin:0">'+m.n+' · '+m.t+'</p></div><p class="lb" style="margin-bottom:12px">O que você fez hoje</p>';
-m.s.forEach(function(k){var s=ST[k];h+='<div class="bar"><p class="lb">'+s.l+'</p><p class="rf">'+s.h+'</p>'+(s.q&&S.ans.trim()?'<p class="lb" style="margin-top:2px">Salvo no seu diário</p>':'')+'</div>'});
-return h+'<div style="height:10px"></div><button class="btn" data-a="diary">Ver no diário</button><button class="link" data-a="home">Voltar ao início</button></div>'}
-function diary(){var d=ld('md_diary',[]),h='<div class="card">'+head()+'<h1>Diário</h1><p class="sub">Suas respostas do Exame.</p>';
-if(!d.length)h+='<div class="bar"><p class="rf">Nada por aqui ainda</p><p class="lb">Faça um devocional no modo Padrão e escreva no Exame. A resposta aparece aqui.</p></div>';
-d.slice().reverse().forEach(function(e){h+='<div class="bar"><p class="lb">'+esc(e.date)+' · '+esc(e.mode)+'</p><p class="rf">'+esc(e.q)+'</p><p class="body" style="margin-top:6px;white-space:pre-wrap">'+esc(e.text)+'</p></div>'});
-return h+'</div>'}
-function render(){clearInterval(tm);var h=S.screen==='home'?home():S.screen==='step'?step():S.screen==='done'?done():S.screen==='read'?reader():diary();app.innerHTML=h;
-document.getElementById('n1').className=S.screen==='diary'?'':'on';document.getElementById('n2').className=S.screen==='diary'?'on':'';
-var ta=document.getElementById('ta');if(ta)ta.addEventListener('input',function(){S.ans=ta.value});window.scrollTo(0,0)}
-function finish(){var d=ld('md_days',[]);if(d.indexOf(DAY.key)<0){d.push(DAY.key);sv('md_days',d)}
-if(S.ans.trim()){var e=ld('md_diary',[]),txt=S.ans.trim();e.push({date:DAY.label,mode:MODES[S.mode].n,q:ST.exame.h,text:txt});sv('md_diary',e)}
-S.screen='done';render()}
-document.addEventListener('click',function(ev){var b=ev.target.closest('[data-a],[data-go]');if(!b)return;
-if(b.dataset.go){S.screen=b.dataset.go;S.showModes=false;return render()}
-var a=b.dataset.a;
-if(a==='tog'){S.showModes=!S.showModes}
-else if(a==='read'){S.prev=S.screen;S.r=+b.dataset.r;S.screen='read'}
-else if(a==='rback'){S.screen=S.prev}
-else if(a==='ver'){S.ver=b.dataset.k;sv('md_ver',S.ver)}
-else if(a==='rprev'){if(S.r>0)S.r--}
-else if(a==='rnext'){if(S.r<DAY.reads.length-1)S.r++}
-else if(a==='mode'){S.mode=b.dataset.k;sv('md_mode',S.mode);S.showModes=false}
-else if(a==='start'){S.screen='step';S.i=0;S.ans=''}
-else if(a==='swap'){S.mode=b.dataset.k;sv('md_mode',S.mode);S.i=0}
-else if(a==='back'){if(S.i)S.i--;else S.screen='home'}
-else if(a==='next'){if(S.i<MODES[S.mode].s.length-1)S.i++;else return finish()}
-else if(a==='diary'){S.screen='diary'}
-else if(a==='home'){S.screen='home'}
-else if(a==='timer'){var t=120,el=document.getElementById('tmr');b.textContent='Em silêncio…';clearInterval(tm);
-tm=setInterval(function(){t--;el.textContent=Math.floor(t/60)+':'+('0'+(t%60)).slice(-2);if(t<=0){clearInterval(tm);b.textContent='Silêncio concluído'}},1000);return}
-render()});
-render();
-</script>
+
+  <!-- =====================================================
+       APLICAÇÃO
+       ===================================================== -->
+
+  <div id="app"></div>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
+  <script
+    src="js/dados.js"
+  ></script>
+
+  <script
+    src="js/estado.js"
+  ></script>
+
+  <script
+    src="js/armazenamento.js"
+  ></script>
+
+  <script
+    src="js/telas.js"
+  ></script>
+
+  <script
+    src="js/navegacao.js"
+  ></script>
+
+  <script
+    src="js/app.js"
+  ></script>
+
 </body>
+
 </html>
