@@ -1,267 +1,384 @@
 /**
- * MEU DEVOCIONAL - DADOS
- * Conteúdos litúrgicos, bíblicos, orações e exame de consciência
+ * MEU DEVOCIONAL - LECIONÁRIO COMUM REVISADO (RCL)
+ * Leituras bíblicas protestantes do Lecionário Comum Revisado, passos devocionais e reflexão
  */
 
-const DADOS_LITURGIA = {
-  cores: {
-    verde: { hex: '#3F8F5B', nome: 'Verde', significado: 'Tempo Comum - Esperança e vida espiritual' },
-    roxo: { hex: '#7E4A9E', nome: 'Roxo', significado: 'Advento / Quaresma - Penitência e reflexão' },
-    branco: { hex: '#B59438', nome: 'Branco / Dourado', significado: 'Páscoa / Natal - Alegria e glória' },
-    vermelho: { hex: '#B83A3A', nome: 'Vermelho', significado: 'Pentecostes / Mártires - Amor e Espírito Santo' }
+const DIAS_RCL = [
+  {
+    key: '2026-10-11',
+    label: 'Domingo, 11 de outubro',
+    season: 'Tempo Comum · Ano A',
+    verse: '“Alegrem-se sempre no Senhor; outra vez digo: alegrem-se!”',
+    vref: 'Filipenses 4:4',
+    titulo: 'O Banquete do Rei',
+    reads: [
+      {
+        tipo: 'Antigo Testamento',
+        ref: 'Êxodo 32:1–14',
+        resumo: 'O bezerro de ouro e a intercessão de Moisés pelo povo.',
+        texto: `Quando o povo viu que Moisés demorava a descer do monte, reuniu-se ao redor de Arão e lhe disse: "Levante-se, faça para nós deuses que vão adiante de nós; porque, quanto a este Moisés, o homem que nos tirou da terra do Egito, não sabemos o que lhe aconteceu."
+
+Arão lhes disse: "Tirem as argolas de ouro das orelhas de suas mulheres, de seus filhos e de suas filhas e tragam para mim." Então todo o povo tirou as argolas de ouro que usava nas orelhas e as trouxe a Arão. Ele as recebeu das mãos deles, trabalhou o ouro com uma ferramenta de entalhe e fez um bezerro fundido. Então disseram: "Estes são os seus deuses, ó Israel, que o tiraram da terra do Egito!"
+
+Vendo isto, Arão construiu um altar diante do bezerro e proclamou: "Amanhã será festa ao Senhor." No dia seguinte, madrugaram, ofereceram holocaustos e trouxeram sacrifícios de paz. E o povo assentou-se para comer e beber; depois, levantou-se para se divertir.
+
+Então o Senhor disse a Moisés: "Vá, desça, porque o seu povo, que você tirou da terra do Egito, se corrompeu. Depressa se desviaram do caminho que lhes havia ordenado; fizeram para si um bezerro fundido, prostraram-se diante dele, ofereceram-lhe sacrifícios e disseram: 'Estes são os seus deuses, ó Israel, que o tiraram da terra do Egito!'"
+
+O Senhor disse mais a Moisés: "Tenho visto este povo, e eis que é povo de dura cerviz. Agora, pois, deixe-me, para que o meu furor se acenda contra eles e eu os destrua; e de você farei uma grande nação."
+
+Moisés, porém, suplicou ao Senhor, seu Deus, dizendo: "Por que, ó Senhor, se acende o teu furor contra o teu povo, que tiraste da terra do Egito com grande poder e com mão poderosa? Por que hão de dizer os egípcios: 'Com maus propósitos ele os tirou, para matá-los nos montes e para varrê-los da face da terra'? Deixa o furor da tua ira e arrepende-te deste mal contra o teu povo. Lembra-te de Abraão, de Isaque e de Israel, teus servos, aos quais por ti mesmo juraste, dizendo: 'Multiplicarei a vossa descendência como as estrelas do céu e darei toda esta terra de que falei à vossa descendência, para que a possua para sempre.'"
+
+Então o Senhor desistiu do mal que tinha dito que faria ao seu povo.`
+      },
+      {
+        tipo: 'Salmo',
+        ref: 'Salmo 106:1–6, 19–23',
+        resumo: 'Confissão da infidelidade do povo e louvor pela misericórdia de Deus.',
+        texto: `Aleluia! Deem graças ao Senhor, porque ele é bom,
+porque a sua misericórdia dura para sempre.
+Quem pode contar as poderosas obras do Senhor
+ou anunciar todos os seus louvores?
+
+Bem-aventurados os que guardam a retidão
+e praticam a justiça em todo o tempo!
+Lembra-te de mim, Senhor, segundo a tua bondade para com o teu povo;
+visita-me com a tua salvação,
+para que eu veja a prosperidade dos teus escolhidos,
+me alegre com a alegria do teu povo
+e me glorie com a tua herança.
+
+Pecamos, como os nossos pais;
+cometemos iniquidade, andamos perversamente.
+
+Fizeram um bezerro em Horebe
+e adoraram uma imagem fundida.
+E assim trocaram a glória de Deus
+pela figura de um boi que come capim.
+Esqueceram-se de Deus, seu Salvador,
+que fizera coisas grandiosas no Egito,
+maravilhas na terra de Cam,
+feitos tremendos no mar Vermelho.
+
+Tê-los-ia destruído, como dissera,
+se Moisés, seu escolhido, não se tivesse interposto diante dele,
+para desviar a sua ira, a fim de que não os destruísse.`
+      },
+      {
+        tipo: 'Epístola',
+        ref: 'Filipenses 4:1–9',
+        resumo: 'A exortação à alegria, à oração com ação de graças e à paz de Deus.',
+        texto: `Portanto, meus amados e saudosos irmãos, minha alegria e coroa, permaneçam assim firmes no Senhor, amados.
+
+Rogo a Evódia e rogo a Síntique que pensem concordemente no Senhor. Sim, peço também a você, fiel companheiro de jugo, que ajude essas mulheres, pois elas trabalharam comigo no evangelho, juntamente com Clemente e com os demais cooperadores meus, cujos nomes estão no Livro da Vida.
+
+Alegrem-se sempre no Senhor; outra vez digo: alegrem-se! Seja a vossa moderação conhecida de todos os homens. Perto está o Senhor.
+
+Não andem ansiosos por coisa alguma; em tudo, porém, sejam conhecidas, diante de Deus, as vossas petições, pela oração e pela súplica, com ações de graças. E a paz de Deus, que excede todo o entendimento, guardará o coração e a mente de vocês em Cristo Jesus.
+
+Finalmente, irmãos, tudo o que é verdadeiro, tudo o que é respeitável, tudo o que é justo, tudo o que é puro, tudo o que é amável, tudo o que é de boa fama, se alguma virtude há e se algum louvor existe, seja isso o que ocupe o pensamento de vocês. O que também aprenderam, receberam, ouviram e viram em mim, isso pratiquem; e o Deus da paz estará com vocês.`
+      },
+      {
+        tipo: 'Evangelho',
+        ref: 'Mateus 22:1–14',
+        resumo: 'A parábola da festa de casamento do filho do Rei.',
+        texto: `Jesus voltou a falar-lhes por parábolas, dizendo:
+
+"O Reino dos Céus é semelhante a um rei que preparou uma festa de casamento para o seu filho. Ele enviou os seus servos a chamar os convidados para as bodas, mas estes não quiseram vir.
+
+Enviou ainda outros servos com esta ordem: 'Digam aos convidados: Eis que já preparei o meu banquete; os meus bois e cevados já foram abatidos, e tudo está pronto; venham para as bodas!'
+
+Eles, porém, não se importaram e foram, um para o seu campo, outro para o seu comércio; e os outros, agarrando os servos, os maltrataram e mataram. O rei ficou irado e, enviando as suas tropas, destruiu aqueles assassinos e incendiou a cidade deles.
+
+Então disse aos servos: 'O banquete está preparado, mas os convidados não eram dignos. Vão, pois, para as encruzilhadas dos caminhos e convidem para as bodas todos os que encontrarem.' E, saindo aqueles servos pelos caminhos, reuniram todos os que encontraram, tanto maus como bons; e a sala do banquete ficou cheia de convidados.
+
+Quando o rei entrou para ver os que estavam à mesa, notou ali um homem que não estava usando veste nupcial e lhe perguntou: 'Amigo, como você entrou aqui sem veste nupcial?' O homem emudeceu. Então o rei ordenou aos serventes: 'Amarrem-no de pés e mãos e lancem-no nas trevas exteriores; ali haverá choro e ranger de dentes.'
+
+Porque muitos são chamados, mas poucos, escolhidos."`
+      }
+    ],
+    passos: {
+      palavra: {
+        l: 'Palavra',
+        h: 'Mateus 22:1–14',
+        b: 'Abra sua Bíblia neste trecho e leia devagar, com reverência. Sublinhe mentalmente o versículo que mais falar ao seu coração.'
+      },
+      meditacao: {
+        l: 'Meditação',
+        h: 'O convite do Rei',
+        b: 'A festa da graça de Deus já está preparada em Cristo. A parábola nos confronta: como temos respondido ao chamado de Deus — com desculpas, com indiferença ou com gratidão e fé?'
+      },
+      exame: {
+        l: 'Autoexame',
+        h: 'Onde tenho resistido ao convite de Deus?',
+        b: 'Examine o seu coração à luz das Escrituras (2 Coríntios 13:5): onde você precisa se arrepender e renovar sua dependência da graça de Cristo?',
+        q: 1
+      },
+      oracao: {
+        l: 'Oração',
+        h: 'Responda a Deus',
+        b: 'Agradeça a Deus pelo dom de Cristo, confesse as suas fraquezas e peça ao Espírito Santo que renove a sua disposição de servi-Lo com alegria.'
+      },
+      ler: {
+        l: 'Leitura',
+        h: 'Ler a Palavra',
+        b: 'Leia Mateus 22:1–14 duas vezes, calmamente. Deixe a verdade bíblica penetrar no seu entendimento.'
+      },
+      meditar: {
+        l: 'Meditação',
+        h: 'Meditar nas Escrituras',
+        b: 'Reflita sobre o que o texto revela sobre o caráter de Deus, a salvação pela graça e a sua vida prática.'
+      },
+      orar: {
+        l: 'Oração',
+        h: 'Orar em Nome de Jesus',
+        b: 'Converse com o Pai celeste sobre o que as Escrituras despertaram em você: louvor, gratidão, confissão e pedidos.'
+      },
+      descansar: {
+        l: 'Silêncio',
+        h: 'Descansar no Senhor',
+        b: '«Aquietai-vos e sabei que eu sou Deus» (Salmo 46:10). Descanse na suficiência da graça soberana de Deus.',
+        timer: 1
+      }
+    }
+  },
+  {
+    key: '2026-10-08',
+    label: 'Quinta-feira, 8 de outubro',
+    season: 'Tempo Comum · Lecionário Semanal RCL',
+    verse: '“O Senhor é o meu pastor; nada me faltará.”',
+    vref: 'Salmo 23:1',
+    titulo: 'O Cuidado do Bom Pastor',
+    reads: [
+      {
+        tipo: 'Primeira Leitura',
+        ref: 'Êxodo 24:1–8',
+        resumo: 'A aliança no Sinai e a fidelidade à Palavra de Deus.',
+        texto: `Depois o Senhor disse a Moisés: "Subam ao Senhor, você e Arão, Nadabe e Abiú, e setenta dos anciãos de Israel; e adorem de longe. Só Moisés se aproximará do Senhor; os outros não se aproximarão, nem o povo subirá com ele."
+
+Moisés veio e referiu ao povo todas as palavras do Senhor e todos os estatutos. Então todo o povo respondeu a uma voz e disse: "Faremos todas as palavras que o Senhor tem falado." Moisés escreveu todas as palavras do Senhor.
+
+Ele se levantou de manhã cedo, edificou um altar ao pé do monte e doze colunas, segundo as doze tribos de Israel. E enviou alguns jovens dos filhos de Israel, os quais ofereceram holocaustos e sacrificaram ao Senhor novilhos como ofertas de paz.
+
+Moisés tomou a metade do sangue e o pôs em bacias; e a outra metade do sangue aspergiu sobre o altar. E tomou o Livro da Aliança e o leu diante do povo. E eles disseram: "Tudo o que o Senhor falou faremos e obedeceremos."
+
+Então Moisés tomou aquele sangue, e o aspergiu sobre o povo, e disse: "Eis aqui o sangue da aliança que o Senhor fez com vocês a respeito de todas estas palavras."`
+      },
+      {
+        tipo: 'Salmo',
+        ref: 'Salmo 106:1–6',
+        resumo: 'Louvor ao Senhor pela sua fidelidade eterna.',
+        texto: `Aleluia! Deem graças ao Senhor, porque ele é bom,
+porque a sua misericórdia dura para sempre.
+Quem pode contar as poderosas obras do Senhor
+ou anunciar todos os seus louvores?
+
+Bem-aventurados os que guardam a retidão
+e praticam a justiça em todo o tempo!
+Lembra-te de mim, Senhor, segundo a tua bondade para com o teu povo;
+visita-me com a tua salvação!`
+      },
+      {
+        tipo: 'Epístola',
+        ref: '1 Pedro 5:1–7',
+        resumo: 'A exortação à humildade e o cuidado paternal de Deus.',
+        texto: `Aos presbíteros que estão entre vocês, exorto eu, que sou também presbítero com eles, testemunha dos sofrimentos de Cristo e participante da glória que há de ser revelada: pastoreiem o rebanho de Deus que está sob o cuidado de vocês, não por obrigação, mas de livre vontade, como Deus quer; não por ganância, mas com dedicação; não como dominadores dos que lhes foram confiados, mas servindo de exemplo ao rebanho.
+
+E, quando se manifestar o Supremo Pastor, vocês receberão a coroa da glória, que nunca murcha.
+
+Da mesma forma, vocês, jovens, sejam submissos aos que são mais velhos. Sejam todos compassivos uns para com os outros, vestindo-se de humildade, porque "Deus se opõe aos orgulhosos, mas concede graça aos humildes".
+
+Humilhem-se, portanto, sob a poderosa mão de Deus, para que ele, em tempo oportuno, os exalte, lançando sobre ele toda a sua ansiedade, porque ele cuida de vocês.`
+      },
+      {
+        tipo: 'Evangelho',
+        ref: 'Mateus 22:15–22',
+        resumo: 'Dai a César o que é de César, e a Deus o que é de Deus.',
+        texto: `Então os fariseus se retiraram e consultaram entre si como apanhariam Jesus em alguma palavra. E enviaram-lhe discípulos seus, juntamente com os herodianos, para dizer: "Mestre, sabemos que o senhor é verdadeiro e que ensina o caminho de Deus segundo a verdade, sem se importar com quem quer que seja, porque não olha para a aparência das pessoas. Diga-nos, pois, o que lhe parece: É lícito pagar tributo a César ou não?"
+
+Jesus, porém, conhecendo a malícia deles, respondeu: "Por que vocês me põem à prova, hipócritas? Mostrem-me a moeda do tributo." Eles lhe apresentaram um denário. E Jesus lhes perguntou: "De quem é esta imagem e a inscrição?"
+
+Eles responderam: "De César." Então Jesus lhes disse: "Dêem, pois, a César o que é de César e a Deus o que é de Deus."
+
+Ao ouvirem isso, ficaram maravilhados e, deixando-o, foram embora.`
+      }
+    ],
+    passos: {
+      palavra: {
+        l: 'Palavra',
+        h: '1 Pedro 5:1–7',
+        b: 'Leia o texto bíblico com atenção. Deixe que a promessa do cuidado de Deus ressoe no seu coração.'
+      },
+      meditacao: {
+        l: 'Meditação',
+        h: 'Lançando toda ansiedade',
+        b: 'Deus não quer que carreguemos sozinhos os fardos do dia. Ele nos convida a confiar plenamente em Seu poder e bondade paternal.'
+      },
+      exame: {
+        l: 'Autoexame',
+        h: 'Quais ansiedades preciso entregar a Deus hoje?',
+        b: 'Examine o seu coração diante de Deus: em quais áreas você tem tentado controlar as circunstâncias pela própria força em vez de confiar no Senhor?',
+        q: 1
+      },
+      oracao: {
+        l: 'Oração',
+        h: 'Entrega e Confiança',
+        b: 'Em oração, lance sobre Cristo todas as suas ansiedades e descanse na certeza de que Ele cuida de você.'
+      },
+      ler: {
+        l: 'Leitura',
+        h: 'Ler a Palavra',
+        b: 'Leia 1 Pedro 5:5–7 duas vezes calmamente.'
+      },
+      meditar: {
+        l: 'Meditação',
+        h: 'Meditar na Promessa',
+        b: 'O que significa para você a verdade bíblica de que "Ele cuida de vocês" hoje?'
+      },
+      orar: {
+        l: 'Oração',
+        h: 'Clamor em Oração',
+        b: 'Fale com Deus com sinceridade, entregando suas lutas e agradecendo pelo Seu cuidado.'
+      },
+      descansar: {
+        l: 'Silêncio',
+        h: 'Descansar no Senhor',
+        b: 'Repouse no amor do Bom Pastor. («O Senhor é a minha rocha e o meu refúgio» — Salmo 18:2).',
+        timer: 1
+      }
+    }
+  }
+];
+
+const MODES = {
+  rapido: {
+    n: 'Rápido',
+    t: '5 min',
+    d: 'Leitura bíblica e oração.',
+    s: ['palavra', 'oracao']
+  },
+  padrao: {
+    n: 'Padrão',
+    t: '15 min',
+    d: 'Leitura, meditação, autoexame e oração.',
+    s: ['palavra', 'meditacao', 'exame', 'oracao']
+  },
+  aprofundado: {
+    n: 'Aprofundado',
+    t: '20 min',
+    d: 'Leitura, meditação na Palavra, oração e silêncio diante de Deus.',
+    s: ['ler', 'meditar', 'orar', 'descansar']
   }
 };
 
-const DEVOCIONAIS = [
+const VERSOES_BIBLIA = [
+  ['NAA', 'NAA (Nova Almeida Atualizada)'],
+  ['ARA', 'ARA (Almeida Revista e Atualizada)'],
+  ['NVI-PT', 'NVI (Nova Versão Internacional)'],
+  ['ARC', 'ARC (Almeida Revista e Corrigida)']
+];
+
+/**
+ * Lista pré-definida de versículos bíblicos para o Versículo do Dia (Cânon Protestante)
+ */
+const VERSICULOS_DO_DIA = [
   {
-    id: 'dev-1',
-    data: 'Hoje',
-    tempoLiturgico: 'Tempo Comum',
-    corLiturgica: '#3F8F5B',
-    semanaLiturgica: 'XXVII Semana do Tempo Comum',
-    titulo: 'Permanecer na Videira Verdadeira',
-    subtitulo: 'A intimidade diária com Deus é a fonte de toda fecundidade espiritual',
-    versiculoDestaque: {
-      texto: '«Eu sou a videira, vós as varas; quem está em mim, e eu nele, esse dá muito fruto; porque sem mim nada podeis fazer.»',
-      referencia: 'João 15:5'
-    },
-    primeiraLeitura: {
-      label: 'Primeira Leitura',
-      ref: 'Gálatas 5:22-26',
-      texto: `Mas o fruto do Espírito é: amor, alegria, paz, longanimidade, benignidade, bondade, fidelidade, mansidão, autodomínio. Contra estas coisas não há lei.
-      
-E os que são de Cristo Jesus crucificaram a carne com as suas paixões e concupiscências. Se vivemos pelo Espírito, andemos também pelo Espírito. Não nos tornemos vaidosos, provocando-nos uns aos outros, invejando-nos uns aos outros.`
-    },
-    salmo: {
-      label: 'Salmo Responsorial',
-      ref: 'Salmo 1',
-      refrao: 'R. Feliz aquele que põe sua esperança no Senhor!',
-      texto: `Feliz o homem que não anda conforme o conselho dos ímpios, nem se detém no caminho dos pecadores, nem se assenta na roda dos escarnecedores.
-      
-Antes tem o seu prazer na lei do Senhor, e na sua lei medita de dia e de noite.
-      
-Ele é como a árvore plantada junto a correntes de águas, que dá o seu fruto na estação própria, e cuja folha não cai; e tudo quanto fizer prosperará.`
-    },
-    evangelho: {
-      label: 'Evangelho',
-      ref: 'João 15:1-8',
-      texto: `Naquele tempo, disse Jesus aos seus discípulos:
-      
-«Eu sou a videira verdadeira, e meu Pai é o agricultor. Todo ramo que em mim não dá fruto, ele o corta; e todo ramo que dá fruto, ele o limpa, para que dê mais fruto ainda. Vós já estais limpos, pela palavra que vos tenho falado.
-      
-Permanecei em mim, e eu permanecerei em vós. Como o ramo não pode dar fruto por si mesmo, se não permanecer na videira, assim também vós não podeis, se não permanecerdes em mim.
-      
-Eu sou a videira, vós as varas; quem está em mim, e eu nele, esse dá muito fruto; porque sem mim nada podeis fazer. Nisto é glorificado meu Pai, em que deis muito fruto; e assim sereis meus discípulos.»`
-    },
-    reflexao: {
-      autor: 'Meditação Espiritual',
-      texto: `Na correria dos dias modernos, é tentador medir nosso valor pela quantidade de tarefas concluídas ou pelo ritmo agitado da nossa rotina. Contudo, Jesus nos lembra de uma verdade libertadora: a verdadeira vida nasce do repouso n’Ele.
-      
-Estar unido à videira não significa passividade, mas sintonia de coração. Significa começar o dia entregando as preocupações, tomar decisões à luz da Sua Palavra e manter o coração sereno nas tribulações. Quando permanecemos em Deus, os frutos do Espírito — a paz, a alegria e a paciência — florescem naturalmente ao nosso redor.`,
-      perguntaReflexao: 'O que tem drenado sua paz hoje? Onde você precisa reaprender a permanecer com Cristo?'
-    },
-    aplicacaoPratica: 'Reserve hoje 5 minutos de silêncio absoluto. Entregue a Deus uma decisão ou ansiedade que tem pesado em seus ombros.',
-    oracaoDoDia: 'Senhor Jesus, és a videira verdadeira e a fonte da minha vida. Reconheço que sem Ti nada posso fazer de duradouro. Guarda o meu coração junto ao Teu, podando tudo o que me afasta do Teu amor. Que hoje eu possa transbordar Tua bondade, paz e mansidão para com todos ao meu redor. Amém.'
+    texto: '«Alegrem-se sempre no Senhor; outra vez digo: alegrem-se!»',
+    referencia: 'Filipenses 4:4',
+    tema: 'Alegria e Paz'
   },
   {
-    id: 'dev-2',
-    data: 'Amanhã',
-    tempoLiturgico: 'Tempo Comum',
-    corLiturgica: '#3F8F5B',
-    semanaLiturgica: 'Tempo de Esperança e Renovação',
-    titulo: 'A Paz que Excede Todo Entendimento',
-    subtitulo: 'Como desarmar a ansiedade através da oração confiante',
-    versiculoDestaque: {
-      texto: '«Não estejais inquietos por coisa alguma; antes as vossas petições sejam em tudo conhecidas diante de Deus pela oração e súplica, com ação de graças.»',
-      referencia: 'Filipenses 4:6'
-    },
-    primeiraLeitura: {
-      label: 'Primeira Leitura',
-      ref: 'Filipenses 4:4-9',
-      texto: `Alegrai-vos sempre no Senhor; outra vez digo, alegrai-vos. Seja a vossa moderação conhecida de todos os homens. Perto está o Senhor.
-      
-Não andeis ansiosos de coisa alguma; em tudo, porém, sejam conhecidas, diante de Deus, as vossas petições, pela oração e pela súplica, com ações de graças. E a paz de Deus, que excede todo o entendimento, guardará os vossos corações e as vossas mentes em Cristo Jesus.`
-    },
-    salmo: {
-      label: 'Salmo Responsorial',
-      ref: 'Salmo 23',
-      refrao: 'R. O Senhor é o meu pastor, nada me faltará.',
-      texto: `O Senhor é o meu pastor; nada me faltará. Deitar-me faz em verdes pastos, guia-me mansamente a águas tranquilas.
-      
-Refrigera a minha alma; guia-me pelas veredas da justiça, por amor do seu nome. Ainda que eu andasse pelo vale da sombra da morte, não temeria mal algum, porque tu estás comigo.`
-    },
-    evangelho: {
-      label: 'Evangelho',
-      ref: 'Mateus 6:25-34',
-      texto: `Por isso vos digo: Não andeis ansiosos pela vossa vida, quanto ao que haveis de comer ou beber; nem pelo vosso corpo, quanto ao que haveis de vestir. Não é a vida mais do que o alimento, e o corpo mais do que as vestes?
-      
-Olhai para as aves do céu, que não semeiam, nem segam, nem ajuntam em celeiros; e vosso Pai celestial as alimenta. Não tendes vós muito mais valor do que elas? Buscai primeiro o Reino de Deus e a sua justiça, e todas estas coisas vos serão acrescentadas.`
-    },
-    reflexao: {
-      autor: 'Meditação Espiritual',
-      texto: `A ansiedade tenta nos convencer de que estamos sozinhos diante do futuro incerto. São Paulo nos dá o antídoto seguro: transformar cada preocupação em oração com gratidão.
-      
-Agradecer antes mesmo de ver a resposta é o ato mais puro de fé. Quando confiamos que o Pai cuida até dos lírios do campo, o nosso coração encontra repouso na promessa eterna do Seu amor.`,
-      perguntaReflexao: 'Quais preocupações do futuro você pode transferir agora mesmo para as mãos de Deus?'
-    },
-    aplicacaoPratica: 'Escreva um motivo sincero de gratidão por algo simples que Deus lhe concedeu esta semana.',
-    oracaoDoDia: 'Pai bondoso, Tu conheces cada batimento do meu coração e cada necessidade da minha alma. Renuncio hoje à ansiedade e acolho a Tua paz. Ajuda-me a confiar no Teu cuidado paterno a cada instante do dia de hoje. Amém.'
+    texto: '«O Senhor é o meu pastor; nada me faltará. Ele me faz repousar em verdes pastos e me guia mansamente a águas tranquilas.»',
+    referencia: 'Salmo 23:1-2',
+    tema: 'Provisão e Descanso'
+  },
+  {
+    texto: '«Mas os que esperam no Senhor renovam as suas forças, sobem com asas como águias, correm e não se cansam, caminham e não se fatigam.»',
+    referencia: 'Isaías 40:31',
+    tema: 'Renovação e Força'
+  },
+  {
+    texto: '«Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo o que nele crê não pereça, mas tenha a vida eterna.»',
+    referencia: 'João 3:16',
+    tema: 'Graça e Salvação'
+  },
+  {
+    texto: '«Sabemos que todas as coisas cooperam para o bem daqueles que amam a Deus, daqueles que são chamados segundo o seu propósito.»',
+    referencia: 'Romanos 8:28',
+    tema: 'Soberania e Esperança'
+  },
+  {
+    texto: '«Confie no Senhor de todo o seu coração e não se apoie no seu próprio entendimento. Reconheça o Senhor em todos os seus caminhos, e ele endireitará as suas veredas.»',
+    referencia: 'Provérbios 3:5-6',
+    tema: 'Direção Divina'
+  },
+  {
+    texto: '«As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim; renovam-se cada manhã. Grande é a tua fidelidade!»',
+    referencia: 'Lamentações 3:22-23',
+    tema: 'Fidelidade de Deus'
+  },
+  {
+    texto: '«Não tema, porque eu sou com você; não se assuste, porque eu sou o seu Deus; eu o fortaleço, ajudo e sustento com a destra da minha justiça.»',
+    referencia: 'Isaías 41:10',
+    tema: 'Presença e Proteção'
+  },
+  {
+    texto: '«Venham a mim, todos os que estão cansados e sobrecarregados, e eu lhes darei descanso.»',
+    referencia: 'Mateus 11:28',
+    tema: 'Descanso em Cristo'
+  },
+  {
+    texto: '«Deus é o nosso refúgio e fortaleza, socorro bem presente nas tribulações.»',
+    referencia: 'Salmo 46:1',
+    tema: 'Refúgio e Fortaleza'
+  },
+  {
+    texto: '«Porque pela graça vocês são salvos, mediante a fé; e isto não vem de vocês, é dom de Deus; não de obras, para que ninguém se glorie.»',
+    referencia: 'Efésios 2:8-9',
+    tema: 'Salvação pela Graça'
+  },
+  {
+    texto: '«Não foi isso que eu ordenei? Seja forte e corajoso! Não fique desanimado nem tenha medo, porque o Senhor, seu Deus, estará com você por onde quer que você andar.»',
+    referencia: 'Josué 1:9',
+    tema: 'Coragem e Fé'
+  },
+  {
+    texto: '«Lancem sobre ele toda a sua ansiedade, porque ele cuida de vocês.»',
+    referencia: '1 Pedro 5:7',
+    tema: 'Cuidado Paternal'
+  },
+  {
+    texto: '«A minha graça é tudo o que você precisa, pois o meu poder se aperfeiçoa na fraqueza.»',
+    referencia: '2 Coríntios 12:9',
+    tema: 'Suficiência da Graça'
+  },
+  {
+    texto: '«Lâmpada para os meus pés é a tua palavra e luz, para o meu caminho.»',
+    referencia: 'Salmo 119:105',
+    tema: 'A Palavra de Deus'
   }
 ];
 
-const EXAME_PASSOS = [
-  {
-    id: 1,
-    etapa: '1. Ação de Graças',
-    titulo: 'Reconhecer as Bênçãos',
-    instrucao: 'Agradeça a Deus pelos dons e momentos luminosos concedidos no decorrer do dia de hoje.',
-    perguntas: [
-      { id: 'ex_1', texto: 'Agradeci a Deus pelo dom da vida e pelas pessoas que me apoiaram hoje?' },
-      { id: 'ex_2', texto: 'Reconheci a presença amorosa de Deus nos pequenos detalhes do dia?' }
-    ]
-  },
-  {
-    id: 2,
-    etapa: '2. Pedir a Luz Divina',
-    titulo: 'Pedir Discernimento',
-    instrucao: 'Invoque o Espírito Santo para enxergar sua conduta com verdade, sem autoengano nem condenação.',
-    perguntas: [
-      { id: 'ex_3', texto: 'Pedi a luz do Espírito Santo antes de tomar decisões importantes?' }
-    ]
-  },
-  {
-    id: 3,
-    etapa: '3. Revisão do Dia',
-    titulo: 'Pensamentos, Palavras e Ações',
-    instrucao: 'Passe em revista o dia: desde a manhã até a noite. Onde você amou? Onde faltou a caridade?',
-    perguntas: [
-      { id: 'ex_4', texto: 'Fui paciente e gentil com as pessoas em casa ou no trabalho?' },
-      { id: 'ex_5', texto: 'Evitei fofocas, murmurações, julgamentos e palavras duras?' },
-      { id: 'ex_6', texto: 'Dediquei tempo sincero para conversar com Deus em oração?' },
-      { id: 'ex_7', texto: 'Cumpri minhas obrigações com honestidade, diligência e justiça?' },
-      { id: 'ex_8', texto: 'Estive atento às necessidades dos mais vulneráveis ou de quem precisava de apoio?' }
-    ]
-  },
-  {
-    id: 4,
-    etapa: '4. Pedido de Perdão',
-    titulo: 'Misericórdia e Reconciliação',
-    instrucao: 'Apresente suas fraquezas ao Coração Misericordioso de Jesus, com sincero arrependimento.',
-    perguntas: [
-      { id: 'ex_9', texto: 'Peço perdão pelas faltas cometidas e perdoo de coração a quem me ofendeu?' }
-    ]
-  },
-  {
-    id: 5,
-    etapa: '5. Propósito de Emenda',
-    titulo: 'Olhar para o Amanhã',
-    instrucao: 'Renove a confiança na graça divina e estabeleça um propósito concreto para o dia seguinte.',
-    perguntas: [
-      { id: 'ex_10', texto: 'Tenho a firme intenção de recomeçar amanhã com mais fidelidade e caridade?' }
-    ]
+/**
+ * Retorna o Versículo do Dia determinístico a partir da data de hoje ou especificada.
+ * @param {Date} [dataRef] Data de referência opcional.
+ * @returns {Object} Versículo { texto, referencia, tema }
+ */
+function obterVersiculoDoDia(dataRef) {
+  if (!VERSICULOS_DO_DIA || !VERSICULOS_DO_DIA.length) {
+    return {
+      texto: '«Alegrem-se sempre no Senhor; outra vez digo: alegrem-se!»',
+      referencia: 'Filipenses 4:4',
+      tema: 'Alegria e Paz'
+    };
   }
-];
 
-const ORACOES = [
-  {
-    id: 'or-1',
-    categoria: 'manhã',
-    titulo: 'Oração da Manhã',
-    autor: 'Tradição da Igreja',
-    texto: `Senhor, no silêncio deste dia que amanhece, venho pedir-Te a paz, a sabedoria e a força.
-    
-Quero olhar hoje o mundo com olhos cheios de amor, ser paciente, compreensivo, manso e prudente.
-    
-Quero ver, além das aparências, Teus filhos como Tu mesmo os vês, e assim não ver senão o bem em cada um.
-    
-Cerra meus ouvidos a toda calúnia. Guarda minha língua de toda maldade. Que só de bênçãos se encha meu espírito.
-    
-Que eu seja tão bondoso e alegre que todos quantos se aproximarem de mim sintam a Tua presença.
-    
-Reveste-me de Tua beleza, Senhor, e que, no decurso deste dia, eu Te revele a todos. Amém.`
-  },
-  {
-    id: 'or-2',
-    categoria: 'noite',
-    titulo: 'Oração da Noite (Completas)',
-    autor: 'Liturgia das Horas',
-    texto: `O Senhor todo-poderoso nos conceda uma noite tranquila e um fim perfeito.
-    
-Em Vossas mãos, Senhor, entrego o meu espírito. Vós nos redimistes, Senhor, Deus da verdade.
-    
-Guardai-nos, Senhor, como a pupila dos Vossos olhos; protegei-nos à sombra de Vossas asas.
-    
-Salvai-nos, Senhor, quando velamos; guardai-nos quando dormimos, para que velemos com Cristo e descansemos em paz. Amém.`
-  },
-  {
-    id: 'or-3',
-    categoria: 'classicas',
-    titulo: 'Pai Nosso',
-    autor: 'Oração ensinada por Jesus',
-    texto: `Pai Nosso que estais nos Céus, santificado seja o Vosso nome.
-Venha a nós o Vosso Reino. Seja feita a Vossa vontade, assim na terra como no céu.
-O pão nosso de cada dia nos dai hoje. Perdoai-nos as nossas ofensas, assim como nós perdoamos a quem nos tem ofendido.
-E não nos deixeis cair em tentação, mas livrai-nos do mal. Amém.`
-  },
-  {
-    id: 'or-4',
-    categoria: 'classicas',
-    titulo: 'Ave Maria',
-    autor: 'Tradição Bíblica e Eclesial',
-    texto: `Ave Maria, cheia de graça, o Senhor é convosco.
-Bendita sois vós entre as mulheres, e bendito é o fruto do vosso ventre, Jesus.
-Santa Maria, Mãe de Deus, rogai por nós, pecadores, agora e na hora de nossa morte. Amém.`
-  },
-  {
-    id: 'or-5',
-    categoria: 'classicas',
-    titulo: 'Ato de Contrição',
-    autor: 'Oração de Penitência',
-    texto: `Meu Deus, eu me arrependo de todo o coração de Vos ter ofendido, porque sois tão bom e amável.
-Prometo com a Vossa graça não mais pecar e evitar as ocasiões próximas de pecado.
-Senhor, tende compaixão de mim! Amém.`
-  },
-  {
-    id: 'or-6',
-    categoria: 'classicas',
-    titulo: 'Oração de São Francisco',
-    autor: 'São Francisco de Assis',
-    texto: `Senhor, fazei-me instrumento de vossa paz.
-Onde houver ódio, que eu leve o amor;
-Onde houver ofensa, que eu leve o perdão;
-Onde houver discórdia, que eu leve a união;
-Onde houver dúvida, que eu leve a fé;
-Onde houver erro, que eu leve a verdade;
-Onde houver desespero, que eu leve a esperança;
-Onde houver tristeza, que eu leve a alegria;
-Onde houver trevas, que eu leve a luz.
+  const data = dataRef instanceof Date ? dataRef : new Date();
+  const inicioAno = new Date(data.getFullYear(), 0, 0);
+  const diff = data - inicioAno;
+  const umDia = 1000 * 60 * 60 * 24;
+  const diaDoAno = Math.floor(diff / umDia);
 
-Ó Mestre, fazei que eu procure mais consolar que ser consolado;
-compreender, que ser compreendido;
-amar, que ser amado.
-Pois é dando que se recebe,
-é perdoando que se é perdoado,
-e é morrendo que se vive para a vida eterna. Amém.`
-  },
-  {
-    id: 'or-7',
-    categoria: 'classicas',
-    titulo: 'Salve Rainha',
-    autor: 'Tradição Mariana',
-    texto: `Salve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve!
-A vós bradamos, os degredados filhos de Eva.
-A vós suspiramos, gemendo e chorando neste vale de lágrimas.
-Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei.
-E depois deste desterro, mostrai-nos Jesus, bendito fruto do vosso ventre.
-Ó clemente, ó piedosa, ó doce sempre Virgem Maria!
-Rogai por nós, Santa Mãe de Deus, para que sejamos dignos das promessas de Cristo. Amém.`
-  }
-];
+  const indice = Math.abs((diaDoAno + data.getFullYear()) % VERSICULOS_DO_DIA.length);
+  return VERSICULOS_DO_DIA[indice];
+}
 
-const TIMER_PRESETS = [
-  { minutos: 1, label: '1 min', descricao: 'Pausa rápida de recolhimento' },
-  { minutos: 3, label: '3 min', descricao: 'Respiração e presença de Deus' },
-  { minutos: 5, label: '5 min', descricao: 'Silêncio meditativo diário' },
-  { minutos: 10, label: '10 min', descricao: 'Contemplação profunda' },
-  { minutos: 15, label: '15 min', descricao: 'Oração prolongada' }
-];

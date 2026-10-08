@@ -1,306 +1,311 @@
 /**
  * MEU DEVOCIONAL - APP PRINCIPAL
- * Inicialização, orquestração e gerenciamento de eventos
+ * Inicialização e delegação de eventos do Lecionário Comum Revisado
  */
 
 const App = (() => {
-  let timerInterval = null;
+  let tm = null;
 
   function inicializar() {
-    // 1. Carrega dados do armazenamento local
-    const devAtual = Estado.devocionalAtual;
-    if (devAtual && devAtual.corLiturgica) {
-      definirCorLiturgica(devAtual.corLiturgica);
-    }
+    Estado.ver = Armazenamento.obterVersaoBiblia();
+    Estado.mode = Armazenamento.obterModo();
 
-    // 2. Inscreve a função de renderização no estado
     Estado.inscrever(() => {
-      renderizarApp();
+      render();
     });
 
-    // 3. Inicializa roteamento por hash
-    Navegacao.inicializarRotas();
-
-    // 4. Primeira renderização
-    renderizarApp();
-
-    // 5. Configura delegação de eventos globais
-    configurarEventosGlobais();
+    configurarEventos();
+    render();
   }
 
-  function definirCorLiturgica(corHex) {
-    if (!corHex) return;
-    document.documentElement.style.setProperty('--lit', corHex);
-  }
-
-  function renderizarApp() {
+  function render() {
+    clearInterval(tm);
     const appEl = document.getElementById('app');
     if (!appEl) return;
 
-    // Toast de notificação
-    const toastHtml = Estado.mensagemToast ? `
-      <div style="position: fixed; top: 16px; left: 50%; transform: translateX(-50%); 
-                  background: var(--card); border: 1px solid var(--lit); border-radius: 999px; 
-                  padding: 10px 20px; font-weight: 700; font-size: 14px; color: var(--lit); 
-                  box-shadow: 0 4px 14px rgba(0,0,0,0.15); z-index: 999;">
-        ${Estado.mensagemToast}
-      </div>
-    ` : '';
+    appEl.innerHTML = Telas.render(Estado);
+    Navegacao.atualizarBarra(Estado.screen);
 
-    appEl.innerHTML = `
-      ${toastHtml}
-      <main id="conteudo-principal">
-        ${Telas.renderizar(Estado)}
-      </main>
-      ${Navegacao.renderizarBarra(Estado.abaAtiva)}
-    `;
-
-    // Atualiza cor litúrgica se o devocional mudou
-    if (Estado.devocionalAtual && Estado.devocionalAtual.corLiturgica) {
-      definirCorLiturgica(Estado.devocionalAtual.corLiturgica);
-    }
-  }
-
-  function configurarEventosGlobais() {
-    document.addEventListener('click', (e) => {
-      // Concluir devocional hoje
-      if (e.target && (e.target.id === 'btn-concluir-devocional' || e.target.closest('#btn-concluir-devocional'))) {
-        e.preventDefault();
-        alternarConclusaoDevocional();
-      }
-
-      // Alternar leitura devocional
-      if (e.target && (e.target.id === 'btn-toggle-devocionais' || e.target.closest('#btn-toggle-devocionais'))) {
-        e.preventDefault();
-        alternarDevocional();
-      }
-
-      // Salvar anotação rápida na tela principal
-      if (e.target && (e.target.id === 'btn-salvar-anotacao-rapida' || e.target.closest('#btn-salvar-anotacao-rapida'))) {
-        e.preventDefault();
-        salvarAnotacaoRapida();
-      }
-    });
-  }
-
-  // ==========================================
-  // AÇÕES DO DEVOCIONAL
-  // ==========================================
-  function alternarConclusaoDevocional() {
-    const dev = Estado.devocionalAtual;
-    if (!dev) return;
-
-    const jaConcluido = Armazenamento.foiConcluidoHoje(dev.id);
-    if (jaConcluido) {
-      Armazenamento.removerConclusaoDevocional(dev.id);
-      Estado.mostrarMensagem('Devocional desmarcado.');
-    } else {
-      Armazenamento.salvarConclusaoDevocional(dev.id);
-      Estado.mostrarMensagem('✓ Parabéns! Devocional concluído hoje.');
-    }
-    Estado.notificar();
-  }
-
-  function alternarDevocional() {
-    const total = Estado.devocionais.length;
-    if (total <= 1) return;
-
-    const proximoIndice = (Estado.indiceDevocionalAtual + 1) % total;
-    Estado.atualizar({ indiceDevocionalAtual: proximoIndice });
-  }
-
-  function salvarAnotacaoRapida() {
-    const textarea = document.getElementById('texto-anotacao-rapida');
-    if (!textarea) return;
-
-    const texto = textarea.value.trim();
-    if (!texto) {
-      Estado.mostrarMensagem('Por favor, digite uma reflexão antes de salvar.');
-      return;
+    const ta = document.getElementById('ta');
+    if (ta) {
+      ta.addEventListener('input', () => {
+        Estado.ans = ta.value;
+      });
     }
 
-    const dev = Estado.devocionalAtual;
-    Armazenamento.salvarAnotacao({
-      titulo: dev ? `Reflexão: ${dev.titulo}` : 'Minha Reflexão',
-      texto: texto,
-      tag: 'Reflexão'
-    });
+    const taReflexao = document.getElementById('ta-nova-reflexao');
+    if (taReflexao) {
+      taReflexao.addEventListener('input', () => {
+        Estado.rascunhoReflexao = taReflexao.value;
+      });
+    }
 
-    textarea.value = '';
-    Estado.mostrarMensagem('✓ Anotação salva com sucesso no seu Diário!');
-  }
-
-  // ==========================================
-  // TIMER DE ORAÇÃO & SILÊNCIO
-  // ==========================================
-  function selecionarPresetTimer(minutos) {
-    pausarTimer();
-    const segundos = minutos * 60;
-    Estado.timer.minutosSelecionados = minutos;
-    Estado.timer.segundosTotais = segundos;
-    Estado.timer.segundosRestantes = segundos;
-    Estado.timer.rodando = false;
-    Estado.notificar();
-  }
-
-  function iniciarTimer() {
-    if (Estado.timer.rodando) return;
-
-    Estado.timer.rodando = true;
-    Estado.notificar();
-
-    clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-      if (Estado.timer.segundosRestantes > 0) {
-        Estado.timer.segundosRestantes--;
-
-        // Atualização rápida direta do DOM para evitar re-render completo a cada segundo
-        const visor = document.getElementById('visor-timer');
-        if (visor) {
-          const m = Math.floor(Estado.timer.segundosRestantes / 60);
-          const s = Estado.timer.segundosRestantes % 60;
-          visor.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    const taChat = document.getElementById('ta-chat-msg');
+    if (taChat) {
+      taChat.addEventListener('input', () => {
+        Estado.rascunhoChat = taChat.value;
+      });
+      taChat.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          enviarChat();
         }
-      } else {
-        // Timer concluído!
-        pausarTimer();
-        tocarAlertaConclusao();
-        Estado.mostrarMensagem('🕊️ Momento de oração concluído! Que a paz de Deus permaneça com você.', 5000);
-        Estado.notificar();
-      }
-    }, 1000);
+      });
+    }
+
+    const chatBox = document.getElementById('chat-mensagens-box');
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    if (Estado.screen !== 'chat') {
+      window.scrollTo(0, 0);
+    }
   }
 
-  function pausarTimer() {
-    clearInterval(timerInterval);
-    timerInterval = null;
-    Estado.timer.rodando = false;
-    Estado.notificar();
-  }
+  async function enviarChat() {
+    const taChat = document.getElementById('ta-chat-msg');
+    const texto = taChat ? taChat.value.trim() : (Estado.rascunhoChat || '').trim();
+    if (!texto || Estado.chatCarregando) return;
 
-  function reiniciarTimer() {
-    pausarTimer();
-    Estado.timer.segundosRestantes = Estado.timer.segundosTotais;
-    Estado.notificar();
-  }
+    const novaMensagem = {
+      role: 'user',
+      content: texto,
+      timestamp: Date.now()
+    };
 
-  function tocarAlertaConclusao() {
-    // Alerta sonoro suave usando Web Audio API sem depender de arquivos externos
+    Estado.chatMensagens = [...(Estado.chatMensagens || []), novaMensagem];
+    Estado.rascunhoChat = '';
+    Estado.chatCarregando = true;
+    render();
+
+    // Sincroniza mensagem do usuário no Firestore se autenticado
+    if (typeof FirebaseService !== 'undefined') {
+      FirebaseService.salvarMensagemChatFirestore(novaMensagem).catch(() => {});
+    }
+
     try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (AudioContext) {
-        const ctx = new AudioContext();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+      const resposta = await GeminiService.enviarMensagem(Estado.chatMensagens, Estado.chatModelo);
+      const msgModelo = {
+        role: 'model',
+        content: resposta,
+        timestamp: Date.now()
+      };
+      Estado.chatMensagens = [...Estado.chatMensagens, msgModelo];
 
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-        osc.frequency.exponentialRampToValueAtTime(659.25, ctx.currentTime + 0.5); // E5
-
-        gain.gain.setValueAtTime(0.3, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start();
-        osc.stop(ctx.currentTime + 1.2);
+      // Sincroniza resposta no Firestore se autenticado
+      if (typeof FirebaseService !== 'undefined') {
+        FirebaseService.salvarMensagemChatFirestore(msgModelo).catch(() => {});
       }
-    } catch (e) {
-      console.log('Audio contextual silencioso:', e);
+    } catch (err) {
+      Estado.chatMensagens = [
+        ...Estado.chatMensagens,
+        {
+          role: 'model',
+          content: 'Desculpe, ocorreu um erro de conexão. Que a paz de Cristo guarde seu coração; tente novamente em instantes.',
+          timestamp: Date.now()
+        }
+      ];
+    } finally {
+      Estado.chatCarregando = false;
+      render();
+    }
+  }
+
+  function finalizar() {
+    const day = Estado.diaAtual;
+    const m = MODES[Estado.mode] || MODES.padrao;
+
+    Armazenamento.registrarConclusao(day.key);
+
+    if (Estado.ans.trim()) {
+      Armazenamento.salvarReflexao({
+        data: day.label,
+        modo: m.n,
+        titulo: (Estado.passosAtuais.exame && Estado.passosAtuais.exame.h) || 'Exame',
+        pergunta: (Estado.passosAtuais.exame && Estado.passosAtuais.exame.h) || '',
+        texto: Estado.ans.trim(),
+        referencia: day.vref || ''
+      });
     }
 
-    if (navigator.vibrate) {
-      navigator.vibrate([200, 100, 200]);
-    }
+    Estado.atualizar({ screen: 'done' });
   }
 
-  // ==========================================
-  // EXAME DE CONSCIÊNCIA
-  // ==========================================
-  function alternarPerguntaExame(idPergunta, checado) {
-    const exame = Armazenamento.obterExameHoje();
-    if (!exame.respostas) exame.respostas = {};
-    exame.respostas[idPergunta] = checado;
-    Armazenamento.salvarExameHoje(exame.respostas, exame.proposito, exame.concluido);
-  }
+  function configurarEventos() {
+    document.addEventListener('click', (ev) => {
+      const b = ev.target.closest('[data-a],[data-go]');
+      if (!b) return;
 
-  function finalizarExame() {
-    const textarea = document.getElementById('texto-proposito-exame');
-    const proposito = textarea ? textarea.value.trim() : '';
+      if (b.dataset.go) {
+        Estado.atualizar({
+          screen: b.dataset.go,
+          showModes: false,
+          showDays: false
+        });
+        return;
+      }
 
-    const exame = Armazenamento.obterExameHoje();
-    Armazenamento.salvarExameHoje(exame.respostas, proposito, true);
+      const a = b.dataset.a;
 
-    Estado.mostrarMensagem('✓ Exame de Consciência concluído! Uma noite de paz.');
-    Estado.notificar();
-  }
-
-  // ==========================================
-  // CADERNO ESPIRITUAL
-  // ==========================================
-  function selecionarTagFormulario(tag) {
-    Estado.formularioDiario.tag = tag;
-    const botoes = document.querySelectorAll('#chips-tags-diario .chip');
-    botoes.forEach((btn) => {
-      if (btn.getAttribute('data-tag') === tag) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
+      if (a === 'tog') {
+        Estado.atualizar({ showModes: !Estado.showModes });
+      } else if (a === 'togday') {
+        Estado.atualizar({ showDays: !Estado.showDays });
+      } else if (a === 'setday') {
+        Estado.atualizar({
+          diaIndex: +b.dataset.k,
+          showDays: false,
+          i: 0,
+          ans: ''
+        });
+      } else if (a === 'read') {
+        Estado.atualizar({
+          prev: Estado.screen,
+          r: +b.dataset.r,
+          screen: 'read'
+        });
+      } else if (a === 'rback') {
+        Estado.atualizar({ screen: Estado.prev });
+      } else if (a === 'ver') {
+        Estado.ver = b.dataset.k;
+        Armazenamento.salvarVersaoBiblia(Estado.ver);
+        Estado.notificar();
+      } else if (a === 'rprev') {
+        if (Estado.r > 0) {
+          Estado.atualizar({ r: Estado.r - 1 });
+        }
+      } else if (a === 'rnext') {
+        if (Estado.r < Estado.diaAtual.reads.length - 1) {
+          Estado.atualizar({ r: Estado.r + 1 });
+        }
+      } else if (a === 'mode') {
+        Estado.mode = b.dataset.k;
+        Armazenamento.salvarModo(Estado.mode);
+        Estado.atualizar({ showModes: false });
+      } else if (a === 'start') {
+        Estado.atualizar({ screen: 'step', i: 0, ans: '' });
+      } else if (a === 'swap') {
+        Estado.mode = b.dataset.k;
+        Armazenamento.salvarModo(Estado.mode);
+        Estado.atualizar({ i: 0 });
+      } else if (a === 'back') {
+        if (Estado.i > 0) {
+          Estado.atualizar({ i: Estado.i - 1 });
+        } else {
+          Estado.atualizar({ screen: 'home' });
+        }
+      } else if (a === 'next') {
+        const m = MODES[Estado.mode] || MODES.padrao;
+        if (Estado.i < m.s.length - 1) {
+          Estado.atualizar({ i: Estado.i + 1 });
+        } else {
+          finalizar();
+        }
+      } else if (a === 'diary') {
+        Estado.atualizar({ screen: 'diary' });
+      } else if (a === 'home') {
+        Estado.atualizar({ screen: 'home' });
+      } else if (a === 'salvarreflexao') {
+        const ta = document.getElementById('ta-nova-reflexao');
+        const texto = ta ? ta.value.trim() : (Estado.rascunhoReflexao || '').trim();
+        if (!texto) {
+          if (ta) ta.focus();
+          return;
+        }
+        Armazenamento.salvarReflexao({
+          texto: texto,
+          titulo: 'Reflexão Pessoal',
+          data: Estado.diaAtual.label,
+          modo: 'Diário Pessoal',
+          referencia: Estado.diaAtual.vref || ''
+        });
+        Estado.rascunhoReflexao = '';
+        if (typeof FirebaseService !== 'undefined' && FirebaseService.estaAutenticado()) {
+          FirebaseService.sincronizarComFirestore().catch(() => {});
+        }
+        render();
+      } else if (a === 'delreflexao') {
+        const id = b.dataset.id;
+        if (id && confirm('Deseja excluir esta reflexão do seu diário?')) {
+          Armazenamento.excluirReflexao(id);
+          render();
+        }
+      } else if (a === 'exportardiario') {
+        const resultado = Armazenamento.exportarDiarioParaArquivo();
+        Estado.mensagemExportacao = resultado.mensagem;
+        render();
+        setTimeout(() => {
+          Estado.mensagemExportacao = null;
+          render();
+        }, 4000);
+      } else if (a === 'outro_versiculo') {
+        Estado.atualizar({ versiculoOffset: (Estado.versiculoOffset || 0) + 1 });
+      } else if (a === 'enviar_chat') {
+        enviarChat();
+      } else if (a === 'sugerir_chat') {
+        const sugestao = b.dataset.t;
+        if (sugestao) {
+          Estado.rascunhoChat = sugestao;
+          render();
+          enviarChat();
+        }
+      } else if (a === 'set_chat_modelo') {
+        Estado.atualizar({ chatModelo: b.dataset.k });
+      } else if (a === 'limpar_chat') {
+        Estado.chatMensagens = [
+          {
+            role: 'model',
+            content: 'Graça e paz! Sou seu Conselheiro Bíblico no Meu Devocional. Como posso ajudar você hoje na sua meditação do Lecionário Comum Revisado ou na aplicação das Escrituras?',
+            timestamp: Date.now()
+          }
+        ];
+        Estado.rascunhoChat = '';
+        render();
+      } else if (a === 'login_google') {
+        if (typeof FirebaseService !== 'undefined') {
+          FirebaseService.entrarComGoogle().then(() => {
+            render();
+          });
+        }
+      } else if (a === 'logout_google') {
+        if (typeof FirebaseService !== 'undefined') {
+          FirebaseService.sair();
+          render();
+        }
+      } else if (a === 'sincronizar_nuvem') {
+        if (typeof FirebaseService !== 'undefined') {
+          b.textContent = 'Sincronizando…';
+          FirebaseService.sincronizarComFirestore().then(() => {
+            setTimeout(() => {
+              render();
+            }, 500);
+          });
+        }
+      } else if (a === 'timer') {
+        let t = 120;
+        const el = document.getElementById('tmr');
+        b.textContent = 'Em silêncio…';
+        clearInterval(tm);
+        tm = setInterval(() => {
+          t--;
+          if (el) {
+            el.textContent = Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2);
+          }
+          if (t <= 0) {
+            clearInterval(tm);
+            b.textContent = 'Silêncio concluído';
+          }
+        }, 1000);
       }
     });
-  }
-
-  function salvarNovaNotaDiario() {
-    const inputTitulo = document.getElementById('input-diario-titulo');
-    const textareaConteudo = document.getElementById('textarea-diario-conteudo');
-
-    if (!textareaConteudo) return;
-
-    const titulo = inputTitulo ? inputTitulo.value.trim() : '';
-    const texto = textareaConteudo.value.trim();
-
-    if (!texto) {
-      Estado.mostrarMensagem('Digite o conteúdo da sua reflexão antes de salvar.');
-      return;
-    }
-
-    Armazenamento.salvarAnotacao({
-      titulo: titulo || 'Reflexão Espiritual',
-      texto: texto,
-      tag: Estado.formularioDiario.tag || 'Reflexão'
-    });
-
-    if (inputTitulo) inputTitulo.value = '';
-    textareaConteudo.value = '';
-
-    Estado.mostrarMensagem('✓ Anotação adicionada ao Caderno Espiritual!');
-    Estado.notificar();
-  }
-
-  function removerNotaDiario(id) {
-    if (confirm('Deseja excluir esta anotação do seu diário espiritual?')) {
-      Armazenamento.excluirAnotacao(id);
-      Estado.mostrarMensagem('Anotação excluída.');
-      Estado.notificar();
-    }
   }
 
   return {
-    inicializar,
-    selecionarPresetTimer,
-    iniciarTimer,
-    pausarTimer,
-    reiniciarTimer,
-    alternarPerguntaExame,
-    finalizarExame,
-    selecionarTagFormulario,
-    salvarNovaNotaDiario,
-    removerNotaDiario
+    inicializar
   };
 })();
 
-// Inicializa a aplicação assim que o DOM estiver pronto
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', App.inicializar);
 } else {

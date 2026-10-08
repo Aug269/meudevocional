@@ -3,7 +3,9 @@ package com.example.meudevocional
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -12,6 +14,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.io.File
 
 class MainActivity : ComponentActivity() {
 
@@ -22,12 +25,22 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Pré-cria os diretórios esperados pelo Chromium para evitar erros de enumeração do SimpleCache
+        try {
+            val cacheBase = File(cacheDir, "WebView/Default/HTTP Cache/Code Cache")
+            File(cacheBase, "js").mkdirs()
+            File(cacheBase, "wasm").mkdirs()
+        } catch (_: Exception) {}
+
         webView = WebView(this).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             setBackgroundColor(Color.parseColor("#F6F5F1"))
+
+            // Evita erros de rendernode em ambientes virtualizados e emuladores headless
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null)
 
             settings.apply {
                 javaScriptEnabled = true
@@ -41,6 +54,8 @@ class MainActivity : ComponentActivity() {
                 displayZoomControls = false
                 builtInZoomControls = false
             }
+
+            webChromeClient = WebChromeClient()
 
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {

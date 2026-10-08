@@ -1,55 +1,57 @@
 /**
  * MEU DEVOCIONAL - ESTADO
- * Gerenciamento central do estado da aplicação
+ * Estado reativo da aplicação do Lecionário Comum Revisado
  */
 
 const Estado = {
-  // Aba ativa na navegação: 'hoje' | 'leituras' | 'oracao' | 'exame' | 'diario'
-  abaAtiva: 'hoje',
+  screen: 'home', // 'home' | 'step' | 'done' | 'read' | 'diary'
+  mode: 'padrao', // 'rapido' | 'padrao' | 'aprofundado'
+  i: 0,           // índice do passo atual no modo selecionado
+  ans: '',        // resposta do exame de consciência
+  showModes: false,
+  r: 0,           // índice da leitura aberta no leitor
+  ver: 'NAA',     // tradução bíblica: NAA, ARA, NVI-PT, ARC
+  prev: 'home',
+  diaIndex: 0,    // dia selecionado em DIAS_RCL
+  mostrarTextoBiblicoCompleto: true,
 
-  // Devocionais disponíveis e o atual
-  devocionais: typeof DEVOCIONAIS !== 'undefined' ? DEVOCIONAIS : [],
-  indiceDevocionalAtual: 0,
-  get devocionalAtual() {
-    return this.devocionais[this.indiceDevocionalAtual] || this.devocionais[0] || null;
+  // Estado do Chatbot Gemini (Conselheiro Bíblico)
+  chatModelo: 'geral', // 'geral' (gemini-3.5-flash) | 'complexo' (gemini-3.1-pro-preview) | 'rapido' (gemini-3.1-flash-lite)
+  chatCarregando: false,
+  rascunhoChat: '',
+  chatMensagens: [
+    {
+      role: 'model',
+      content: 'Graça e paz! Sou seu Conselheiro Bíblico no Meu Devocional. Como posso ajudar você hoje na sua meditação do Lecionário Comum Revisado ou na aplicação das Escrituras?',
+      timestamp: Date.now()
+    }
+  ],
+
+  get diaAtual() {
+    return (typeof DIAS_RCL !== 'undefined' && DIAS_RCL[this.diaIndex]) ? DIAS_RCL[this.diaIndex] : DIAS_RCL[0];
   },
 
-  // Sub-abas e filtros
-  leituraAtiva: 'evangelho', // 'primeiraLeitura' | 'salmo' | 'evangelho'
-  filtroOracoes: 'todas',    // 'todas' | 'manhã' | 'noite' | 'classicas'
-  filtroDiario: 'todos',     // 'todos' | 'Reflexão' | 'Oração' | 'Gratidão' | 'Propósito'
+  versiculoOffset: 0,
 
-  // Timer de Silêncio e Oração
-  timer: {
-    minutosSelecionados: 5,
-    segundosTotais: 300,
-    segundosRestantes: 300,
-    rodando: false,
-    intervalId: null
+  get versiculoDoDia() {
+    if (typeof VERSICULOS_DO_DIA === 'undefined' || !VERSICULOS_DO_DIA.length) {
+      return {
+        texto: (this.diaAtual && this.diaAtual.verse) || '«Alegrem-se sempre no Senhor; outra vez digo: alegrem-se!»',
+        referencia: (this.diaAtual && this.diaAtual.vref) || 'Filipenses 4:4',
+        tema: 'Alegria e Paz'
+      };
+    }
+    const base = typeof obterVersiculoDoDia === 'function' ? obterVersiculoDoDia() : VERSICULOS_DO_DIA[0];
+    if (this.versiculoOffset === 0) return base;
+    const baseIdx = VERSICULOS_DO_DIA.indexOf(base);
+    const novoIdx = (baseIdx + this.versiculoOffset) % VERSICULOS_DO_DIA.length;
+    return VERSICULOS_DO_DIA[novoIdx >= 0 ? novoIdx : novoIdx + VERSICULOS_DO_DIA.length];
   },
 
-  // Estado do Exame de Consciência
-  exame: {
-    respostas: {}, // { 'ex_1': true, ... }
-    proposito: '',
-    concluidoHoje: false
+  get passosAtuais() {
+    return this.diaAtual.passos || {};
   },
 
-  // Histórico de conclusões e anotações
-  historicoConclusoes: [],
-  anotacoes: [],
-
-  // Formulário temporário do diário
-  formularioDiario: {
-    titulo: '',
-    texto: '',
-    tag: 'Reflexão'
-  },
-
-  // Mensagem temporária de notificação/alerta
-  mensagemToast: null,
-
-  // Ouvintes de mudanças de estado
   _ouvintes: [],
 
   inscrever(fn) {
@@ -60,8 +62,8 @@ const Estado = {
     this._ouvintes.forEach((fn) => {
       try {
         fn(this);
-      } catch (err) {
-        console.error('Erro no ouvinte de estado:', err);
+      } catch (e) {
+        console.error('Erro no ouvinte de estado:', e);
       }
     });
   },
@@ -69,23 +71,5 @@ const Estado = {
   atualizar(parcial) {
     Object.assign(this, parcial);
     this.notificar();
-  },
-
-  definirAba(aba) {
-    if (this.abaAtiva !== aba) {
-      this.abaAtiva = aba;
-      this.notificar();
-    }
-  },
-
-  mostrarMensagem(texto, duracaoMs = 3000) {
-    this.mensagemToast = texto;
-    this.notificar();
-    setTimeout(() => {
-      if (this.mensagemToast === texto) {
-        this.mensagemToast = null;
-        this.notificar();
-      }
-    }, duracaoMs);
   }
 };

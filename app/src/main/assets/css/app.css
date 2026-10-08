@@ -1,612 +1,507 @@
-
 /* =====================================================
-   MEU DEVOCIONAL
+   MEU DEVOCIONAL - LECIONÁRIO COMUM REVISADO
    ESTILOS PRINCIPAIS
    ===================================================== */
 
 :root {
   --bg: #F6F5F1;
   --card: #FFFFFF;
-
   --tx: #1F1F1C;
   --tx2: #5F5E5A;
   --tx3: #8E8D86;
-
   --bd: #DDDBD2;
-
-  /* Cor litúrgica do dia */
   --lit: #3F8F5B;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-
-/* =====================================================
-   TEMA ESCURO
-   ===================================================== */
-
 @media (prefers-color-scheme: dark) {
-
-  :root {
-    --bg: #181815;
-    --card: #242420;
-
-    --tx: #F3F2ED;
-    --tx2: #C3C1B9;
-    --tx3: #918F87;
-
-    --bd: #3B3A34;
+  :root:not([data-theme="light"]) {
+    --bg: #1A1A18;
+    --card: #242422;
+    --tx: #EEEDE6;
+    --tx2: #B4B2A9;
+    --tx3: #888780;
+    --bd: #3A3A37;
+    --lit: #5FB07A;
   }
 }
 
-
-/* =====================================================
-   BASE
-   ===================================================== */
+:root[data-theme="dark"] {
+  --bg: #1A1A18;
+  --card: #242422;
+  --tx: #EEEDE6;
+  --tx2: #B4B2A9;
+  --tx3: #888780;
+  --bd: #3A3A37;
+  --lit: #5FB07A;
+}
 
 * {
   box-sizing: border-box;
 }
 
 html {
-  min-height: 100%;
+  scroll-padding-top: env(safe-area-inset-top, 0px);
 }
 
 body {
   margin: 0;
-
-  min-height: 100vh;
-
   background: var(--bg);
   color: var(--tx);
-
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  line-height: 1.5;
-}
-
-
-/* =====================================================
-   APLICAÇÃO
-   ===================================================== */
-
-#app {
-  width: 100%;
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
   min-height: 100vh;
 }
 
-
-/* =====================================================
-   CONTAINER / CARTÕES
-   ===================================================== */
+#app {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 16px 16px 88px;
+}
 
 .card {
   background: var(--card);
-
   border: 1px solid var(--bd);
-  border-radius: 16px;
-
-  padding: 20px;
-
-  margin-bottom: 16px;
+  border-radius: 12px;
+  padding: 20px 18px;
+  margin-bottom: 14px;
 }
 
-
-/* =====================================================
-   TEXTOS
-   ===================================================== */
-
 .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 12px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.08em;
-
+  color: var(--tx2);
+  margin: 0;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
 
-  color: var(--tx3);
-
-  margin-bottom: 6px;
+.eyebrow i {
+  width: 16px;
+  height: 2px;
+  background: var(--lit);
+  display: inline-block;
+  border-radius: 2px;
 }
 
 h1 {
-  margin: 0 0 8px;
-
+  font-family: Newsreader, Georgia, serif;
+  font-weight: 500;
   font-size: 30px;
-
   line-height: 1.15;
+  margin: 14px 0 2px;
 }
 
 h2 {
-  margin: 0 0 8px;
-
-  font-size: 21px;
-
+  font-family: Newsreader, Georgia, serif;
+  font-weight: 500;
+  font-size: 24px;
   line-height: 1.25;
+  margin: 4px 0 0;
 }
 
 .sub {
-  color: var(--tx2);
-
+  margin: 0 0 18px;
   font-size: 14px;
-
-  line-height: 1.5;
+  color: var(--tx2);
 }
-
-
-/* =====================================================
-   BARRAS COM COR LITÚRGICA
-   ===================================================== */
 
 .bar {
   border-left: 3px solid var(--lit);
-
-  padding-left: 12px;
-
-  margin: 18px 0;
+  padding: 2px 0 2px 12px;
+  margin: 0 0 14px;
 }
 
-
-/* =====================================================
-   LEITURAS
-   ===================================================== */
-
 .lb {
-  color: var(--tx3);
-
   font-size: 12px;
-
-  font-weight: 700;
-
+  color: var(--tx2);
+  margin: 0;
+  font-weight: 600;
   text-transform: uppercase;
-
-  letter-spacing: 0.05em;
-
-  margin-bottom: 5px;
+  letter-spacing: 0.04em;
 }
 
 .rf {
-  font-size: 17px;
-
-  font-weight: 700;
-
-  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 2px 0 0;
 }
 
 .verse {
-  border-left: 3px solid var(--lit);
-
-  padding-left: 12px;
-
-  margin: 16px 0;
-
-  font-size: 17px;
-
-  line-height: 1.65;
+  font-family: Newsreader, Georgia, serif;
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.5;
+  margin: 0 0 4px;
 }
 
 .body {
   font-size: 16px;
-
-  line-height: 1.7;
-
+  line-height: 1.75;
   color: var(--tx2);
+  margin: 12px 0 0;
 }
-
-
-/* =====================================================
-   SEPARADORES
-   ===================================================== */
 
 .hr {
-  height: 1px;
-
-  background: var(--bd);
-
-  margin: 22px 0;
+  border-top: 1px solid var(--bd);
+  margin: 20px 0 16px;
 }
 
-
-/* =====================================================
-   BOTÕES
-   ===================================================== */
-
 .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-
-  border: 1px solid var(--bd);
-
-  background: var(--card);
-
+  min-height: 48px;
+  padding: 0 14px;
+  font: 500 15px system-ui, sans-serif;
   color: var(--tx);
-
-  border-radius: 12px;
-
-  padding: 13px 16px;
-
-  font-size: 15px;
-
-  font-weight: 700;
-
+  background: transparent;
+  border: 1.5px solid var(--lit);
+  border-radius: 8px;
   cursor: pointer;
-
-  transition:
-    transform 0.1s ease,
-    opacity 0.1s ease;
+  text-decoration: none;
+  transition: background 0.15s ease;
 }
 
 .btn:hover {
-  opacity: 0.85;
+  background: color-mix(in srgb, var(--lit) 10%, transparent);
 }
 
-.btn:active {
-  transform: scale(0.98);
+.btn:focus-visible,
+.link:focus-visible,
+.opt:focus-visible,
+textarea:focus-visible,
+.nav button:focus-visible,
+.chip:focus-visible,
+.rb:focus-visible {
+  outline: 2px solid var(--lit);
+  outline-offset: 2px;
 }
-
-
-/* =====================================================
-   LINKS / AÇÕES
-   ===================================================== */
 
 .link {
-  border: 0;
-
   background: none;
-
-  padding: 0;
-
-  color: var(--lit);
-
-  font-size: 14px;
-
-  font-weight: 700;
-
+  border: none;
+  color: var(--tx2);
+  font: 14px system-ui, sans-serif;
+  min-height: 40px;
+  width: 100%;
+  margin-top: 6px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
   cursor: pointer;
+  display: block;
+  text-align: center;
 }
-
-
-/* =====================================================
-   PROGRESSO
-   ===================================================== */
 
 .pg {
-  width: 100%;
+  display: flex;
+  gap: 4px;
+  margin: 0 0 8px;
+}
 
-  height: 5px;
-
+.pg span {
+  flex: 1;
+  height: 3px;
   background: var(--bd);
-
-  border-radius: 10px;
-
-  overflow: hidden;
-
-  margin: 10px 0 20px;
+  border-radius: 2px;
 }
 
-.pg > div {
-  height: 100%;
-
-  width: 0;
-
+.pg span.d {
   background: var(--lit);
-
-  transition: width 0.25s ease;
 }
-
-
-/* =====================================================
-   CABEÇALHO
-   ===================================================== */
 
 .top {
   display: flex;
-
-  align-items: center;
-
   justify-content: space-between;
-
-  gap: 12px;
-
-  margin-bottom: 18px;
+  align-items: center;
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--tx2);
 }
 
-
-/* =====================================================
-   OPÇÕES
-   ===================================================== */
+.top button {
+  background: none;
+  border: none;
+  color: var(--tx2);
+  font: 13px system-ui, sans-serif;
+  cursor: pointer;
+  padding: 6px 0;
+}
 
 .opt {
-  display: block;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-
-  text-align: left;
-
-  border: 1px solid var(--bd);
-
-  background: var(--card);
-
+  min-height: 48px;
+  padding: 0 14px;
+  margin: 0 0 8px;
+  font: 15px system-ui, sans-serif;
   color: var(--tx);
-
-  border-radius: 14px;
-
-  padding: 15px;
-
-  margin-bottom: 10px;
-
+  background: transparent;
+  border: 1px solid var(--bd);
+  border-radius: 8px;
   cursor: pointer;
+  text-align: left;
 }
 
-.opt:hover {
-  border-color: var(--lit);
+.opt.on {
+  border: 1.5px solid var(--lit);
 }
 
-
-/* =====================================================
-   TEXTAREA
-   ===================================================== */
+.opt small {
+  color: var(--tx2);
+  font-size: 13px;
+}
 
 textarea {
   width: 100%;
-
-  min-height: 130px;
-
-  resize: vertical;
-
-  border: 1px solid var(--bd);
-
-  background: var(--card);
-
+  min-height: 120px;
+  margin-top: 14px;
+  padding: 12px;
+  font: 16px/1.6 system-ui, sans-serif;
   color: var(--tx);
-
-  border-radius: 12px;
-
-  padding: 13px;
-
-  font: inherit;
-
-  line-height: 1.5;
-
-  outline: none;
+  background: var(--bg);
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  resize: vertical;
 }
-
-textarea:focus {
-  border-color: var(--lit);
-}
-
-
-/* =====================================================
-   NAVEGAÇÃO INFERIOR
-   ===================================================== */
 
 .nav {
   position: fixed;
-
   left: 0;
   right: 0;
   bottom: 0;
-
-  display: flex;
-
-  justify-content: center;
-
-  gap: 8px;
-
-  padding: 10px 14px;
-
   background: var(--card);
-
   border-top: 1px solid var(--bd);
-
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   z-index: 100;
+}
+
+.nav div {
+  max-width: 460px;
+  margin: 0 auto;
+  display: flex;
 }
 
 .nav button {
   flex: 1;
-
-  max-width: 180px;
-
-  border: 0;
-
-  background: transparent;
-
+  min-height: 56px;
+  background: none;
+  border: none;
+  border-top: 3px solid transparent;
   color: var(--tx2);
-
-  padding: 9px 8px;
-
-  border-radius: 10px;
-
-  font: inherit;
-
-  font-size: 13px;
-
+  font: 14px system-ui, sans-serif;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 }
 
-.nav button.active {
-  color: var(--lit);
-
-  font-weight: 700;
+.nav button.on {
+  color: var(--tx);
+  border-top-color: var(--lit);
+  font-weight: 500;
 }
-
-
-/* =====================================================
-   CHECKBOX / EXAME
-   ===================================================== */
 
 .check {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--lit);
+  margin: 0 auto 14px;
   display: flex;
-
-  align-items: flex-start;
-
-  gap: 10px;
-
-  margin: 12px 0;
-
-  color: var(--tx2);
-
-  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+  color: var(--lit);
+  font-size: 22px;
 }
-
-.check input {
-  margin-top: 4px;
-}
-
-
-/* =====================================================
-   TIMER
-   ===================================================== */
 
 .timer {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  min-height: 150px;
-
-  border: 1px solid var(--bd);
-
-  border-left: 3px solid var(--lit);
-
-  border-radius: 14px;
-
-  margin: 20px 0;
-
-  font-size: 38px;
-
-  font-weight: 700;
+  font-family: Newsreader, Georgia, serif;
+  font-size: 44px;
+  text-align: center;
+  margin: 18px 0 4px;
 }
-
-
-/* =====================================================
-   TEXTOS PEQUENOS
-   ===================================================== */
 
 .small {
+  font-size: 13px;
   color: var(--tx3);
-
-  font-size: 12px;
-
-  line-height: 1.5;
+  margin: 8px 0 0;
 }
-
-
-/* =====================================================
-   RECURSO LITÚRGICO
-   ===================================================== */
 
 .rb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
   border-left: 3px solid var(--lit);
-
-  padding-left: 12px;
-
-  margin: 14px 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 4px 0 4px 12px;
+  margin: 0 0 10px;
+  border-radius: 0 6px 6px 0;
+  transition: background 0.15s ease;
 }
 
+.rb:hover {
+  background: color-mix(in srgb, var(--tx) 3%, transparent);
+}
 
-/* =====================================================
-   CHIPS
-   ===================================================== */
+.rb span.go {
+  font-size: 13px;
+  color: var(--tx2);
+  padding-right: 6px;
+  font-weight: 500;
+}
 
 .chips {
   display: flex;
-
-  flex-wrap: wrap;
-
   gap: 8px;
-
-  margin: 12px 0;
+  flex-wrap: wrap;
+  margin: 6px 0 18px;
 }
 
 .chip {
+  min-height: 40px;
+  padding: 0 14px;
+  font: 14px system-ui, sans-serif;
+  color: var(--tx);
+  background: transparent;
   border: 1px solid var(--bd);
-
-  background: var(--card);
-
-  color: var(--tx2);
-
-  border-radius: 999px;
-
-  padding: 7px 11px;
-
-  font-size: 12px;
-
-  font-weight: 700;
-
+  border-radius: 8px;
   cursor: pointer;
 }
 
-.chip.active {
-  color: var(--lit);
-
-  border-color: var(--lit);
+.chip.on {
+  border: 1.5px solid var(--lit);
+  color: var(--tx);
+  font-weight: 500;
 }
 
-
-/* =====================================================
-   TEXTO BÍBLICO
-   ===================================================== */
-
 .bible-text {
-  font-size: 17px;
-
+  font-family: Newsreader, Georgia, serif;
+  font-size: 18px;
   line-height: 1.8;
-
   color: var(--tx);
-
+  margin-top: 14px;
   white-space: pre-line;
 }
 
-
 /* =====================================================
-   ESPAÇAMENTO INFERIOR PARA A NAVEGAÇÃO
+   CONSELHEIRO BÍBLICO (CHAT) E SINCRONIZAÇÃO EM NUVEM
    ===================================================== */
 
-.page {
-  max-width: 760px;
-
-  margin: 0 auto;
-
-  padding: 24px 18px 100px;
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+  min-height: 220px;
 }
 
-
-/* =====================================================
-   RESPONSIVIDADE
-   ===================================================== */
-
-@media (max-width: 600px) {
-
-  .page {
-    padding:
-      20px
-      14px
-      95px;
-  }
-
-  h1 {
-    font-size: 27px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  .card {
-    padding: 17px;
-  }
-
-  .verse {
-    font-size: 16px;
-  }
-
-  .body {
-    font-size: 15px;
-  }
+.chat-bubble {
+  max-width: 88%;
+  padding: 12px 15px;
+  border-radius: 14px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
+
+.chat-bubble.user {
+  align-self: flex-end;
+  background: var(--lit);
+  color: #FFFFFF;
+  border-bottom-right-radius: 3px;
+}
+
+.chat-bubble.model {
+  align-self: flex-start;
+  background: var(--card);
+  color: var(--tx);
+  border: 1px solid var(--bd);
+  border-bottom-left-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.chat-bubble.model strong {
+  color: var(--lit);
+}
+
+.chat-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 14px;
+}
+
+.chat-quick-btn {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  color: var(--tx2);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chat-quick-btn:hover {
+  border-color: var(--lit);
+  color: var(--tx);
+}
+
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  margin-top: 10px;
+}
+
+.chat-input-row textarea {
+  flex: 1;
+  min-height: 48px;
+  height: 48px;
+  max-height: 120px;
+  resize: vertical;
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.chat-typing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--tx3);
+  font-style: italic;
+  padding: 4px 8px;
+}
+
+.cloud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--lit) 12%, transparent);
+  color: var(--lit);
+  border: 1px solid color-mix(in srgb, var(--lit) 25%, transparent);
+}
+
