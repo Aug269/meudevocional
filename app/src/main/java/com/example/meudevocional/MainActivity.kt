@@ -57,9 +57,24 @@ class MainActivity : ComponentActivity() {
 
             webChromeClient = WebChromeClient()
 
+            addJavascriptInterface(object {
+                @android.webkit.JavascriptInterface
+                fun getApiKey(): String = BuildConfig.GEMINI_API_KEY
+            }, "AndroidBridge")
+
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     return false
+                }
+
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    super.onPageFinished(view, url)
+                    if (BuildConfig.GEMINI_API_KEY.isNotEmpty()) {
+                        view?.evaluateJavascript(
+                            "window.GEMINI_API_KEY = '${BuildConfig.GEMINI_API_KEY}'; window.FIREBASE_API_KEY = '${BuildConfig.GEMINI_API_KEY}';",
+                            null
+                        )
+                    }
                 }
             }
 

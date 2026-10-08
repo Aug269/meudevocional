@@ -6,12 +6,26 @@ android {
     namespace = "com.example.meudevocional"
     compileSdk = 36
 
+    val googleServicesFile = file("google-services.json")
+    val apiKeyFromGoogleServices = if (googleServicesFile.exists()) {
+        val content = googleServicesFile.readText()
+        val regex = "\"current_key\":\\s*\"([^\"]+)\"".toRegex()
+        regex.find(content)?.groupValues?.get(1) ?: ""
+    } else {
+        ""
+    }
+
     defaultConfig {
         applicationId = "com.aistudio.meudevocional.kxmqzr"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "GEMINI_API_KEY", "\"$apiKeyFromGoogleServices\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     signingConfigs {

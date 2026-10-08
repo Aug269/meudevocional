@@ -4,10 +4,26 @@
  */
 
 const FirebaseService = (() => {
+  function obterApiKey() {
+    if (typeof window !== 'undefined') {
+      if (window.FIREBASE_API_KEY) return window.FIREBASE_API_KEY;
+      if (window.GEMINI_API_KEY) return window.GEMINI_API_KEY;
+      if (window.AndroidBridge && typeof window.AndroidBridge.getApiKey === 'function') {
+        const key = window.AndroidBridge.getApiKey();
+        if (key) return key;
+      }
+      try {
+        const salvo = localStorage.getItem('firebase_api_key');
+        if (salvo) return salvo;
+      } catch (e) {}
+    }
+    return '';
+  }
+
   const CONFIG = {
     projectId: 'gen-lang-client-0744177245',
     databaseId: 'ai-studio-android-meudevoc-436db06e-f082-4ad0-a27d-ee32a7acf4ab',
-    apiKey: 'AIzaSyBxe_8l8L-9V7fVc-KZ6UXOZyIjtZDXy_U',
+    get apiKey() { return obterApiKey(); },
     webClientId: '316941667512-k63tl7tisqt43bu5epvvla4tj3ptqnr6.apps.googleusercontent.com'
   };
 

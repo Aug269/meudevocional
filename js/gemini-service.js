@@ -15,14 +15,21 @@ const GeminiService = (() => {
 Sua missão é ajudar o usuário a meditar no Lecionário Comum Revisado (RCL), tirar dúvidas sobre textos bíblicos, doutrinas bíblicas (Sola Scriptura, Sola Gratia, Sola Fide, Solus Christus, Soli Deo Gloria) e aplicar as Escrituras na sua vida diária.
 Suas respostas devem ser bíblicas, encorajadoras, focadas no Evangelho da Graça em Cristo e sempre acolhedoras. Cite passagens bíblicas relevantes (do cânon protestante de 66 livros) e faça pontes práticas com a oração diária.`;
 
-  // API Key do projeto Firebase provisionado
-  const API_KEY_DEFAULT = 'AIzaSyBxe_8l8L-9V7fVc-KZ6UXOZyIjtZDXy_U';
-
   function obterApiKey() {
-    if (typeof window !== 'undefined' && window.GEMINI_API_KEY) {
-      return window.GEMINI_API_KEY;
+    if (typeof window !== 'undefined') {
+      if (window.GEMINI_API_KEY) {
+        return window.GEMINI_API_KEY;
+      }
+      if (window.AndroidBridge && typeof window.AndroidBridge.getApiKey === 'function') {
+        const key = window.AndroidBridge.getApiKey();
+        if (key) return key;
+      }
+      try {
+        const salva = localStorage.getItem('gemini_api_key');
+        if (salva) return salva;
+      } catch (e) {}
     }
-    return API_KEY_DEFAULT;
+    return '';
   }
 
   /**
@@ -34,6 +41,10 @@ Suas respostas devem ser bíblicas, encorajadoras, focadas no Evangelho da Graç
   async function enviarMensagem(historicoMensagens, tipoModelo = 'geral') {
     const nomeModelo = MODELOS[tipoModelo] || MODELOS.geral;
     const apiKey = obterApiKey();
+    if (!apiKey) {
+      console.warn('Nenhuma chave de API configurada para o Gemini.');
+      return 'Para utilizar o Conselheiro Bíblico inteligente, certifique-se de que a API Key esteja configurada no painel de Segredos do AI Studio.';
+    }
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${nomeModelo}:generateContent?key=${apiKey}`;
 
     // Monta o histórico no formato esperado pela API do Gemini
