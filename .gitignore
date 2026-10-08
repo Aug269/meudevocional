@@ -1,0 +1,21 @@
+# Gradle & Build caches
+.gradle/
+build/
+app/build/
+.build-outputs/
+.kotlin/
+
+# IDE files
+.idea/
+*.iml
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Keystores & sensitive files
+*.jks
+debug.keystore
+debug.keystore.base64
+.env
+local.properties
