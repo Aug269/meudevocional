@@ -1,0 +1,16 @@
+{
+  "name": "Meu Devocional",
+  "short_name": "Devocional",
+  "description": "App devocional diário baseado no Lecionário Comum Revisado (RCL)",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F6F5F1",
+  "theme_color": "#F6F5F1",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ]
+}
