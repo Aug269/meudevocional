@@ -16,25 +16,58 @@ const DIAS_RCL = [
         tipo: 'Antigo Testamento',
         ref: 'Êxodo 32:1–14',
         resumo: 'O bezerro de ouro e a intercessão de Moisés pelo povo.',
-        texto: `Quando o povo viu que Moisés demorava a descer do monte, reuniu-se ao redor de Arão e lhe disse: "Levante-se, faça para nós deuses que vão adiante de nós..."`
+        texto: `Quando o povo viu que Moisés demorava a descer do monte, reuniu-se ao redor de Arão e lhe disse: "Levante-se, faça para nós deuses que vão adiante de nós; porque, quanto a este Moisés, o homem que nos tirou da terra do Egito, não sabemos o que lhe aconteceu."
+
+Arão lhes disse: "Tirem as argolas de ouro das orelhas de suas mulheres, de seus filhos e de suas filhas e tragam para mim." Então todo o povo tirou as argolas de ouro que usava nas orelhas e as trouxe a Arão. Ele as recebeu das mãos deles, trabalhou o ouro com uma ferramenta de entalhe e fez um bezerro fundido. Então disseram: "Estes são os seus deuses, ó Israel, que o tiraram da terra do Egito!"
+
+Vendo isto, Arão construiu um altar diante do bezerro e proclamou: "Amanhã será festa ao Senhor." No dia seguinte, madrugaram, ofereceram holocaustos e trouxeram sacrifícios de paz. E o povo assentou-se para comer e beber; depois, levantou-se para se divertir.
+
+Então o Senhor disse a Moisés: "Vá, desça, porque o seu povo, que você tirou da terra do Egito, se corrompeu. Depressa se desviaram do caminho que lhes havia ordenado; fizeram para si um bezerro fundido, prostraram-se diante dele, ofereceram-lhe sacrifícios e disseram: 'Estes são os seus deuses, ó Israel, que o tiraram da terra do Egito!'"
+
+O Senhor disse mais a Moisés: "Tenho visto este povo, e eis que é povo de dura cerviz. Agora, pois, deixe-me, para que o meu furor se acenda contra eles e eu os destrua; e de você farei uma grande nação."
+
+Moisés, porém, suplicou ao Senhor, seu Deus, dizendo: "Por que, ó Senhor, se acende o teu furor contra o teu povo, que tiraste da terra do Egito com grande poder e com mão poderosa? Por que hão de dizer os egípcios: 'Com maus propósitos ele os tirou, para matá-los nos montes e para varrê-los da face da terra'? Deixa o furor da tua ira e arrepende-te deste mal contra o teu povo. Lembra-te de Abraão, de Isaque e de Israel, teus servos, aos quais por ti mesmo juraste, dizendo: 'Multiplicarei a vossa descendência como as estrelas do céu e darei toda esta terra de que falei à vossa descendência, para que a possua para sempre.'"
+
+Então o Senhor desistiu do mal que tinha dito que faria ao seu povo.`
       },
       {
         tipo: 'Salmo',
         ref: 'Salmo 106:1–6, 19–23',
         resumo: 'Confissão da infidelidade do povo e louvor pela misericórdia de Deus.',
-        texto: `Aleluia! Deem graças ao Senhor, porque ele é bom, porque a sua misericórdia dura para sempre.`
+        texto: `Aleluia! Deem graças ao Senhor, porque ele é bom, porque a sua misericórdia dura para sempre.
+Quem pode contar as poderosas obras do Senhor ou anunciar todos os seus louvores?
+Bem-aventurados os que guardam a retidão e praticam a justiça em todo o tempo!
+Lembra-te de mim, Senhor, segundo a tua bondade para com o teu povo; visita-me com a tua salvação, para que eu veja a prosperidade dos teus escolhidos, me alegre com a alegria do teu povo e me glorie com a tua herança.
+Pecamos, como os nossos pais; cometemos iniquidade, andamos perversamente.
+
+Fizeram um bezerro em Horebe e adoraram uma imagem fundida.
+E assim trocaram a glória de Deus pela figura de um boi que come capim.
+Esqueceram-se de Deus, seu Salvador, que fizera coisas grandiosas no Egito, maravilhas na terra de Cam, feitos tremendos no mar Vermelho.
+Tê-los-ia destruído, como dissera, se Moisés, seu escolhido, não se tivesse interposto diante dele, para desviar a sua ira, a fim de que não os destruísse.`
       },
       {
         tipo: 'Epístola',
         ref: 'Filipenses 4:1–9',
         resumo: 'A exortação à alegria, à oração com ação de graças e à paz de Deus.',
-        texto: `Alegrem-se sempre no Senhor; outra vez digo: alegrem-se! Não andem ansiosos por coisa alguma...`
+        texto: `Portanto, meus amados e saudosos irmãos, minha alegria e coroa, permaneçam assim firmes no Senhor, amados.
+Rogo a Evódia e rogo a Síntique que pensem concordemente no Senhor. Sim, peço também a você, fiel companheiro de jugo, que ajude essas mulheres, pois elas trabalharam comigo no evangelho, juntamente com Clemente e com os demais cooperadores meus, cujos nomes estão no Livro da Vida.
+
+Alegrem-se sempre no Senhor; outra vez digo: alegrem-se! Seja a vossa moderação conhecida de todos os homens. Perto está o Senhor.
+Não andem ansiosos por coisa alguma; em tudo, porém, sejam conhecidas, diante de Deus, as vossas petições, pela oração e pela súplica, com ações de graças. E a paz de Deus, que excede todo o entendimento, guardará o coração e a mente de vocês em Cristo Jesus.
+
+Finalmente, irmãos, tudo o que é verdadeiro, tudo o que é respeitável, tudo o que é justo, tudo o que é puro, tudo o que é amável, tudo o que é de boa fama, se alguma virtude há e se algum louvor existe, seja isso o que ocupe o pensamento de vocês. O que também aprenderam, receberam, ouviram e viram em mim, isso pratiquem; e o Deus da paz estará com vocês.`
       },
       {
         tipo: 'Evangelho',
         ref: 'Mateus 22:1–14',
         resumo: 'A parábola da festa de casamento do filho do Rei.',
-        texto: `O Reino dos Céus é semelhante a um rei que preparou uma festa de casamento para o seu filho...`
+        texto: `Jesus voltou a falar-lhes por parábolas, dizendo:
+"O Reino dos Céus é semelhante a um rei que preparou uma festa de casamento para o seu filho. Ele enviou os seus servos a chamar os convidados para as bodas, mas estes não quiseram vir.
+Enviou ainda outros servos com esta ordem: 'Digam aos convidados: Eis que já preparei o meu banquete; os meus bois e cevados já foram abatidos, e tudo está pronto; venham para as bodas!'
+Eles, porém, não se importaram e foram, um para o seu campo, outro para o seu comércio; e os outros, agarrando os servos, os maltrataram e mataram. O rei ficou irado e, enviando as suas tropas, destruiu aqueles assassinos e incendiou a cidade deles.
+Então disse aos servos: 'O banquete está preparado, mas os convidados não eram dignos. Vão, pois, para as encruzilhadas dos caminhos e convidem para as bodas todos os que encontrarem.' E, saindo aqueles servos pelos caminhos, reuniram todos os que encontraram, tanto maus como bons; e a sala do banquete ficou cheia de convidados.
+Quando o rei entrou para ver os que estavam à mesa, notou ali um homem que não estava usando veste nupcial e lhe perguntou: 'Amigo, como você entrou aqui sem veste nupcial?' O homem emudeceu. Então o rei ordenou aos serventes: 'Amarrem-no de pés e mãos e lancem-no nas trevas exteriores; ali haverá choro e ranger de dentes.'
+Porque muitos são chamados, mas poucos, escolhidos."`
       }
     ],
     passos: {
@@ -292,8 +325,9 @@ const MODES = {
 
 const VERSOES_BIBLIA = [
   ['NAA', 'NAA (Nova Almeida Atualizada)'],
-  ['ARA', 'ARA (Almeida Revista e Atualizada)'],
+  ['NTLH', 'NTLH (Nova Tradução na Linguagem de Hoje)'],
   ['NVI-PT', 'NVI (Nova Versão Internacional)'],
+  ['ARA', 'ARA (Almeida Revista e Atualizada)'],
   ['ARC', 'ARC (Almeida Revista e Corrigida)']
 ];
 
