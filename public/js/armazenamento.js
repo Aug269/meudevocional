@@ -9,6 +9,7 @@ const Armazenamento = (() => {
   const CHAVE_DIAS = 'md_days';
   const CHAVE_MODO = 'md_mode';
   const CHAVE_VERSAO = 'md_ver';
+  const CHAVE_PREF_LEITURA = 'md_pref_leitura';
 
   // Fallback em memória caso o localStorage esteja desabilitado ou em sandbox
   const memoria = {};
@@ -340,6 +341,77 @@ const Armazenamento = (() => {
       return dias;
     },
 
+    removerConclusao(key) {
+      let dias = this.obterDevocionaisConcluidos();
+      if (dias.indexOf(key) >= 0) {
+        dias = dias.filter((d) => d !== key);
+        salvar(CHAVE_DIAS, dias);
+      }
+      return dias;
+    },
+
+    // ==========================================
+    // CONTROLE DE PARTES CONCLUÍDAS DO DEVOCIONAL
+    // (Escrituras / Scripture, Reflexão / Reflection, Oração / Prayer)
+    // ==========================================
+    obterPartesDevocional(diaKey) {
+      if (!diaKey) return { scripture: false, reflection: false, prayer: false };
+      const chave = 'md_partes_' + diaKey;
+      const partes = obter(chave, null);
+      if (partes && typeof partes === 'object') {
+        return {
+          scripture: !!partes.scripture,
+          reflection: !!partes.reflection,
+          prayer: !!partes.prayer
+        };
+      }
+      // Se o dia já constava como concluído nos devocionais gerais, inicializa como concluído
+      const concluidos = this.obterDevocionaisConcluidos();
+      const jaConcluido = concluidos.indexOf(diaKey) >= 0;
+      return {
+        scripture: jaConcluido,
+        reflection: jaConcluido,
+        prayer: jaConcluido
+      };
+    },
+
+    salvarPartesDevocional(diaKey, partes) {
+      if (!diaKey) return { scripture: false, reflection: false, prayer: false };
+      const chave = 'md_partes_' + diaKey;
+      const status = {
+        scripture: !!(partes && partes.scripture),
+        reflection: !!(partes && partes.reflection),
+        prayer: !!(partes && partes.prayer)
+      };
+      salvar(chave, status);
+
+      // Sincroniza com a conclusão global do dia: se completou as 3 partes, conclui o dia
+      if (status.scripture && status.reflection && status.prayer) {
+        this.registrarConclusao(diaKey);
+      } else {
+        this.removerConclusao(diaKey);
+      }
+      return status;
+    },
+
+    alternarParteDevocional(diaKey, parte) {
+      const atuais = this.obterPartesDevocional(diaKey);
+      if (parte && parte in atuais) {
+        atuais[parte] = !atuais[parte];
+        return this.salvarPartesDevocional(diaKey, atuais);
+      }
+      return atuais;
+    },
+
+    marcarParteDevocional(diaKey, parte, concluido = true) {
+      const atuais = this.obterPartesDevocional(diaKey);
+      if (parte && parte in atuais) {
+        atuais[parte] = !!concluido;
+        return this.salvarPartesDevocional(diaKey, atuais);
+      }
+      return atuais;
+    },
+
     // ==========================================
     // PREFERÊNCIAS DO USUÁRIO
     // ==========================================
@@ -359,6 +431,24 @@ const Armazenamento = (() => {
 
     salvarModo(modo) {
       salvar(CHAVE_MODO, modo);
+    },
+
+    // ==========================================
+    // MODO LEITURA / PREFERÊNCIAS DE FOCO
+    // ==========================================
+    obterPreferenciasLeitura() {
+      return obter(CHAVE_PREF_LEITURA, {
+        tamanho: 'md',   // 'sm' | 'md' | 'lg' | 'xl'
+        tema: 'sepia',   // 'sepia' | 'light' | 'dark'
+        serif: true      // serif (Newsreader/Georgia) vs sans-serif
+      });
+    },
+
+    salvarPreferenciasLeitura(prefs) {
+      const atuais = this.obterPreferenciasLeitura();
+      const novo = { ...atuais, ...prefs };
+      salvar(CHAVE_PREF_LEITURA, novo);
+      return novo;
     }
   };
 })();

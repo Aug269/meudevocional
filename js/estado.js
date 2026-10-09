@@ -4,7 +4,7 @@
  */
 
 const Estado = {
-  screen: 'home', // 'home' | 'step' | 'done' | 'read' | 'diary'
+  screen: 'home', // 'home' | 'step' | 'done' | 'read' | 'diary' | 'focus_read'
   mode: 'padrao', // 'rapido' | 'padrao' | 'aprofundado'
   i: 0,           // índice do passo atual no modo selecionado
   ans: '',        // resposta do exame de consciência
@@ -14,6 +14,11 @@ const Estado = {
   prev: 'home',
   diaIndex: 0,    // dia selecionado em DIAS_RCL
   mostrarTextoBiblicoCompleto: true,
+  leituraPrefs: {
+    tamanho: 'md',
+    tema: 'sepia',
+    serif: true
+  },
 
   // Estado do Chatbot Gemini (Conselheiro Bíblico)
   chatModelo: 'geral', // 'geral' (gemini-3.5-flash) | 'complexo' (gemini-3.1-pro-preview) | 'rapido' (gemini-3.1-flash-lite)

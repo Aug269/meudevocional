@@ -3,9 +3,11 @@ package com.example.meudevocional
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
+import android.webkit.RenderProcessGoneDetail
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -39,9 +41,6 @@ class MainActivity : ComponentActivity() {
             )
             setBackgroundColor(Color.parseColor("#F6F5F1"))
 
-            // Evita erros de rendernode em ambientes virtualizados e emuladores headless
-            setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-
             settings.apply {
                 javaScriptEnabled = true
                 domStorageEnabled = true
@@ -65,6 +64,19 @@ class MainActivity : ComponentActivity() {
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     return false
+                }
+
+                override fun onRenderProcessGone(view: WebView?, detail: RenderProcessGoneDetail?): Boolean {
+                    // Evita encerramento do app caso o processo de renderização do Chromium seja reciclado pelo SO
+                    return true
+                }
+
+                override fun onReceivedError(
+                    view: WebView?,
+                    request: WebResourceRequest?,
+                    error: WebResourceError?
+                ) {
+                    super.onReceivedError(view, request, error)
                 }
 
                 override fun onPageFinished(view: WebView?, url: String?) {

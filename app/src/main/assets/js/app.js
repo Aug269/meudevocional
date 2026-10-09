@@ -9,6 +9,7 @@ const App = (() => {
   function inicializar() {
     Estado.ver = Armazenamento.obterVersaoBiblia();
     Estado.mode = Armazenamento.obterModo();
+    Estado.leituraPrefs = Armazenamento.obterPreferenciasLeitura();
 
     Estado.inscrever(() => {
       render();
@@ -22,6 +23,11 @@ const App = (() => {
     clearInterval(tm);
     const appEl = document.getElementById('app');
     if (!appEl) return;
+
+    const prefs = Estado.leituraPrefs || (typeof Armazenamento !== 'undefined' ? Armazenamento.obterPreferenciasLeitura() : { tamanho: 'md', tema: 'sepia', serif: true });
+    document.documentElement.setAttribute('data-reading-theme', prefs.tema || 'sepia');
+    document.documentElement.setAttribute('data-reading-size', prefs.tamanho || 'md');
+    document.documentElement.setAttribute('data-reading-font', prefs.serif ? 'serif' : 'sans');
 
     appEl.innerHTML = Telas.render(Estado);
     Navegacao.atualizarBarra(Estado.screen);
@@ -117,6 +123,9 @@ const App = (() => {
     const m = MODES[Estado.mode] || MODES.padrao;
 
     Armazenamento.registrarConclusao(day.key);
+    Armazenamento.marcarParteDevocional(day.key, 'scripture', true);
+    Armazenamento.marcarParteDevocional(day.key, 'reflection', true);
+    Armazenamento.marcarParteDevocional(day.key, 'prayer', true);
 
     if (Estado.ans.trim()) {
       Armazenamento.salvarReflexao({
@@ -159,7 +168,75 @@ const App = (() => {
           i: 0,
           ans: ''
         });
+      } else if (a === 'tog_parte') {
+        const parte = b.dataset.parte;
+        if (parte) {
+          Armazenamento.alternarParteDevocional(Estado.diaAtual.key, parte);
+          render();
+        }
+      } else if (a === 'abrir_modo_leitura') {
+        Estado.atualizar({
+          prev: Estado.screen,
+          screen: 'focus_read',
+          showModes: false,
+          showDays: false
+        });
+      } else if (a === 'sair_modo_leitura') {
+        const destino = Estado.prev === 'focus_read' ? 'home' : (Estado.prev || 'home');
+        Estado.atualizar({ screen: destino });
+      } else if (a === 'leitura_tam_menos') {
+        const tamanhos = ['sm', 'md', 'lg', 'xl'];
+        const cur = (Estado.leituraPrefs && Estado.leituraPrefs.tamanho) || 'md';
+        const idx = tamanhos.indexOf(cur);
+        if (idx > 0) {
+          Estado.leituraPrefs = Armazenamento.salvarPreferenciasLeitura({ tamanho: tamanhos[idx - 1] });
+          Estado.notificar();
+        }
+      } else if (a === 'leitura_tam_mais') {
+        const tamanhos = ['sm', 'md', 'lg', 'xl'];
+        const cur = (Estado.leituraPrefs && Estado.leituraPrefs.tamanho) || 'md';
+        const idx = tamanhos.indexOf(cur);
+        if (idx < tamanhos.length - 1) {
+          Estado.leituraPrefs = Armazenamento.salvarPreferenciasLeitura({ tamanho: tamanhos[idx + 1] });
+          Estado.notificar();
+        }
+      } else if (a === 'leitura_fonte_toggle') {
+        const novoSerif = !((Estado.leituraPrefs && Estado.leituraPrefs.serif) ?? true);
+        Estado.leituraPrefs = Armazenamento.salvarPreferenciasLeitura({ serif: novoSerif });
+        Estado.notificar();
+      } else if (a === 'leitura_tema') {
+        const novoTema = b.dataset.tema;
+        if (novoTema) {
+          Estado.leituraPrefs = Armazenamento.salvarPreferenciasLeitura({ tema: novoTema });
+          Estado.notificar();
+        }
+      } else if (a === 'concluir_leitura_foco') {
+        const dKey = Estado.diaAtual.key;
+        Armazenamento.marcarParteDevocional(dKey, 'scripture', true);
+        Armazenamento.marcarParteDevocional(dKey, 'reflection', true);
+        Armazenamento.marcarParteDevocional(dKey, 'prayer', true);
+        Armazenamento.registrarConclusao(dKey);
+        Estado.atualizar({ screen: 'done' });
+      } else if (a === 'iniciar_reflexao') {
+        const m = MODES[Estado.mode] || MODES.padrao;
+        let idx = m.s.findIndex((s) => s === 'meditacao' || s === 'exame' || s === 'meditar');
+        if (idx < 0) {
+          Estado.mode = 'padrao';
+          Armazenamento.salvarModo('padrao');
+          idx = MODES.padrao.s.findIndex((s) => s === 'meditacao' || s === 'exame');
+        }
+        Estado.atualizar({ screen: 'step', i: idx >= 0 ? idx : 0, ans: '' });
+      } else if (a === 'iniciar_oracao') {
+        const m = MODES[Estado.mode] || MODES.padrao;
+        let idx = m.s.findIndex((s) => s === 'oracao' || s === 'orar' || s === 'descansar');
+        if (idx < 0) {
+          Estado.mode = 'padrao';
+          Armazenamento.salvarModo('padrao');
+          idx = MODES.padrao.s.findIndex((s) => s === 'oracao');
+        }
+        Estado.atualizar({ screen: 'step', i: idx >= 0 ? idx : m.s.length - 1, ans: '' });
       } else if (a === 'read') {
+        Armazenamento.marcarParteDevocional(Estado.diaAtual.key, 'scripture', true);
         Estado.atualizar({
           prev: Estado.screen,
           r: +b.dataset.r,
@@ -197,6 +274,15 @@ const App = (() => {
         }
       } else if (a === 'next') {
         const m = MODES[Estado.mode] || MODES.padrao;
+        const passoKey = m.s[Estado.i];
+        if (passoKey === 'palavra' || passoKey === 'ler') {
+          Armazenamento.marcarParteDevocional(Estado.diaAtual.key, 'scripture', true);
+        } else if (passoKey === 'meditacao' || passoKey === 'exame' || passoKey === 'meditar') {
+          Armazenamento.marcarParteDevocional(Estado.diaAtual.key, 'reflection', true);
+        } else if (passoKey === 'oracao' || passoKey === 'orar' || passoKey === 'descansar') {
+          Armazenamento.marcarParteDevocional(Estado.diaAtual.key, 'prayer', true);
+        }
+
         if (Estado.i < m.s.length - 1) {
           Estado.atualizar({ i: Estado.i + 1 });
         } else {

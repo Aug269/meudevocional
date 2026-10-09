@@ -57,6 +57,107 @@ const Telas = (() => {
   }
 
   // ==========================================
+  // INDICADOR VISUAL E CHECKBOXES (ESCRITURAS, REFLEXÃO, ORAÇÃO)
+  // ==========================================
+  function renderTrackerPartes(day) {
+    const partes = Armazenamento.obterPartesDevocional(day.key);
+    const concluidas = (partes.scripture ? 1 : 0) + (partes.reflection ? 1 : 0) + (partes.prayer ? 1 : 0);
+    const todasConcluidas = concluidas === 3;
+    const porcentagem = Math.round((concluidas / 3) * 100);
+
+    return `
+      <div class="devotional-tracker-card">
+        <div class="tracker-header">
+          <div>
+            <p class="lb" style="color: var(--lit); font-weight: 700; font-size: 11px; letter-spacing: 0.05em; margin: 0;">
+              PROGRESSO DO DEVOCIONAL
+            </p>
+            <h3 style="margin: 3px 0 0; font-size: 15px; font-weight: 600; color: var(--tx);">
+              Partes de Hoje (${concluidas}/3)
+            </h3>
+          </div>
+          <div class="tracker-badge ${todasConcluidas ? 'completed' : ''}">
+            ${todasConcluidas ? '✓ Concluído hoje' : `${porcentagem}% Concluído`}
+          </div>
+        </div>
+
+        <!-- Barra visual de progresso com 3 segmentos -->
+        <div class="tracker-progress-bar" title="Progresso: ${concluidas} de 3 partes concluídas">
+          <div class="tracker-progress-segment ${partes.scripture ? 'active' : ''}"></div>
+          <div class="tracker-progress-segment ${partes.reflection ? 'active' : ''}"></div>
+          <div class="tracker-progress-segment ${partes.prayer ? 'active' : ''}"></div>
+        </div>
+
+        <div class="tracker-items-list">
+          <!-- 1. ESCRITURAS (SCRIPTURE) -->
+          <div class="tracker-item ${partes.scripture ? 'checked' : ''}">
+            <button class="tracker-checkbox" data-a="tog_parte" data-parte="scripture" aria-label="Marcar Escrituras como concluída" title="${partes.scripture ? 'Desmarcar Escrituras' : 'Marcar Escrituras como concluída'}">
+              <span class="tracker-check-icon">${partes.scripture ? '✓' : ''}</span>
+            </button>
+            <div class="tracker-item-info" data-a="tog_parte" data-parte="scripture">
+              <div class="tracker-item-title-row">
+                <span class="tracker-icon">📖</span>
+                <span class="tracker-title">1. Escrituras</span>
+                <span class="tracker-tag">Leitura</span>
+              </div>
+              <p class="tracker-desc">Textos bíblicos do Lecionário Comum Revisado (${day.reads ? day.reads.length : 0} leituras)</p>
+            </div>
+            <button class="tracker-action-btn" data-a="read" data-r="0" title="Ler a primeira leitura bíblica">
+              Ler →
+            </button>
+          </div>
+
+          <!-- 2. REFLEXÃO (REFLECTION) -->
+          <div class="tracker-item ${partes.reflection ? 'checked' : ''}">
+            <button class="tracker-checkbox" data-a="tog_parte" data-parte="reflection" aria-label="Marcar Reflexão como concluída" title="${partes.reflection ? 'Desmarcar Reflexão' : 'Marcar Reflexão como concluída'}">
+              <span class="tracker-check-icon">${partes.reflection ? '✓' : ''}</span>
+            </button>
+            <div class="tracker-item-info" data-a="tog_parte" data-parte="reflection">
+              <div class="tracker-item-title-row">
+                <span class="tracker-icon">✍️</span>
+                <span class="tracker-title">2. Reflexão</span>
+                <span class="tracker-tag">Meditação</span>
+              </div>
+              <p class="tracker-desc">Meditar na Palavra, exame do coração e anotações</p>
+            </div>
+            <button class="tracker-action-btn" data-a="iniciar_reflexao" title="Ir para a reflexão">
+              Refletir →
+            </button>
+          </div>
+
+          <!-- 3. ORAÇÃO (PRAYER) -->
+          <div class="tracker-item ${partes.prayer ? 'checked' : ''}">
+            <button class="tracker-checkbox" data-a="tog_parte" data-parte="prayer" aria-label="Marcar Oração como concluída" title="${partes.prayer ? 'Desmarcar Oração' : 'Marcar Oração como concluída'}">
+              <span class="tracker-check-icon">${partes.prayer ? '✓' : ''}</span>
+            </button>
+            <div class="tracker-item-info" data-a="tog_parte" data-parte="prayer">
+              <div class="tracker-item-title-row">
+                <span class="tracker-icon">🙏</span>
+                <span class="tracker-title">3. Oração</span>
+                <span class="tracker-tag">Comunhão</span>
+              </div>
+              <p class="tracker-desc">Momento de oração, gratidão, entrega e silêncio</p>
+            </div>
+            <button class="tracker-action-btn" data-a="iniciar_oracao" title="Ir para a oração">
+              Orar →
+            </button>
+          </div>
+        </div>
+
+        ${todasConcluidas ? `
+          <div class="tracker-complete-banner">
+            <span style="font-size: 20px;">🎉</span>
+            <div>
+              <strong style="display: block; font-size: 13.5px;">Devocional de hoje concluído!</strong>
+              <span style="font-size: 12px; opacity: 0.9;">Você completou as Escrituras, a Reflexão e a Oração. Que a Palavra de Deus habite ricamente em você!</span>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  // ==========================================
   // TELA INICIAL (HOJE)
   // ==========================================
   function home(estado) {
@@ -103,6 +204,19 @@ const Telas = (() => {
           <p class="verse" style="margin-bottom: 6px;">${esc(vDoDia.texto)}</p>
           <p class="lb" style="font-size: 13px; font-weight: 600; color: var(--tx);">${esc(vDoDia.referencia)}</p>
         </div>
+
+        <!-- BOTÃO MODO LEITURA (FOCO TOTAL) -->
+        <button class="btn-focus-mode" data-a="abrir_modo_leitura" title="Abrir Modo Leitura com foco total">
+          <span class="btn-focus-icon">📖</span>
+          <div class="btn-focus-texts">
+            <span class="btn-focus-title">Modo Leitura · Foco Total</span>
+            <span class="btn-focus-desc">Expanda todas as leituras, reflexão e oração do dia sem distrações</span>
+          </div>
+          <span class="btn-focus-arrow">→</span>
+        </button>
+
+        <!-- INDICADOR VISUAL E CHECKBOXES (ESCRITURAS, REFLEXÃO, ORAÇÃO) -->
+        ${renderTrackerPartes(day)}
 
         <div class="hr"></div>
 
@@ -244,9 +358,12 @@ const Telas = (() => {
 
     let h = `
       <div class="card">
-        <div class="top">
+        <div class="top" style="display: flex; justify-content: space-between; align-items: center;">
           <button data-a="rback">← Voltar</button>
-          <span>Leitura ${estado.r + 1} de ${day.reads.length}</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="focus-ctrl-btn" data-a="abrir_modo_leitura" title="Abrir todas as leituras no Modo Leitura">📖 Foco Total</button>
+            <span>Leitura ${estado.r + 1} de ${day.reads.length}</span>
+          </div>
         </div>
 
         <p class="eyebrow" style="margin: 0 0 22px;"><i></i>${esc(day.season)} · ${esc(day.label)}</p>
@@ -306,7 +423,12 @@ const Telas = (() => {
         <div style="text-align: center; margin: 8px 0 24px;">
           <div class="check">✓</div>
           <h1 style="margin: 0 0 4px;">Devocional concluído</h1>
-          <p class="sub" style="margin: 0;">${esc(m.n)} · ${esc(m.t)}</p>
+          <p class="sub" style="margin: 0 0 14px;">${esc(m.n)} · ${esc(m.t)}</p>
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <span class="tracker-badge completed">📖 Escrituras ✓</span>
+            <span class="tracker-badge completed">✍️ Reflexão ✓</span>
+            <span class="tracker-badge completed">🙏 Oração ✓</span>
+          </div>
         </div>
 
         <p class="lb" style="margin-bottom: 12px;">O que você fez hoje</p>
@@ -509,6 +631,150 @@ const Telas = (() => {
     return h;
   }
 
+  // ==========================================
+  // MODO LEITURA (FOCO TOTAL)
+  // ==========================================
+  function focusReader(estado) {
+    const day = estado.diaAtual;
+    const prefs = estado.leituraPrefs || (typeof Armazenamento !== 'undefined' ? Armazenamento.obterPreferenciasLeitura() : { tamanho: 'md', tema: 'sepia', serif: true });
+    const versao = estado.ver || 'NAA';
+    const partes = typeof Armazenamento !== 'undefined' ? Armazenamento.obterPartesDevocional(day.key) : { scripture: false, reflection: false, prayer: false };
+    const todasConcluidas = partes.scripture && partes.reflection && partes.prayer;
+
+    // Passos do dia para reflexão e oração
+    const passos = estado.passosAtuais || {};
+    const meditacao = passos.meditacao || passos.meditar || {
+      h: 'Meditação na Palavra',
+      b: 'Reflita em silêncio sobre a mensagem que o Espírito Santo destacou para sua vida hoje.'
+    };
+    const exame = passos.exame || {
+      h: 'Exame do Coração',
+      q: 'Onde você mais precisa da graça e da direção de Deus no dia de hoje?'
+    };
+    const oracao = passos.oracao || passos.orar || {
+      h: 'Oração e Comunhão',
+      b: 'Fale com o Senhor com sinceridade de coração, agradecendo pelas misericórdias e entregando suas fraquezas.'
+    };
+
+    let h = `
+      <div class="focus-top-bar">
+        <button class="focus-back-btn" data-a="sair_modo_leitura" title="Sair do Modo Leitura e voltar">
+          ← Voltar
+        </button>
+
+        <div class="focus-controls-group">
+          <!-- TAMANHO DA FONTE -->
+          <button class="focus-ctrl-btn" data-a="leitura_tam_menos" title="Diminuir tamanho da fonte" ${prefs.tamanho === 'sm' ? 'disabled style="opacity: 0.5;"' : ''}>A-</button>
+          <button class="focus-ctrl-btn" data-a="leitura_tam_mais" title="Aumentar tamanho da fonte" ${prefs.tamanho === 'xl' ? 'disabled style="opacity: 0.5;"' : ''}>A+</button>
+
+          <!-- FONTE SERIF / SANS -->
+          <button class="focus-ctrl-btn ${prefs.serif ? 'active' : ''}" data-a="leitura_fonte_toggle" title="Alternar entre fonte com serifa e sem serifa">
+            ${prefs.serif ? 'Serif' : 'Sans'}
+          </button>
+
+          <!-- TEMAS: CLARO, SÉPIA, ESCURO -->
+          <button class="focus-ctrl-btn ${prefs.tema === 'light' ? 'active' : ''}" data-a="leitura_tema" data-tema="light" title="Tema Claro">☀️</button>
+          <button class="focus-ctrl-btn ${prefs.tema === 'sepia' ? 'active' : ''}" data-a="leitura_tema" data-tema="sepia" title="Tema Sépia">📜</button>
+          <button class="focus-ctrl-btn ${prefs.tema === 'dark' ? 'active' : ''}" data-a="leitura_tema" data-tema="dark" title="Tema Escuro">🌙</button>
+        </div>
+      </div>
+
+      <div class="focus-container">
+        <!-- CABEÇALHO DO DEVOCIONAL DO DIA -->
+        <div class="focus-header-section">
+          <span class="focus-season-tag">${esc(day.season || 'Tempo Comum')}</span>
+          <h1 class="focus-main-title">${esc(day.titulo || 'Devocional Diário')}</h1>
+          <p class="focus-day-date">${esc(day.label)} · Tradução: <strong>${esc(versao)}</strong></p>
+        </div>
+
+        <!-- VERSÍCULO CHAVE DO DIA -->
+        <div class="focus-key-verse">
+          <p class="focus-verse-quote">«${esc(day.verse ? day.verse.replace(/^«|»$/g, '').trim() : '')}»</p>
+          <p class="focus-verse-ref">${esc(day.vref || '')}</p>
+        </div>
+
+        <!-- SEÇÃO: TODAS AS LEITURAS BÍBLICAS EXPANDIDAS DO RCL -->
+        <div class="focus-section">
+          <p class="focus-section-label">Lecionário Comum Revisado</p>
+          <h2 class="focus-section-title">Leituras Bíblicas do Dia</h2>
+
+          ${(day.reads || []).map((r, idx) => {
+            const tipo = r.tipo || r[0] || `Leitura ${idx + 1}`;
+            const ref = r.ref || r[1] || '';
+            const resumo = r.resumo || '';
+            const texto = r.texto || '';
+
+            return `
+              <div class="focus-reading-card" id="leitura-${idx}">
+                <div class="focus-reading-badge-row">
+                  <span class="focus-reading-type">${esc(tipo)}</span>
+                  <span style="font-size: 12px; color: var(--tx3); font-weight: 500;">Passagem ${idx + 1} de ${day.reads.length}</span>
+                </div>
+                <h3 class="focus-reading-ref">${esc(ref)}</h3>
+                ${resumo ? `<p class="focus-reading-summary">${esc(resumo)}</p>` : ''}
+                
+                ${texto ? `
+                  <div class="focus-readable-text">${esc(texto)}</div>
+                ` : `
+                  <p class="focus-readable-text" style="font-style: italic; color: var(--tx2);">
+                    Consulte a passagem bíblica completa no seu leitor preferido.
+                  </p>
+                `}
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <!-- SEÇÃO: MEDITAÇÃO E EXAME -->
+        <div class="focus-section">
+          <p class="focus-section-label">Meditação & Exame</p>
+          <h2 class="focus-section-title">${esc(meditacao.h || 'Meditação na Palavra')}</h2>
+          
+          ${meditacao.b ? `
+            <div class="focus-readable-text" style="margin-bottom: 16px;">
+              ${esc(meditacao.b)}
+            </div>
+          ` : ''}
+
+          <div class="focus-prompt-box">
+            <h4 class="focus-prompt-title">${esc(exame.h || 'Autoexame e Aplicação')}</h4>
+            <p class="focus-prompt-desc">${esc(exame.q || 'Como a mensagem das Escrituras se aplica ao seu dia hoje?')}</p>
+          </div>
+        </div>
+
+        <!-- SEÇÃO: ORAÇÃO GUIADA E SILÊNCIO -->
+        <div class="focus-section">
+          <p class="focus-section-label">Oração & Comunhão</p>
+          <h2 class="focus-section-title">${esc(oracao.h || 'Oração do Dia')}</h2>
+          
+          <div class="focus-readable-text">
+            ${esc(oracao.b || 'Senhor Deus, guia nossos passos na Tua verdade e no Teu amor.')}
+          </div>
+
+          <div class="focus-prompt-box" style="margin-top: 18px; border-left: 3px solid var(--lit);">
+            <p class="focus-prompt-desc" style="font-style: italic;">
+              "Aquietai-vos e sabei que eu sou Deus." — Salmo 46:10. Reserve um momento de silêncio para ouvir e repousar na presença divina.
+            </p>
+          </div>
+        </div>
+
+        <!-- CONCLUSÃO E MARCAÇÃO DE DEVOCIONAL -->
+        <div class="focus-completion-box">
+          <button class="focus-complete-btn" data-a="concluir_leitura_foco">
+            ${todasConcluidas ? '✓ Devocional de Hoje Concluído' : '✓ Concluir Leitura Devocional de Hoje'}
+          </button>
+          <div style="margin-top: 14px;">
+            <button class="link" data-a="sair_modo_leitura" style="font-size: 14px;">
+              ← Voltar para o painel principal
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    return h;
+  }
+
   return {
     home,
     step,
@@ -516,6 +782,7 @@ const Telas = (() => {
     done,
     diary,
     chat,
+    focusReader,
     render(estado) {
       switch (estado.screen) {
         case 'home':
@@ -530,6 +797,8 @@ const Telas = (() => {
           return diary(estado);
         case 'chat':
           return chat(estado);
+        case 'focus_read':
+          return focusReader(estado);
         default:
           return home(estado);
       }
