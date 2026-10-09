@@ -89,9 +89,46 @@ Porque muitos são chamados, mas poucos, escolhidos."`
     vref: 'Salmo 119:105',
     titulo: 'A Luz da Palavra de Deus',
     reads: [
-      { tipo: 'Salmo', ref: 'Salmo 119:105-112', resumo: 'A Palavra como lâmpada e luz cotidiana.', texto: 'Lâmpada para os meus pés é a tua palavra e luz, para o meu caminho. Jurei e o confirmei: guardarei os teus justos juízos.' },
-      { tipo: 'Antigo Testamento', ref: 'Provérbios 3:1-8', resumo: 'Confiança e sabedoria no Senhor.', texto: 'Confie no Senhor de todo o seu coração e não se apoie no seu próprio entendimento.' },
-      { tipo: 'Evangelho', ref: 'João 8:12-20', resumo: 'Jesus, a Luz do Mundo.', texto: 'De novo, lhes falou Jesus, dizendo: Eu sou a luz do mundo; quem me segue não andará nas trevas, pelo contrário, terá a luz da vida.' }
+      {
+        tipo: 'Salmo',
+        ref: 'Salmo 119:105-112',
+        resumo: 'A Palavra como lâmpada e luz cotidiana.',
+        texto: `105. Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.
+106. Jurei, e o cumprirei, que guardarei os teus justos juízos.
+107. Estou aflitíssimo; vivifica-me, ó Senhor, segundo a tua palavra.
+108. Aceita, eu te rogo, as oferendas voluntárias da minha boca, ó Senhor; e ensina-me os teus juízos.
+109. A minha alma está continuamente na minha mão; todavia não me esqueço da tua lei.
+110. Os ímpios me armaram laço; contudo não me desviei dos teus preceitos.
+111. Os teus testemunhos tomei por herança para sempre, pois são o gozo do meu coração.
+112. Inclinei o meu coração a cumprir os teus estatutos, para sempre, até ao fim.`
+      },
+      {
+        tipo: 'Antigo Testamento',
+        ref: 'Provérbios 3:1-8',
+        resumo: 'Confiança e sabedoria no Senhor.',
+        texto: `1. Filho meu, não te esqueças da minha lei, e o teu coração guarde os meus mandamentos.
+2. Porque eles aumentarão os teus dias e te acrescentarão anos de vida e paz.
+3. Não te desamparem a benignidade e a fidelidade; ata-as ao teu pescoço; escreve-as na tábua do teu coração.
+4. E acharás graça e bom entendimento aos olhos de Deus e do homem.
+5. Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento.
+6. Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas.
+7. Não sejas sábio aos teus próprios olhos; teme ao Senhor e aparta-te do mal.
+8. Isto será saúde para o teu corpo e refrigério para os teus ossos.`
+      },
+      {
+        tipo: 'Evangelho',
+        ref: 'João 8:12-20',
+        resumo: 'Jesus, a Luz do Mundo.',
+        texto: `12. Falou-lhes, pois, Jesus outra vez, dizendo: Eu sou a luz do mundo; quem me segue não andará em trevas, mas terá a luz da vida.
+13. Disseram-lhe, pois, os fariseus: Tu testificas de ti mesmo; o teu testemunho não é verdadeiro.
+14. Respondeu Jesus, e disse-lhes: Ainda que eu testifico de mim mesmo, o meu testemunho é verdadeiro, porque sei de onde vim, e para onde vou; mas vós não sabeis de onde venho, nem para onde vou.
+15. Vós julgais segundo a carne; eu a ninguém julgo.
+16. E, se na verdade julgo, o meu juízo é verdadeiro, porque não sou eu só, mas eu e o Pai que me enviou.
+17. E na vossa lei está também escrito que o testemunho de dois homens é verdadeiro.
+18. Eu sou o que testifico de mim mesmo, e de mim testifica também o Pai que me enviou.
+19. Disseram-lhe, pois: Onde está teu Pai? Jesus respondeu: Não me conheceis a mim, nem a meu Pai; se vós me conhecêsseis a mim, também conheceríeis a meu Pai.
+20. Estas palavras disse Jesus no lugar do tesouro, ensinando no templo; e ninguém o prendeu, porque ainda não era chegada a sua hora.`
+      }
     ],
     passos: {
       palavra: { l: 'Palavra', h: 'João 8:12-20', b: 'Leia a promessa de Cristo sobre caminhar na luz divina.' },
@@ -108,9 +145,51 @@ Porque muitos são chamados, mas poucos, escolhidos."`
     vref: 'Salmo 46:1',
     titulo: 'Refúgio na Rocha Firme',
     reads: [
-      { tipo: 'Salmo', ref: 'Salmo 46:1-11', resumo: 'Deus, refúgio inabalável de Seu povo.', texto: 'Deus é o nosso refúgio e fortaleza, socorro bem presente nas tribulações. Por isso não temeremos...' },
-      { tipo: 'Epístola', ref: '2 Coríntios 4:7-18', resumo: 'Tesouro em vasos de barro.', texto: 'Temos, porém, este tesouro em vasos de barro, para que a excelência do poder seja de Deus e não de nós.' },
-      { tipo: 'Evangelho', ref: 'Marcos 4:35-41', resumo: 'Jesus acalma a tempestade.', texto: 'Ele se levantou, repreendeu o vento e disse ao mar: Acalme-se! Emudeça! O vento cessou, e fez-se grande bonança.' }
+      {
+        tipo: 'Salmo',
+        ref: 'Salmo 46:1-11',
+        resumo: 'Deus, refúgio inabalável de Seu povo.',
+        texto: `1. Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.
+2. Portanto não temeremos, ainda que a terra se mude, e ainda que os montes se transportem para o meio dos mares.
+3. Ainda que as águas rugam e se perturbem, ainda que os montes se abalem pela sua soberba.
+4. Há um rio cujas correntes megram a cidade de Deus, o santuário das moradas do Altíssimo.
+5. Deus está no meio dela; não será abalada. Deus a ajudará, já ao romper da manhã.
+6. As nações se bramaram, os reinos se moveram; ele levantou a sua voz, e a terra se derreteu.
+7. O Senhor dos Exércitos está conosco; o Deus de Jacó é o nosso refúgio.
+8. Vinde, contemplai as obras do Senhor; que desolações tem feito na terra!
+9. Ele faz cessar as guerras até ao fim da terra; quebra o arco e corta a lança; queima os carros no fogo.
+10. Aquietai-vos, e sabei que eu sou Deus; serei exaltado entre os gentios; serei exaltado sobre a terra.
+11. O Senhor dos Exércitos está conosco; o Deus de Jacó é o nosso refúgio.`
+      },
+      {
+        tipo: 'Epístola',
+        ref: '2 Coríntios 4:7-18',
+        resumo: 'Tesouro em vasos de barro.',
+        texto: `7. Temos, porém, este tesouro em vasos de barro, para que a excelência do poder seja de Deus, e não de nós.
+8. Em tudo somos atribulados, mas não angustiados; perplexos, mas não desanimados.
+9. Perseguidos, mas não desamparados; abatidos, mas não destruídos;
+10. Trazendo sempre por toda a parte a mortificação do Senhor Jesus no corpo, para que a vida de Jesus se manifeste também nos nossos corpos;
+11. E assim nós, que vivemos, estamos sempre entregues à morte por amor de Jesus, para que a vida de Jesus se manifeste também na nossa carne mortal.
+12. De maneira que em nós opera a morte, mas em vós a vida.
+13. E temos portanto o mesmo espírito de fé, como está escrito: Cri, por isso falei; nós cremos também, por isso também falamos.
+14. Sabendo que o que ressuscitou o Senhor Jesus nos ressuscitará também por Jesus, e nos apresentará convosco.
+15. Porque tudo isto é por amor de vós, para que a graça, multiplicada por meio de muitos, faça abundar a ação de graças para glória de Deus.
+16. Por isso não desfalecemos; mas, ainda que o nosso homem exterior se corrompa, o interior, contudo, se renova de dia em dia.
+17. Porque a nossa leve e momentânea tribulação produz para nós um peso eterno de glória mui excelente;
+18. Não atentando nós nas coisas que se vêem, mas nas que se não vêem; porque as que se vêem são temporárias, e as que se não vêem são eternas.`
+      },
+      {
+        tipo: 'Evangelho',
+        ref: 'Marcos 4:35-41',
+        resumo: 'Jesus acalma a tempestade.',
+        texto: `35. E, naquele dia, sendo já tarde, disse-lhes: Passemos para o outro lado.
+36. E eles, deixando a multidão, o levaram consigo, assim como estava, no barco; e havia também com ele outros barquinhos.
+37. E levantou-se grande tempestade de vento, e subiam as ondas por cima do barco, de maneira que já se enchia.
+38. E ele estava no popa, dormindo sobre uma almofada, e despertaram-no, dizendo-lhe: Mestre, não te importa que pereçamos?
+39. E ele, levantando-se, repreendeu o vento, e disse ao mar: Aquieta-te, emudece. E o vento aquietou, e fez-se grande bonança.
+40. E disse-lhes: Por que sois tão tímidos? Ainda não tendes fé?
+41. E sentiram um grande temor, e diziam uns aos outros: Mas quem é este, que até o vento e o mar lhe obedecem?`
+      }
     ],
     passos: {
       palavra: { l: 'Palavra', h: 'Marcos 4:35-41', b: 'Medite na autoridade de Jesus sobre as tempestades da vida.' },
@@ -127,9 +206,58 @@ Porque muitos são chamados, mas poucos, escolhidos."`
     vref: 'Efésios 2:8',
     titulo: 'A Abundância da Graça',
     reads: [
-      { tipo: 'Salmo', ref: 'Salmo 103:1-13', resumo: 'Bendize, ó minha alma, ao Senhor.', texto: 'Ele é quem perdoa todas as suas iniquidades, quem cura todas as suas enfermidades.' },
-      { tipo: 'Epístola', ref: 'Efésios 2:1-10', resumo: 'Vivos juntamente com Cristo pela graça.', texto: 'Deus, sendo rico em misericórdia, pelo seu muito amor com que nos amou, estando nós mortos em nossos deslizes, nos deu vida juntamente com Cristo.' },
-      { tipo: 'Evangelho', ref: 'Lucas 15:11-32', resumo: 'A parábola do filho pródigo e o Pai misericordioso.', texto: 'E, levantando-se, foi para seu pai. Vinha ele ainda longe, quando seu pai o viu e, compadecido dele, correndo, o abraçou e beijou.' }
+      {
+        tipo: 'Salmo',
+        ref: 'Salmo 103:1-13',
+        resumo: 'Bendize, ó minha alma, ao Senhor.',
+        texto: `1. Bendize, ó minha alma, ao Senhor, e tudo o que há em mim bendiga o seu santo nome.
+2. Bendize, ó minha alma, ao Senhor, e não te esqueças de nenhum de seus benefícios.
+3. É ele quem perdoa todas as tuas iniquidades, quem sara todas as tuas enfermidades,
+4. Quem resgata a tua vida da perdição; quem te coroa de benignidade e de misericórdia,
+5. Quem farta a tua boca de bens, de sorte que a tua mocidade se renova como a do águia.
+6. O Senhor faz justiça e juízo a todos os oprimidos.
+7. Fez notórios os seus caminhos a Moisés, e os seus feitos aos filhos de Israel.
+8. Misericordioso e piedoso é o Senhor; longo em irar-se e grande em benignidade.
+9. Não reprovará perpetuamente, nem para sempre reterá a sua ira.
+10. Não nos tratou segundo os nossos pecados, nem nos retribuiu segundo as nossas iniquidades.
+11. Pois assim como o céu está elevado acima da terra, assim é grande a sua misericórdia para com os que o temem.
+12. Assim como está longe o oriente do ocidente, assim afasta de nós as nossas transgressões.
+13. Como um pai se compadece de seus filhos, assim o Senhor se compadece daqueles que o temem.`
+      },
+      {
+        tipo: 'Epístola',
+        ref: 'Efésios 2:1-10',
+        resumo: 'Vivos juntamente com Cristo pela graça.',
+        texto: `1. E vos vivificou, estando vós mortos em ofensas e pecados,
+2. Em que noutro tempo andastes segundo o curso deste mundo, segundo o príncipe das potestades do ar, do espírito que agora opera nos filhos da desobediência.
+3. Entre os quais todos nós também antes andávamos nos desejos da nossa carne, fazendo a vontade da carne e dos pensamentos; e éramos por natureza filhos da ira, como os outros também.
+4. Mas Deus, que é richíssimo em misericórdia, pelo seu muito amor com que nos amou,
+5. Estando nós ainda mortos em nossas ofensas, nos vivificou juntamente com Cristo (pela graça sois salvos),
+6. E nos ressuscitou juntamente com ele e nos fez assentar nos lugares celestiais, em Cristo Jesus;
+7. Para mostrar nos séculos vindouros as abundantes riquezas da sua graça pela sua benignidade para conosco em Cristo Jesus.
+8. Porque pela graça sois salvos, por meio da fé; e isto não vem de vós, é dom de Deus.
+9. Não vem das obras, para que ninguém se glorie;
+10. Porque somos feitura sua, criados em Cristo Jesus para as boas obras, as quais Deus preparou para que andássemos nelas.`
+      },
+      {
+        tipo: 'Evangelho',
+        ref: 'Lucas 15:11-32',
+        resumo: 'A parábola do filho pródigo e o Pai misericordioso.',
+        texto: `11. E disse: Um certo homem tinha dois filhos;
+12. E o mais moço deles disse ao pai: Pai, dá-me a parte dos bens que me pertence. E ele repartiu por eles a fazenda.
+13. E, poucos dias depois, o filho mais moço, ajuntando tudo, partiu para uma terra distante, e ali desperdiçou os seus bens, vivendo dissolutamente.
+14. E, havendo ele gasto tudo, houve naquela terra uma grande fome, e começou a padecer necessidades.
+15. E foi, e chegou-se a um dos cidadãos daquela terra, o qual o mandou para os seus campos, a apascentar porcos.
+16. E desejava encher o seu estômago com as bolotas que os porcos comiam, e ninguém lhe dava nada.
+17. E, caindo em si, disse: Quantos trabalhadores de meu pai têm abundância de pão, e eu aqui pereço de fome!
+18. Levantar-me-ei, e irei ter com meu pai, e dir-lhe-ei: Pai, pequei contra o céu e perante ti;
+19. Já não sou digno de ser chamado teu filho; faze-me como um dos teus trabalhadores.
+20. E, levantando-se, foi para seu pai; e, quando ainda estava longe, viu-o seu pai, e se moveu de íntima compaixão e, correndo, lançou-se-lhe ao pescoço e o beijou.
+21. E o filho lhe disse: Pai, pequei contra o céu e perante ti, e já não sou digno de ser chamado teu filho.
+22. Mas o pai disse aos seus servos: Trazei depressa a melhor roupa; e vesti-lho, e ponde-lhe um anel na mão, e alparcas nos pés;
+23. E trazei o bezerro cevado, e matai-o; e comamos, e alegremo-nos;
+24. Porque este meu filho estava morto, e reviveu, tinha-se perdido, e foi achado. E começaram a alegrar-se.`
+      }
     ],
     passos: {
       palavra: { l: 'Palavra', h: 'Efésios 2:1-10', b: 'Relembre que a salvação e o favor de Deus são dádivas imerecidas.' },
@@ -146,10 +274,55 @@ Porque muitos são chamados, mas poucos, escolhidos."`
     vref: 'Salmo 23:1',
     titulo: 'O Cuidado do Bom Pastor',
     reads: [
-      { tipo: 'Primeira Leitura', ref: 'Êxodo 24:1–8', resumo: 'A aliança no Sinai e a fidelidade à Palavra de Deus.', texto: 'Moisés veio e referiu ao povo todas as palavras do Senhor...' },
-      { tipo: 'Salmo', ref: 'Salmo 106:1–6', resumo: 'Louvor ao Senhor pela sua fidelidade eterna.', texto: 'Aleluia! Deem graças ao Senhor, porque ele é bom...' },
-      { tipo: 'Epístola', ref: '1 Pedro 5:1–7', resumo: 'A exortação à humildade e o cuidado paternal de Deus.', texto: 'Humilhem-se, portanto, sob a poderosa mão de Deus...' },
-      { tipo: 'Evangelho', ref: 'Mateus 22:15–22', resumo: 'Dai a César o que é de César, e a Deus o que é de Deus.', texto: 'Dêem, pois, a César o que é de César e a Deus o que é de Deus.' }
+      {
+        tipo: 'Primeira Leitura',
+        ref: 'Êxodo 24:1–8',
+        resumo: 'A aliança no Sinai e a fidelidade à Palavra de Deus.',
+        texto: `1. Depois disse a Moisés: Sobe ao Senhor, tu e Arão, Nadabe e Abiú, e setenta dos anciãos de Israel; e adorai de longe.
+2. E só Moisés se chegará ao Senhor; mas eles não se cheguem, nem o povo suba com ele.
+3. Veio, pois, Moisés, e contou ao povo todas as palavras do Senhor, e todos os estatutos; então todo o povo respondeu a uma voz, e disse: Todas as palavras, que o Senhor tem falado, faremos.
+4. E Moisés escreveu todas as palavras do Senhor, e levantou-se pela manhã de madrugada, e edificou um altar ao pé do monte, e doze colunas, segundo as doze tribos de Israel;
+5. E enviou alguns jovens dos filhos de Israel, os quais ofereceram holocaustos e sacrificaram ao Senhor bezerros, por ofertas pacíficas.
+6. E Moisés tomou a metade do sangue, e a pôs em bacias; e a outra metade do sangue aspergiu sobre o altar.
+7. E tomou o livro da aliança e o leu aos ouvidos do povo, e eles disseram: Tudo o que o Senhor tem falado faremos, e obedeceremos.
+8. Então tomou Moisés aquele sangue, e o aspergiu sobre o povo, e disse: Eis aqui o sangue da aliança que o Senhor tem feito convosco sobre todas estas palavras.`
+      },
+      {
+        tipo: 'Salmo',
+        ref: 'Salmo 106:1–6',
+        resumo: 'Louvor ao Senhor pela sua fidelidade eterna.',
+        texto: `1. Louvai ao Senhor. Louvai ao Senhor, porque ele é bom, porque a sua misericórdia dura para sempre.
+2. Quem pode contar as obras poderosas do Senhor? Quem anunciará todo o seu louvor?
+3. Bem-aventurados os que guardam o juízo, e o que pratica a justiça em todo o tempo.
+4. Lembra-te de mim, Senhor, segundo a tua boa vontade para com o teu povo; visita-me com a tua salvação;
+5. Para que eu veja a prosperidade dos teus escolhidos, para que me alegre com a alegria da tua nação, e me glorie com a tua herança.
+6. Nós pecamos como os nossos pais, cometemos a iniquidade, andamos perversamente.`
+      },
+      {
+        tipo: 'Epístola',
+        ref: '1 Pedro 5:1–7',
+        resumo: 'A exortação à humildade e o cuidado paternal de Deus.',
+        texto: `1. Aos presbíteros, que estão entre vós, admoesto eu, que sou também presbítero com eles, e testemunha dos sofrimentos de Cristo, e participante da glória que se há de revelar:
+2. Apascentai o rebanho de Deus, que está entre vós, tendo cuidado dele, não por força, mas voluntariamente; nem por torpe ganância, mas de ânimo pronto;
+3. Nem como tendo domínio sobre a herança de Deus, mas servindo de exemplo ao rebanho.
+4. E, quando aparecer o Sumo Pastor, alcançareis a incorruptível coroa da glória.
+5. Semelhantemente vós jovens, sede sujeitos aos anciãos; e sede todos sujeitos uns aos outros, e revesti-vos de humildade, porque Deus resiste aos soberbos, mas dá graça aos humildes.
+6. Humilhai-vos, pois, debaixo da potente mão de Deus, para que a seu tempo vos exalte;
+7. Lançando sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós.`
+      },
+      {
+        tipo: 'Evangelho',
+        ref: 'Mateus 22:15–22',
+        resumo: 'Dai a César o que é de César, e a Deus o que é de Deus.',
+        texto: `15. Então retirando-se os fariseus, consultaram entre si como o surpreenderiam nalguma palavra;
+16. E enviaram-lhe os seus discípulos, com os herodianos, dizendo: Mestre, bem sabemos que és verdadeiro, e ensinas o caminho de Deus segundo a verdade, e de ninguém se te dá, porque não olhas a aparência dos homens.
+17. Dize-nos, pois, que te parece? É lícito pagar o tributo a César, ou não?
+18. Jesus, porém, conhecendo a sua malícia, disse: Por que me tentais, hipócritas?
+19. Mostrai-me a moeda do tributo. E eles lhe apresentaram um dinheiro.
+20. E ele disse-lhes: De quem é esta imagem e esta inscrição?
+21. Disseram-lhe eles: De César. Então ele lhes disse: Dai pois a César o que é de César, e a Deus o que é de Deus.
+22. E eles, ouvindo isto, maravilharam-se, e, deixando-o, se retiraram.`
+      }
     ],
     passos: {
       palavra: { l: 'Palavra', h: '1 Pedro 5:1–7', b: 'Leia o texto bíblico com atenção.' },
@@ -166,9 +339,52 @@ Porque muitos são chamados, mas poucos, escolhidos."`
     vref: '2 Coríntios 12:9',
     titulo: 'Poder na Fraqueza',
     reads: [
-      { tipo: 'Salmo', ref: 'Salmo 22:22-31', resumo: 'Anúncio do louvor e do reino do Senhor.', texto: 'Declararei o teu nome aos meus irmãos; cantar-te-ei louvores no meio da congregação.' },
-      { tipo: 'Epístola', ref: '2 Coríntios 12:1-10', resumo: 'O espinho na carne e a suficiência da graça.', texto: 'Sinto prazer nas fraquezas, nas injúrias, nas necessidades, nas perseguições, nas angustias, por amor de Cristo. Porque, quando sou fraco, então é que sou forte.' },
-      { tipo: 'Evangelho', ref: 'Lucas 23:33-43', resumo: 'A crucificação e o perdão de Jesus na cruz.', texto: 'Jesus dizia: Pai, perdoa-lhes, porque não sabem o que fazem.' }
+      {
+        tipo: 'Salmo',
+        ref: 'Salmo 22:22-31',
+        resumo: 'Anúncio do louvor e do reino do Senhor.',
+        texto: `22. Então declararei o teu nome aos meus irmãos; louvar-te-ei no meio da congregação.
+23. Vós, que temeis ao Senhor, louvai-o; todos vós, semente de Jacó, glorificai-o; e temei-o todos vós, semente de Israel.
+24. Porque não desprezou nem abominou a aflição do aflito, nem dele escondeu o seu rosto; antes, quando clamou por ele, o ouviu.
+25. O meu louvor será de ti na grande congregação; pagarei os meus votos perante os que o temem.
+26. Os mansos comerão e se fartarão; louvarão ao Senhor os que o buscam; o vosso coração viverá eternamente.
+27. Todos os limites da terra se lembrarão, e se converterão ao Senhor; e todas as famílias das nações adorarão perante a tua face.
+28. Porque o reino é do Senhor, e ele domina entre as nações.
+29. Todos os que na terra são gordos comerão e adorarão; todos os que descem ao pó se prostrarão perante ele; e nenhum poderá reter a vida da sua alma.
+30. Uma semente o servirá; será declarada ao Senhor com respeito à geração vindoura.
+31. Chegarão e anunciarão a sua justiça ao povo que nascer, porquanto ele o fez.`
+      },
+      {
+        tipo: 'Epístola',
+        ref: '2 Coríntios 12:1-10',
+        resumo: 'O espinho na carne e a suficiência da graça.',
+        texto: `1. Em verdade que não convém gloriar-me; mas passarei às visões e revelações do Senhor.
+2. Conheço um homem em Cristo que há catorze anos (se no corpo, não sei, se fora do corpo, não sei; Deus o sabe) foi arrebatado até ao terceiro céu.
+3. E sei que o tal homem (se no corpo, se fora do corpo, não sei; Deus o sabe)
+4. Foi arrebatado ao paraíso; e ouviu palavras inefáveis, que não é lícito ao homem referir.
+5. De um tal me gloriarei eu, mas de mim mesmo não me gloriarei, senão nas minhas fraquezas.
+6. Porque, se quiser gloriar-me, não serei insensato, porque direi a verdade; mas me abstenho, para que ninguém cuide de mim acima do que em mim vê ou de mim ouve.
+7. E, para que não me exaltasse pelas excelências das revelações, foi-me dado um espinho na carne, a saber, um mensageiro de Satanás para me esbofetear, a fim de não me exaltar.
+8. Acerca do qual três vezes orei ao Senhor que o afastasse de mim.
+9. E disse-me: A minha graça te basta, porque o meu poder se aperfeiçoa na fraqueza. De boa vontade, pois, me gloriarei nas minhas fraquezas, para que em mim habite o poder de Cristo.
+10. Por isso sinto prazer nas fraquezas, nas injúrias, nas necessidades, nas perseguições, nas angústias por amor de Cristo. Porque quando estou fraco então sou forte.`
+      },
+      {
+        tipo: 'Evangelho',
+        ref: 'Lucas 23:33-43',
+        resumo: 'A crucificação e o perdão de Jesus na cruz.',
+        texto: `33. E, quando chegaram ao lugar chamado Caveira, ali o crucificaram, e aos malfeitores, um à direita e outro à esquerda.
+34. E dizia Jesus: Pai, perdoa-lhes, porque não sabem o que fazem. E, repartindo as suas vestes, lançaram sortes.
+35. E o povo estava olhando. E também os príncipes zombavam dele, dizendo: Aos outros salvou, salve-se a si mesmo, se este é o Cristo, o escolhido de Deus.
+36. E também os soldados o escarneciam, chegando-se a ele, e oferecendo-lhe vinagre.
+37. E dizendo: Se tu és o Rei dos Judeus, salva-te a ti mesmo.
+38. E também por cima dele, estava escrita uma inscrição, em letras gregas, romanas e hebraicas: ESTE É O REI DOS JUDEUS.
+39. E um dos malfeitores que estavam pendurados blasfemava dele, dizendo: Se tu és o Cristo, salva-te a ti mesmo e a nós.
+40. Respondendo, porém, o outro, repreendia-o, dizendo: Tu nem ainda temes a Deus, estando na mesma condenação?
+41. E nós, na verdade, com justiça, porque recebemos o que os nossos feitos mereciam; mas este nenhum mal fez.
+42. E disse a Jesus: Senhor, lembra-te de mim, quando entrares no teu reino.
+43. E disse-lhe Jesus: Em verdade te digo que hoje estarás comigo no Paraíso.`
+      }
     ],
     passos: {
       palavra: { l: 'Palavra', h: '2 Coríntios 12:1-10', b: 'Medite na graça suficiente de Deus para os dias difíceis.' },
@@ -185,9 +401,36 @@ Porque muitos são chamados, mas poucos, escolhidos."`
     vref: 'Salmo 46:10',
     titulo: 'Descanso e Renovação no Senhor',
     reads: [
-      { tipo: 'Salmo', ref: 'Salmo 62:1-8', resumo: 'Somente em Deus a minha alma descansa.', texto: 'Somente em Deus a minha alma espera silenciosa; dele vem a minha salvação.' },
-      { tipo: 'Antigo Testamento', ref: 'Isaías 30:15-18', resumo: 'No descanso e na confiança está a força.', texto: 'Em vos converterdes e em sossegardes está a vossa salvação; na tranquilidade e na confiança está a vossa força.' },
-      { tipo: 'Evangelho', ref: 'Mateus 11:28-30', resumo: 'O convite do Senhor ao descanso da alma.', texto: 'Venham a mim, todos os que estão cansados e sobrecarregados, e eu lhes darei descanso.' }
+      {
+        tipo: 'Salmo',
+        ref: 'Salmo 62:1-8',
+        resumo: 'Somente em Deus a minha alma descansa.',
+        texto: `1. A minha alma espera somente em Deus; dele vem a minha salvação.
+2. Só ele é a minha rocha e a minha salvação; é a minha defesa; não serei grandemente abalado.
+3. Até quando maquinareis o mal contra um homem? Sereis mortos todos vós, sereis como uma parede curvada e uma sebe prestes a cair.
+4. Eles só consultam como o hão de derrubar da sua excelência; deleitam-se em mentiras; com a boca bendizem, mas no seu interior maldizem.
+5. Ó minha alma, espera somente em Deus, porque dele vem a minha esperança.
+6. Só ele é a minha rocha e a minha salvação; é a minha defesa; não serei abalado.
+7. Em Deus está a minha salvação e a minha glória; a rocha da minha força, e o meu refúgio estão em Deus.
+8. Confiai nele, ó povo, em todo o tempo; derramai perante ele o vosso coração. Deus é o nosso refúgio.`
+      },
+      {
+        tipo: 'Antigo Testamento',
+        ref: 'Isaías 30:15-18',
+        resumo: 'No descanso e na confiança está a força.',
+        texto: `15. Porque assim diz o Senhor DEUS, o Santo de Israel: Em vos converterdes e em sossegardes está a vossa salvação; na tranquilidade e na confiança estava a vossa força, mas não quisestes.
+16. Mas dissestes: Não, antes fugiremos a cavalo; portanto fugireis; e: Cavalgaremos sobre cavalos ligeiros; portanto os vossos perseguidores serão ligeiros.
+17. Um milhar fugirá ao grito de um só, e ao grito de cinco todos vós fugireis, até que sejais deixados como o mastro no cume do monte, e como a bandeira no outeiro.
+18. Por isso, o SENHOR esperará, para ter misericórdia de vós; e por isso se levantará, para se compadecer de vós, porque o SENHOR é um Deus de equidade; bem-aventurados todos os que por ele esperam.`
+      },
+      {
+        tipo: 'Evangelho',
+        ref: 'Mateus 11:28-30',
+        resumo: 'O convite do Senhor ao descanso da alma.',
+        texto: `28. Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.
+29. Tomai sobre vós o meu jugo, e aprendei de mim, que sou manso e humilde de coração; e encontrareis descanso para as vossas almas.
+30. Porque o meu jugo é suave e o meu fardo é leve.`
+      }
     ],
     passos: {
       palavra: { l: 'Palavra', h: 'Mateus 11:28-30', b: 'Escute a voz do Mestre chamando você ao repouso e à paz.' },
@@ -243,16 +486,23 @@ function obterOuGerarDevocionalParaData(isoData) {
         tipo: 'Salmo Devocional',
         ref: 'Salmo 23:1-6',
         resumo: 'O cuidado, a provisão e a misericórdia do Bom Pastor.',
-        texto: `O Senhor é o meu pastor; nada me faltará.
-Ele me faz repousar em verdes pastos e me guia mansamente a águas tranquilas.
-Restaura a minha alma; guia-me pelas veredas da justiça por amor do seu nome.
-Ainda que eu ande pelo vale da sombra da morte, não temerei mal nenhum, porque tu estás comigo; a tua vara e o teu cajado me consolam.`
+        texto: `1. O SENHOR é o meu pastor, nada me faltará.
+2. Deitar-me faz em verdes pastos, guia-me mansamente a águas tranquilas.
+3. Refrigera a minha alma; guia-me pelas veredas da justiça, por amor do seu nome.
+4. Ainda que eu andasse pelo vale da sombra da morte, não temeria mal algum, porque tu estás comigo; a tua vara e o teu cajado me consolam.
+5. Preparas uma mesa perante mim na presença dos meus inimigos, meunges a minha cabeça com óleo, o meu cálice transborda.
+6. Certamente que a bondade e a misericórdia me seguirão todos os dias da minha vida; e habitarei na casa do Senhor por longos dias.`
       },
       {
         tipo: 'Novo Testamento',
         ref: 'Filipenses 4:4-9',
         resumo: 'A paz de Deus que excede todo o entendimento.',
-        texto: `Alegrem-se sempre no Senhor; outra vez digo: alegrem-se! Seja a vossa moderação conhecida de todos os homens. Perto está o Senhor. Não andem ansiosos por coisa alguma; em tudo, porém, sejam conhecidas, diante de Deus, as vossas petições, pela oração e pela súplica, com ações de graças.`
+        texto: `4. Alegrai-vos sempre no Senhor; outra vez digo, alegrai-vos.
+5. Seja a vossa moderação conhecida de todos os homens. Perto está o Senhor.
+6. Não estejais ansiosos por coisa alguma; antes as vossas petições sejam em tudo conhecidas diante de Deus pela oração e súplica, com ação de graças.
+7. E a paz de Deus, que excede todo o entendimento, guardará os vossos corações e os vossos pensamentos em Cristo Jesus.
+8. Quanto ao mais, irmãos, tudo o que é verdadeiro, tudo o que é honesto, tudo o que é justo, tudo o que é puro, tudo o que é amável, tudo o que é de boa fama, se há alguma virtude, e se há algum louvor, nisso pensai.
+9. O que também aprendestes, e recebestes, e ouvistes, e vistes em mim, isso fazei; e o Deus de paz será convosco.`
       }
     ],
     passos: {
@@ -435,4 +685,3 @@ function obterVersiculoDoDia(dataRef) {
   const indice = Math.abs((diaDoAno + data.getFullYear()) % VERSICULOS_DO_DIA.length);
   return VERSICULOS_DO_DIA[indice];
 }
-
