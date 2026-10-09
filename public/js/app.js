@@ -28,6 +28,12 @@ const App = (() => {
     const appEl = document.getElementById('app');
     if (!appEl) return;
 
+    // Preserva foco e posição do cursor de textareas antes de re-renderizar
+    const elementoFocado = document.activeElement;
+    const idFocado = elementoFocado ? elementoFocado.id : null;
+    const posInicio = elementoFocado && typeof elementoFocado.selectionStart === 'number' ? elementoFocado.selectionStart : null;
+    const posFim = elementoFocado && typeof elementoFocado.selectionEnd === 'number' ? elementoFocado.selectionEnd : null;
+
     const prefs = Estado.leituraPrefs || (typeof Armazenamento !== 'undefined' ? Armazenamento.obterPreferenciasLeitura() : { tamanho: 'md', tema: 'sepia', serif: true });
     document.documentElement.setAttribute('data-reading-theme', prefs.tema || 'sepia');
     document.documentElement.setAttribute('data-reading-size', prefs.tamanho || 'md');
@@ -36,39 +42,22 @@ const App = (() => {
     appEl.innerHTML = Telas.render(Estado);
     Navegacao.atualizarBarra(Estado.screen);
 
-    const ta = document.getElementById('ta');
-    if (ta) {
-      ta.addEventListener('input', () => {
-        Estado.ans = ta.value;
-      });
-    }
-
-    const taReflexao = document.getElementById('ta-nova-reflexao');
-    if (taReflexao) {
-      taReflexao.addEventListener('input', () => {
-        Estado.rascunhoReflexao = taReflexao.value;
-      });
-    }
-
-    const taChat = document.getElementById('ta-chat-msg');
-    if (taChat) {
-      taChat.addEventListener('input', () => {
-        Estado.rascunhoChat = taChat.value;
-      });
-      taChat.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          enviarChat();
-        }
-      });
-    }
-
     const chatBox = document.getElementById('chat-mensagens-box');
     if (chatBox) {
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    if (Estado.screen !== 'chat') {
+    if (idFocado) {
+      const elRestaurar = document.getElementById(idFocado);
+      if (elRestaurar && typeof elRestaurar.focus === 'function') {
+        elRestaurar.focus();
+        if (posInicio !== null && posFim !== null && typeof elRestaurar.setSelectionRange === 'function') {
+          try { elRestaurar.setSelectionRange(posInicio, posFim); } catch (e) {}
+        }
+      }
+    }
+
+    if (Estado.screen !== 'chat' && !idFocado) {
       window.scrollTo(0, 0);
     }
   }
@@ -146,6 +135,39 @@ const App = (() => {
   }
 
   function configurarEventos() {
+    // Delegação de eventos de digitação/input em campos do app
+    document.addEventListener('input', (ev) => {
+      const target = ev.target;
+      if (!target) return;
+      if (target.id === 'ta') {
+        Estado.ans = target.value;
+      } else if (target.id === 'ta-nova-reflexao') {
+        Estado.rascunhoReflexao = target.value;
+      } else if (target.id === 'ta-chat-msg') {
+        Estado.rascunhoChat = target.value;
+      }
+    });
+
+    document.addEventListener('change', (ev) => {
+      const target = ev.target;
+      if (target && target.id === 'input-calendario-data' && target.value) {
+        Estado.atualizar({
+          dataSelecionadaIso: target.value,
+          showDays: false,
+          i: 0,
+          ans: ''
+        });
+      }
+    });
+
+    // Tecla Enter no chat
+    document.addEventListener('keydown', (ev) => {
+      if (ev.target && ev.target.id === 'ta-chat-msg' && ev.key === 'Enter' && !ev.shiftKey) {
+        ev.preventDefault();
+        enviarChat();
+      }
+    });
+
     document.addEventListener('click', (ev) => {
       const b = ev.target.closest('[data-a],[data-go]');
       if (!b) return;
@@ -166,8 +188,18 @@ const App = (() => {
       } else if (a === 'togday') {
         Estado.atualizar({ showDays: !Estado.showDays });
       } else if (a === 'setday') {
+        const iso = b.dataset.iso;
         Estado.atualizar({
           diaIndex: +b.dataset.k,
+          dataSelecionadaIso: iso || null,
+          showDays: false,
+          i: 0,
+          ans: ''
+        });
+      } else if (a === 'set_data_hoje') {
+        const hojeIso = new Date().toISOString().slice(0, 10);
+        Estado.atualizar({
+          dataSelecionadaIso: hojeIso,
           showDays: false,
           i: 0,
           ans: ''

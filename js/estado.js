@@ -13,6 +13,7 @@ const Estado = {
   ver: 'NAA',     // tradução bíblica: NAA, ARA, NVI-PT, ARC
   prev: 'home',
   diaIndex: 0,    // dia selecionado em DIAS_RCL
+  dataSelecionadaIso: null, // YYYY-MM-DD para o calendário interativo
   mostrarTextoBiblicoCompleto: true,
   leituraPrefs: {
     tamanho: 'md',
@@ -38,7 +39,13 @@ const Estado = {
   ],
 
   get diaAtual() {
-    return (typeof DIAS_RCL !== 'undefined' && DIAS_RCL[this.diaIndex]) ? DIAS_RCL[this.diaIndex] : DIAS_RCL[0];
+    if (this.dataSelecionadaIso && typeof obterOuGerarDevocionalParaData === 'function') {
+      return obterOuGerarDevocionalParaData(this.dataSelecionadaIso);
+    }
+    if (typeof DIAS_RCL !== 'undefined' && DIAS_RCL[this.diaIndex]) {
+      return DIAS_RCL[this.diaIndex];
+    }
+    return (typeof DIAS_RCL !== 'undefined' && DIAS_RCL[0]) ? DIAS_RCL[0] : null;
   },
 
   versiculoOffset: 0,

@@ -6,9 +6,9 @@
 const Telas = (() => {
 
   function esc(t) {
-    if (!t) return '';
+    if (t === null || t === undefined) return '';
     return String(t).replace(/[&<>"]/g, function(c) {
-      return { '&': '&amp;', '<': '&lt;', '(': '&#40;', ')': '&#41;', '>': '&gt;', '"': '&quot;' }[c] || c;
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] || c;
     });
   }
 
@@ -346,22 +346,29 @@ const Telas = (() => {
         ${head(day)}
         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px;">
           <h1 style="margin: 0;">Meu Devocional</h1>
-          ${typeof DIAS_RCL !== 'undefined' && DIAS_RCL.length > 1 ? `
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="date" id="input-calendario-data" value="${esc(day.key || '')}" class="chip" style="min-height: 32px; padding: 0 8px; font-size: 12px; font-family: inherit; cursor: pointer; border: 1px solid var(--bd);" title="Escolher qualquer data no calendário">
             <button class="chip" data-a="togday" style="min-height: 32px; padding: 0 10px; font-size: 12px;">
               ${esc(day.label.split(',')[0])} ▾
             </button>
-          ` : ''}
+          </div>
         </div>
         <p class="sub">${esc(day.label)}</p>
 
         <!-- SELETOR DE DIAS DO LECIONÁRIO SE EXPANDIDO -->
         ${estado.showDays ? `
-          <div class="chips" style="margin-top: -6px; margin-bottom: 16px;">
-            ${DIAS_RCL.map((d, idx) => `
-              <button class="chip ${estado.diaIndex === idx ? 'on' : ''}" data-a="setday" data-k="${idx}">
-                ${esc(d.label)}
-              </button>
-            `).join('')}
+          <div style="margin-top: -4px; margin-bottom: 16px; padding: 12px; background: color-mix(in srgb, var(--card) 70%, var(--bg)); border-radius: 8px; border: 1px solid var(--bd);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span class="lb" style="margin: 0; font-size: 11px; font-weight: 700; color: var(--lit);">CALENDÁRIO DO LECIONÁRIO</span>
+              <button class="link" data-a="set_data_hoje" style="width: auto; min-height: 24px; margin: 0; padding: 0; font-size: 12px;">Ir para Hoje</button>
+            </div>
+            <div class="chips">
+              ${DIAS_RCL.map((d, idx) => `
+                <button class="chip ${(!estado.dataSelecionadaIso && estado.diaIndex === idx) || estado.dataSelecionadaIso === d.key ? 'on' : ''}" data-a="setday" data-k="${idx}" data-iso="${d.key}">
+                  ${esc(d.label)}
+                </button>
+              `).join('')}
+            </div>
           </div>
         ` : ''}
 
@@ -756,13 +763,13 @@ const Telas = (() => {
           <p class="lb" style="margin: 0; font-size: 12px;">Modelo de IA</p>
           <div class="chips" style="margin: 0;">
             <button class="chip ${modeloAtual === 'geral' ? 'on' : ''}" data-a="set_chat_modelo" data-k="geral" style="min-height: 28px; padding: 0 8px; font-size: 11px;">
-              Flash 3.5
+              Flash 1.5
             </button>
             <button class="chip ${modeloAtual === 'complexo' ? 'on' : ''}" data-a="set_chat_modelo" data-k="complexo" style="min-height: 28px; padding: 0 8px; font-size: 11px;">
-              Pro 3.1
+              Pro 1.5
             </button>
             <button class="chip ${modeloAtual === 'rapido' ? 'on' : ''}" data-a="set_chat_modelo" data-k="rapido" style="min-height: 28px; padding: 0 8px; font-size: 11px;">
-              Lite 3.1
+              Flash-8B
             </button>
           </div>
         </div>
