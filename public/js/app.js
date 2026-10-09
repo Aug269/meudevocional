@@ -358,7 +358,23 @@ const App = (() => {
       } else if (a === 'ver') {
         Estado.ver = b.dataset.k;
         Armazenamento.salvarVersaoBiblia(Estado.ver);
-        Estado.notificar();
+
+        if (Estado.screen === 'read') {
+          const day = Estado.diaAtual;
+          const r = day.reads[Estado.r];
+          if (r && r.ref && typeof BibliaService !== 'undefined') {
+            BibliaService.buscarTextoPassagem(r.ref, Estado.ver).then((textoOnline) => {
+              if (textoOnline) {
+                r.texto = textoOnline;
+              }
+              render();
+            });
+          } else {
+            Estado.notificar();
+          }
+        } else {
+          Estado.notificar();
+        }
       } else if (a === 'rprev') {
         if (Estado.r > 0) {
           Estado.atualizar({ r: Estado.r - 1 });

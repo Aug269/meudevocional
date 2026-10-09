@@ -292,8 +292,9 @@ const MODES = {
 
 const VERSOES_BIBLIA = [
   ['NAA', 'NAA (Nova Almeida Atualizada)'],
-  ['ARA', 'ARA (Almeida Revista e Atualizada)'],
+  ['NTLH', 'NTLH (Nova Tradução na Linguagem de Hoje)'],
   ['NVI-PT', 'NVI (Nova Versão Internacional)'],
+  ['ARA', 'ARA (Almeida Revista e Atualizada)'],
   ['ARC', 'ARC (Almeida Revista e Corrigida)']
 ];
 
