@@ -429,22 +429,23 @@ const App = (() => {
         render();
       } else if (a === 'login_google') {
         if (typeof FirebaseService !== 'undefined') {
-          FirebaseService.entrarComGoogle().then(() => {
-            render();
-          });
+          FirebaseService.entrarComGoogle()
+            .then(() => render())
+            .catch((e) => alert(e.message));
         }
       } else if (a === 'logout_google') {
         if (typeof FirebaseService !== 'undefined') {
-          FirebaseService.sair();
-          render();
+          FirebaseService.sair().finally(() => render());
         }
       } else if (a === 'sincronizar_nuvem') {
         if (typeof FirebaseService !== 'undefined') {
           b.textContent = 'Sincronizando…';
-          FirebaseService.sincronizarComFirestore().then(() => {
+          FirebaseService.sincronizarComFirestore().then((r) => {
+            b.textContent = r && r.sucesso ? 'Sincronizado ✓' : 'Falhou ✕';
+            if (r && !r.sucesso) alert('Não foi possível sincronizar: ' + r.erro);
             setTimeout(() => {
               render();
-            }, 500);
+            }, 1200);
           });
         }
       } else if (a === 'timer') {
@@ -465,6 +466,9 @@ const App = (() => {
       }
     });
   }
+
+  // Atualiza a tela quando o usuário entra ou sai da conta Google
+  window.addEventListener('md-auth-mudou', () => render());
 
   return {
     inicializar
