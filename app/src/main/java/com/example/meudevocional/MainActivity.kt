@@ -34,6 +34,9 @@ class MainActivity : ComponentActivity() {
             File(cacheBase, "wasm").mkdirs()
         } catch (_: Exception) {}
 
+        // Inicializa o canal de notificações locais para lembretes do devocional
+        NotificationHelper.criarCanalNotificacao(this)
+
         initWebView()
 
         // Suporte ao botão voltar do Android
@@ -75,6 +78,41 @@ class MainActivity : ComponentActivity() {
             addJavascriptInterface(object {
                 @android.webkit.JavascriptInterface
                 fun getApiKey(): String = BuildConfig.GEMINI_API_KEY
+
+                @android.webkit.JavascriptInterface
+                fun isNativeApp(): Boolean = true
+
+                @android.webkit.JavascriptInterface
+                fun scheduleDailyReminder(hour: Int, minute: Int, title: String, message: String): Boolean {
+                    NotificationHelper.scheduleDailyReminder(this@MainActivity, hour, minute, title, message)
+                    return true
+                }
+
+                @android.webkit.JavascriptInterface
+                fun cancelDailyReminder(): Boolean {
+                    NotificationHelper.cancelDailyReminder(this@MainActivity)
+                    return true
+                }
+
+                @android.webkit.JavascriptInterface
+                fun showImmediateNotification(title: String, message: String): Boolean {
+                    NotificationHelper.showNotification(this@MainActivity, title, message)
+                    return true
+                }
+
+                @android.webkit.JavascriptInterface
+                fun hasNotificationPermission(): Boolean {
+                    return NotificationHelper.hasNotificationPermission(this@MainActivity)
+                }
+
+                @android.webkit.JavascriptInterface
+                fun requestNotificationPermission() {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                        runOnUiThread {
+                            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
+                        }
+                    }
+                }
             }, "AndroidBridge")
 
             webViewClient = object : WebViewClient() {

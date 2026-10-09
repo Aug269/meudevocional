@@ -158,6 +158,181 @@ const Telas = (() => {
   }
 
   // ==========================================
+  // CARD DE LEMBRETE DIÁRIO & NOTIFICAÇÕES
+  // ==========================================
+  function renderCardLembrete() {
+    const config = Armazenamento.obterConfigNotificacoes();
+    const statusPermissao = typeof Notificacoes !== 'undefined' ? Notificacoes.obterStatusPermissao() : 'default';
+    const ativo = !!config.ativo;
+    const horario = config.horario || '07:00';
+
+    return `
+      <div class="reminder-card ${ativo ? 'is-active' : ''}">
+        <div class="reminder-card-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="reminder-bell-icon ${ativo ? 'ringing' : ''}">🔔</span>
+            <div>
+              <span class="reminder-label">LEMBRETE DIÁRIO</span>
+              <h4 class="reminder-title">Momento com Deus</h4>
+            </div>
+          </div>
+          <span class="reminder-badge ${ativo ? 'on' : 'off'}">
+            ${ativo ? `✓ Às ${horario}` : 'Desativado'}
+          </span>
+        </div>
+
+        <p class="reminder-description">
+          ${ativo 
+            ? `Notificação ativa diariamente às <strong>${horario}</strong> para leitura bíblica e oração.`
+            : 'Receba um lembrete no mesmo horário todos os dias para manter seu devocional em dia.'}
+        </p>
+
+        <div class="reminder-card-actions">
+          <button class="reminder-action-btn ${ativo ? 'active' : ''}" data-a="toggle_lembrete" title="${ativo ? 'Desativar lembretes' : 'Ativar lembretes'}">
+            ${ativo ? 'Desativar' : 'Ativar Lembrete'}
+          </button>
+          <button class="reminder-action-btn outline" data-a="abrir_config_lembrete" title="Configurar horário do lembrete">
+            ⚙️ Ajustar Horário (${horario})
+          </button>
+          <button class="reminder-action-btn test" data-a="testar_lembrete_rapido" title="Testar notificação agora">
+            Testar 🔔
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  // ==========================================
+  // MODAL DE CONFIGURAÇÃO DE LEMBRETE DIÁRIO
+  // ==========================================
+  function renderModalLembrete(estado) {
+    if (!estado.modalLembreteAberto) return '';
+
+    const config = Armazenamento.obterConfigNotificacoes();
+    const horario = estado.tempLembreteHorario || config.horario || '07:00';
+    const statusPermissao = typeof Notificacoes !== 'undefined' ? Notificacoes.obterStatusPermissao() : 'default';
+    const feedback = estado.feedbackLembrete;
+
+    const opcoesHorarios = [
+      { h: '06:00', l: '06:00 (Alvorada)' },
+      { h: '07:00', l: '07:00 (Manhã)' },
+      { h: '08:00', l: '08:00 (Início do dia)' },
+      { h: '12:30', l: '12:30 (Almoço)' },
+      { h: '20:30', l: '20:30 (Noite)' },
+      { h: '21:30', l: '21:30 (Antes de dormir)' }
+    ];
+
+    return `
+      <div class="modal-backdrop" data-a="fechar_modal_lembrete">
+        <div class="modal-dialog" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 22px;">🔔</span>
+              <div>
+                <h3 style="margin: 0; font-size: 18px; font-weight: 600;">Lembrete Diário</h3>
+                <p style="margin: 2px 0 0; font-size: 13px; color: var(--tx2);">Notificações para o seu momento devocional</p>
+              </div>
+            </div>
+            <button class="modal-close-btn" data-a="fechar_modal_lembrete" aria-label="Fechar modal">✕</button>
+          </div>
+
+          ${feedback ? `
+            <div class="modal-feedback-banner ${esc(feedback.tipo || 'info')}">
+              ${esc(feedback.texto)}
+            </div>
+          ` : ''}
+
+          <!-- STATUS DE PERMISSÃO -->
+          <div class="perm-status-box ${statusPermissao}">
+            ${statusPermissao === 'granted' ? `
+              <span class="perm-icon">✓</span>
+              <div>
+                <strong>Notificações autorizadas</strong>
+                <p style="margin: 0; font-size: 12px; color: var(--tx2);">Seu dispositivo está pronto para receber os alertas.</p>
+              </div>
+            ` : statusPermissao === 'denied' ? `
+              <span class="perm-icon">⚠️</span>
+              <div>
+                <strong>Notificações bloqueadas</strong>
+                <p style="margin: 0; font-size: 12px; color: var(--tx2);">Desbloqueie nas permissões do navegador ou app para receber os alertas.</p>
+              </div>
+            ` : `
+              <span class="perm-icon">ℹ️</span>
+              <div style="flex: 1;">
+                <strong>Permissão necessária</strong>
+                <p style="margin: 0 0 6px; font-size: 12px; color: var(--tx2);">Autorize o envio de alertas para ser avisado no horário certo.</p>
+                <button class="chip" data-a="solicitar_perm_notif" style="min-height: 30px; font-size: 12px; padding: 0 10px;">
+                  Autorizar Notificações
+                </button>
+              </div>
+            `}
+          </div>
+
+          <!-- SELEÇÃO DE HORÁRIO -->
+          <div style="margin: 18px 0 14px;">
+            <label class="lb" style="display: block; margin-bottom: 8px; font-weight: 600;">
+              Horário diário do lembrete:
+            </label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <input type="time" id="input-lembrete-horario" class="time-input-field" value="${esc(horario)}">
+              <span style="font-size: 13px; color: var(--tx2);">Todos os dias no mesmo horário</span>
+            </div>
+
+            <!-- CHIPS DE HORÁRIOS SUGERIDOS -->
+            <p class="lb" style="margin: 12px 0 6px; font-size: 11px;">Sugestões frequentes:</p>
+            <div class="chips" style="margin-bottom: 6px;">
+              ${opcoesHorarios.map(op => `
+                <button class="chip ${horario === op.h ? 'on' : ''}" data-a="set_horario_rapido" data-h="${op.h}">
+                  ${op.l}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- MENSAGEM DO LEMBRETE -->
+          <div style="margin-bottom: 16px;">
+            <label class="lb" style="display: block; margin-bottom: 6px; font-weight: 600;">
+              Texto da notificação:
+            </label>
+            <select id="select-lembrete-msg" class="reminder-select-field">
+              <option value="Hora do seu devocional diário: um momento com a Palavra e em oração." ${config.mensagem && config.mensagem.includes('devocional diário') ? 'selected' : ''}>
+                Hora do seu devocional diário: Palavra e oração
+              </option>
+              <option value="Faça uma pausa com Deus. As leituras bíblicas de hoje esperam por você." ${config.mensagem && config.mensagem.includes('pausa com Deus') ? 'selected' : ''}>
+                Faça uma pausa com Deus: leitura do Lecionário
+              </option>
+              <option value="«Alegrem-se sempre no Senhor.» Hora do seu devocional bíblico!" ${config.mensagem && config.mensagem.includes('Alegrem-se') ? 'selected' : ''}>
+                «Alegrem-se sempre no Senhor»: devocional diário
+              </option>
+            </select>
+          </div>
+
+          <!-- BOTÃO DE TESTE COM SOM -->
+          <div style="margin-bottom: 20px; padding: 12px; background: color-mix(in srgb, var(--card) 60%, var(--bg)); border-radius: 8px; border: 1px dashed var(--bd); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="font-size: 13px; display: block;">Testar Agora</strong>
+              <span style="font-size: 12px; color: var(--tx2);">Emite sino devocional e mostra a notificação</span>
+            </div>
+            <button class="chip" data-a="testar_notificacao_modal" style="min-height: 32px; padding: 0 12px; font-size: 12px; border-color: var(--lit); color: var(--lit); font-weight: 600;">
+              Testar Alerta 🔔
+            </button>
+          </div>
+
+          <!-- AÇÕES DO MODAL -->
+          <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="chip" data-a="fechar_modal_lembrete" style="min-height: 40px; padding: 0 16px;">
+              Cancelar
+            </button>
+            <button class="btn" data-a="salvar_modal_lembrete" style="width: auto; margin: 0; min-height: 40px; padding: 0 20px; font-size: 14px;">
+              Salvar & Ativar
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ==========================================
   // TELA INICIAL (HOJE)
   // ==========================================
   function home(estado) {
@@ -217,6 +392,9 @@ const Telas = (() => {
 
         <!-- INDICADOR VISUAL E CHECKBOXES (ESCRITURAS, REFLEXÃO, ORAÇÃO) -->
         ${renderTrackerPartes(day)}
+
+        <!-- LEMBRETE DIÁRIO E NOTIFICAÇÕES LOCAIS -->
+        ${renderCardLembrete()}
 
         <div class="hr"></div>
 
@@ -446,6 +624,17 @@ const Telas = (() => {
     });
 
     h += `
+        <!-- LEMBRETE PARA AMANHÃ -->
+        <div style="margin-top: 18px; padding: 12px 14px; background: color-mix(in srgb, var(--lit) 8%, var(--card)); border-radius: 8px; border: 1px solid color-mix(in srgb, var(--lit) 25%, transparent); display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong style="font-size: 13px; display: block; color: var(--tx);">Lembrete Diário 🔔</strong>
+            <span style="font-size: 12px; color: var(--tx2);">Mantenha a constância amanhã no mesmo horário</span>
+          </div>
+          <button class="chip" data-a="abrir_config_lembrete" style="min-height: 32px; padding: 0 10px; font-size: 12px; font-weight: 600; border-color: var(--lit); color: var(--lit);">
+            Configurar
+          </button>
+        </div>
+
         <div style="height: 10px;"></div>
         <button class="btn" data-a="diary">Ver no diário</button>
         <button class="link" data-a="home">Voltar ao início</button>
@@ -784,24 +973,34 @@ const Telas = (() => {
     chat,
     focusReader,
     render(estado) {
+      let telaHtml = '';
       switch (estado.screen) {
         case 'home':
-          return home(estado);
+          telaHtml = home(estado);
+          break;
         case 'step':
-          return step(estado);
+          telaHtml = step(estado);
+          break;
         case 'done':
-          return done(estado);
+          telaHtml = done(estado);
+          break;
         case 'read':
-          return reader(estado);
+          telaHtml = reader(estado);
+          break;
         case 'diary':
-          return diary(estado);
+          telaHtml = diary(estado);
+          break;
         case 'chat':
-          return chat(estado);
+          telaHtml = chat(estado);
+          break;
         case 'focus_read':
-          return focusReader(estado);
+          telaHtml = focusReader(estado);
+          break;
         default:
-          return home(estado);
+          telaHtml = home(estado);
+          break;
       }
+      return renderModalLembrete(estado) + telaHtml;
     }
   };
 })();

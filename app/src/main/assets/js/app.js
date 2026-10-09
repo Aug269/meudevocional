@@ -11,6 +11,10 @@ const App = (() => {
     Estado.mode = Armazenamento.obterModo();
     Estado.leituraPrefs = Armazenamento.obterPreferenciasLeitura();
 
+    if (typeof Notificacoes !== 'undefined') {
+      Notificacoes.inicializar();
+    }
+
     Estado.inscrever(() => {
       render();
     });
@@ -174,6 +178,81 @@ const App = (() => {
           Armazenamento.alternarParteDevocional(Estado.diaAtual.key, parte);
           render();
         }
+      } else if (a === 'toggle_lembrete') {
+        if (typeof Notificacoes !== 'undefined') {
+          Notificacoes.alternarAtivacao().then(() => {
+            render();
+          });
+        }
+      } else if (a === 'abrir_config_lembrete') {
+        const conf = Armazenamento.obterConfigNotificacoes();
+        Estado.atualizar({
+          modalLembreteAberto: true,
+          tempLembreteHorario: conf.horario || '07:00',
+          feedbackLembrete: null
+        });
+      } else if (a === 'fechar_modal_lembrete') {
+        Estado.atualizar({
+          modalLembreteAberto: false,
+          feedbackLembrete: null
+        });
+      } else if (a === 'set_horario_rapido') {
+        const h = b.dataset.h;
+        if (h) {
+          Estado.tempLembreteHorario = h;
+          const inputEl = document.getElementById('input-lembrete-horario');
+          if (inputEl) inputEl.value = h;
+          render();
+        }
+      } else if (a === 'solicitar_perm_notif') {
+        if (typeof Notificacoes !== 'undefined') {
+          Notificacoes.solicitarPermissao().then((status) => {
+            if (status === 'granted') {
+              Estado.feedbackLembrete = { tipo: 'sucesso', texto: '✓ Permissão concedida! Agora você pode ativar seus lembretes.' };
+            } else if (status === 'denied') {
+              Estado.feedbackLembrete = { tipo: 'erro', texto: '⚠️ Permissão negada pelo navegador/sistema.' };
+            }
+            render();
+          });
+        }
+      } else if (a === 'testar_notificacao_modal') {
+        if (typeof Notificacoes !== 'undefined') {
+          Notificacoes.dispararTeste().then((ok) => {
+            Estado.feedbackLembrete = {
+              tipo: 'sucesso',
+              texto: '🔔 Alerta sonoro e notificação disparados com sucesso!'
+            };
+            render();
+          });
+        }
+      } else if (a === 'testar_lembrete_rapido') {
+        if (typeof Notificacoes !== 'undefined') {
+          Notificacoes.dispararTeste();
+        }
+      } else if (a === 'salvar_modal_lembrete') {
+        const inputH = document.getElementById('input-lembrete-horario');
+        const selectM = document.getElementById('select-lembrete-msg');
+        const horarioEscolhido = (inputH ? inputH.value : (Estado.tempLembreteHorario || '07:00')) || '07:00';
+        const msgEscolhida = selectM ? selectM.value : 'Hora do seu devocional diário: um momento com a Palavra e em oração.';
+
+        if (typeof Notificacoes !== 'undefined') {
+          Notificacoes.salvarHorario(horarioEscolhido, msgEscolhida);
+          Armazenamento.salvarConfigNotificacoes({ ativo: true });
+          if (typeof Notificacoes.solicitarPermissao === 'function') {
+            Notificacoes.solicitarPermissao();
+          }
+        }
+
+        Estado.atualizar({
+          feedbackLembrete: { tipo: 'sucesso', texto: `✓ Lembrete ativado para todos os dias às ${horarioEscolhido}!` }
+        });
+
+        setTimeout(() => {
+          Estado.atualizar({
+            modalLembreteAberto: false,
+            feedbackLembrete: null
+          });
+        }, 1200);
       } else if (a === 'abrir_modo_leitura') {
         Estado.atualizar({
           prev: Estado.screen,

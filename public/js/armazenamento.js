@@ -449,6 +449,27 @@ const Armazenamento = (() => {
       const novo = { ...atuais, ...prefs };
       salvar(CHAVE_PREF_LEITURA, novo);
       return novo;
+    },
+
+    // ==========================================
+    // LEMBRETES E NOTIFICAÇÕES DIÁRIAS
+    // ==========================================
+    obterConfigNotificacoes() {
+      return obter('md_notificacoes', {
+        ativo: false,
+        horario: '07:00',
+        titulo: 'Meu Devocional · Momento Diário',
+        mensagem: 'Hora do seu devocional diário: um momento com a Palavra e em oração.',
+        som: true,
+        ultimoDisparoData: null
+      });
+    },
+
+    salvarConfigNotificacoes(config) {
+      const atuais = this.obterConfigNotificacoes();
+      const novo = { ...atuais, ...config };
+      salvar('md_notificacoes', novo);
+      return novo;
     }
   };
 })();

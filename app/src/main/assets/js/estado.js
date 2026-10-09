@@ -20,6 +20,11 @@ const Estado = {
     serif: true
   },
 
+  // Estado do Lembrete Diário / Notificações
+  modalLembreteAberto: false,
+  feedbackLembrete: null, // { tipo: 'sucesso' | 'info' | 'erro', texto: string }
+  tempLembreteHorario: null,
+
   // Estado do Chatbot Gemini (Conselheiro Bíblico)
   chatModelo: 'geral', // 'geral' (gemini-3.5-flash) | 'complexo' (gemini-3.1-pro-preview) | 'rapido' (gemini-3.1-flash-lite)
   chatCarregando: false,
