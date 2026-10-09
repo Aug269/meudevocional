@@ -28,6 +28,17 @@ const FirebaseService = (() => {
   };
 
   const CHAVE_USER = 'md_firebase_user';
+
+  // Faz a requisição e lança erro com status/corpo quando falha,
+  // em vez de engolir o erro silenciosamente.
+  async function requisitarFirestore(url, opcoes) {
+    const resp = await fetch(url, opcoes);
+    if (!resp.ok) {
+      const corpo = await resp.text().catch(() => '');
+      throw new Error(`Firestore ${resp.status}: ${corpo.slice(0, 300)}`);
+    }
+    return resp;
+  }
   let usuarioAtual = null;
 
   // Carrega usuário salvo localmente
@@ -99,14 +110,14 @@ const FirebaseService = (() => {
    * Sincroniza as reflexões locais com o Firestore
    */
   async function sincronizarComFirestore() {
-    if (!usuarioAtual) return;
+    if (!usuarioAtual) return { sucesso: false, erro: 'Usuário não autenticado' };
 
     try {
       const reflexoes = Armazenamento.obterReflexoes();
       const firestoreBaseUrl = `https://firestore.googleapis.com/v1/projects/${CONFIG.projectId}/databases/${CONFIG.databaseId}/documents/users/${usuarioAtual.uid}`;
 
       // Salva documento do usuário no Firestore
-      await fetch(`${firestoreBaseUrl}?key=${CONFIG.apiKey}`, {
+      await requisitarFirestore(`${firestoreBaseUrl}?key=${CONFIG.apiKey}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -116,12 +127,12 @@ const FirebaseService = (() => {
             lastLogin: { timestampValue: new Date().toISOString() }
           }
         })
-      }).catch(() => {});
+      });
 
       // Envia as reflexões locais mais recentes
       for (const r of reflexoes.slice(0, 10)) {
         const docId = (r.id || 'ref_' + r.timestamp).replace(/[^a-zA-Z0-9_]/g, '_');
-        await fetch(`${firestoreBaseUrl}/reflections/${docId}?key=${CONFIG.apiKey}`, {
+        await requisitarFirestore(`${firestoreBaseUrl}/reflections/${docId}?key=${CONFIG.apiKey}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -133,10 +144,12 @@ const FirebaseService = (() => {
               modo: { stringValue: r.modo || '' }
             }
           })
-        }).catch(() => {});
+        });
       }
+      return { sucesso: true };
     } catch (e) {
-      console.warn('Sincronização com Firestore operando em modo offline:', e);
+      console.error('Falha na sincronização com o Firestore:', e);
+      return { sucesso: false, erro: e.message };
     }
   }
 
@@ -144,13 +157,13 @@ const FirebaseService = (() => {
    * Salva mensagem do chat no Firestore
    */
   async function salvarMensagemChatFirestore(mensagem) {
-    if (!usuarioAtual) return;
+    if (!usuarioAtual) return { sucesso: false, erro: 'Usuário não autenticado' };
 
     try {
       const firestoreBaseUrl = `https://firestore.googleapis.com/v1/projects/${CONFIG.projectId}/databases/${CONFIG.databaseId}/documents/users/${usuarioAtual.uid}/chat_messages`;
       const msgId = 'msg_' + Date.now();
 
-      await fetch(`${firestoreBaseUrl}/${msgId}?key=${CONFIG.apiKey}`, {
+      await requisitarFirestore(`${firestoreBaseUrl}/${msgId}?key=${CONFIG.apiKey}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -161,8 +174,12 @@ const FirebaseService = (() => {
             timestamp: { integerValue: String(Date.now()) }
           }
         })
-      }).catch(() => {});
-    } catch (e) {}
+      });
+      return { sucesso: true };
+    } catch (e) {
+      console.error('Falha ao salvar mensagem no Firestore:', e);
+      return { sucesso: false, erro: e.message };
+    }
   }
 
   return {

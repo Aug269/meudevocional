@@ -107,6 +107,9 @@ const Armazenamento = (() => {
         if (houveMigracao) {
           salvar(CHAVE_REFLEXOES, reflexoes);
         }
+        // Migração feita uma única vez: remove o formato legado para evitar
+        // duplicatas e para que reflexões excluídas não "voltem".
+        try { localStorage.removeItem(CHAVE_DIARIO_LEGADO); } catch (e) {}
       }
 
       // Ordena por data decrescente (mais recentes no topo)
@@ -147,17 +150,6 @@ const Armazenamento = (() => {
       }
 
       salvar(CHAVE_REFLEXOES, reflexoes);
-
-      // Também sincroniza com o formato legado para compatibilidade total
-      const legado = obter(CHAVE_DIARIO_LEGADO, []);
-      legado.push({
-        date: novaReflexao.data,
-        mode: novaReflexao.modo,
-        q: novaReflexao.titulo,
-        text: novaReflexao.texto,
-        timestamp: novaReflexao.timestamp
-      });
-      salvar(CHAVE_DIARIO_LEGADO, legado);
 
       return novaReflexao;
     },

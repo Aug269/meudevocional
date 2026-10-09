@@ -188,8 +188,10 @@ const Notificacoes = (() => {
       return;
     }
 
-    // Se o horário atual bate com o horário configurado
-    if (horarioAtual === config.horario) {
+    // Dispara se já passou do horário configurado hoje (comparação >=),
+    // para não perder o minuto exato se o navegador atrasar o timer
+    // ou se o app for aberto depois do horário.
+    if (horarioAtual >= (config.horario || '07:00')) {
       exibirNotificacao(
         config.titulo || 'Meu Devocional · Momento Diário',
         config.mensagem || 'Hora de fazer uma pausa para o seu devocional diário com Deus.'
