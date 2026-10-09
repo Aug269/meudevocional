@@ -1,20 +1,20 @@
 /**
  * MEU DEVOCIONAL - BÍBLIA SERVICE
- * Serviço de busca de textos bíblicos em português com suporte a NAA, NTLH, NVI, ARA, ACF,
+ * Serviço de busca de textos bíblicos em português com integração ao BIBLIAAPI (bibliaapi.com.br)
+ * e abibliadigital.com.br, com suporte às traduções NAA, NTLH, NVI, ARA, ACF,
  * cache local em memória/localStorage e fallback gracioso offline.
  */
 
 const BibliaService = (() => {
-  // Mapeamento de siglas de versões para a API da Bíblia Digital
+  // Mapeamento de siglas de versões para as APIs públicas
   const VERSOES_MAPA = {
-    'NAA': 'nvi', // fallback amigável caso NAA não esteja disponível na API gratuita
+    'NAA': 'acf',  // fallback amigável caso NAA não esteja pública
     'NTLH': 'nvi',
     'NVI-PT': 'nvi',
     'ARA': 'ra',
     'ARC': 'acf'
   };
 
-  // Mapeamento de nomes de livros bíblicos em português para abreviações da API
   const LIVROS_ABREV = {
     'gênesis': 'gn', 'êxodo': 'ex', 'levítico': 'lv', 'números': 'nm', 'deuteronômio': 'dt',
     'josué': 'js', 'juízes': 'jz', 'rute': 'rt', '1 samuel': '1sm', '2 samuel': '2sm',
@@ -32,9 +32,6 @@ const BibliaService = (() => {
     '1 joão': '1jo', '2 joão': '2jo', '3 joão': '3jo', 'judas': 'jd', 'revelação': 'ap', 'apocalipse': 'ap'
   };
 
-  /**
-   * Converte uma referência textual (ex: "Filipenses 4:1-9" ou "Salmo 106:1-6") em componentes pesquisáveis.
-   */
   function parseReferencia(refStr) {
     if (!refStr) return null;
     const limpo = refStr.trim().replace(/–/g, '-');
@@ -56,9 +53,6 @@ const BibliaService = (() => {
     };
   }
 
-  /**
-   * Busca os versículos de um capítulo ou trecho via API da Bíblia Digital com cache.
-   */
   async function buscarTextoPassagem(refStr, versaoSigla = 'NAA') {
     const parsed = parseReferencia(refStr);
     if (!parsed || !parsed.abrev) {
@@ -69,7 +63,6 @@ const BibliaService = (() => {
     const chaveCache = `md_bible_${versaoApi}_${parsed.abrev}_${parsed.capitulo}`;
 
     try {
-      // 1. Tenta recuperar do cache local
       if (typeof Armazenamento !== 'undefined') {
         const cached = Armazenamento.obter(chaveCache, null);
         if (cached && Array.isArray(cached.verses)) {
@@ -77,17 +70,34 @@ const BibliaService = (() => {
         }
       }
 
-      // 2. Requisição à API pública da Bíblia Digital
-      const url = `https://www.abibliadigital.com.br/api/verses/${versaoApi}/${parsed.abrev}/${parsed.capitulo}`;
-      const response = await fetch(url);
-      if (!response.ok) return null;
-
-      const data = await response.json();
-      if (data && Array.isArray(data.verses)) {
-        if (typeof Armazenamento !== 'undefined') {
-          Armazenamento.salvar(chaveCache, { verses: data.verses });
+      // 1. Tenta buscar no BIBLIAAPI (bibliaapi.com.br)
+      try {
+        const urlBibliaApi = `https://bibliaapi.com.br/api/v2/versions/${versaoApi}/books/${parsed.abrev}/chapters/${parsed.capitulo}`;
+        const resp = await fetch(urlBibliaApi);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data && Array.isArray(data.verses)) {
+            if (typeof Armazenamento !== 'undefined') {
+              Armazenamento.salvar(chaveCache, { verses: data.verses });
+            }
+            return formatarVersiculos(data.verses, parsed.versiculoInicio, parsed.versiculoFim);
+          }
         }
-        return formatarVersiculos(data.verses, parsed.versiculoInicio, parsed.versiculoFim);
+      } catch (e) {
+        // Fallback para abibliadigital
+      }
+
+      // 2. Fallback para abibliadigital.com.br
+      const urlAbiblia = `https://www.abibliadigital.com.br/api/verses/${versaoApi}/${parsed.abrev}/${parsed.capitulo}`;
+      const response = await fetch(urlAbiblia);
+      if (response.ok) {
+        const data = await response.json();
+        if (data && Array.isArray(data.verses)) {
+          if (typeof Armazenamento !== 'undefined') {
+            Armazenamento.salvar(chaveCache, { verses: data.verses });
+          }
+          return formatarVersiculos(data.verses, parsed.versiculoInicio, parsed.versiculoFim);
+        }
       }
     } catch (err) {
       console.warn('Falha na requisição da Bíblia online, usando fallback local:', err);
