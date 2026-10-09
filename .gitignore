@@ -21,3 +21,9 @@ debug.keystore.base64
 local.properties
 google-services.json
 app/google-services.json
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example

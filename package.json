@@ -1,0 +1,12 @@
+{
+  "name": "meudevocional",
+  "version": "1.0.0",
+  "description": "Meu Devocional - Guia e Diário Espiritual Bíblico",
+  "scripts": {
+    "build": "mkdir -p public/css public/js && cp index.html public/ && cp -r css/* public/css/ && cp -r js/* public/js/",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.149.0"
+  }
+}
