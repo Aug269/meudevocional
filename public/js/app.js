@@ -347,12 +347,25 @@ const App = (() => {
         }
         Estado.atualizar({ screen: 'step', i: idx >= 0 ? idx : m.s.length - 1, ans: '' });
       } else if (a === 'read') {
+        const rIdx = +b.dataset.r;
         Armazenamento.marcarParteDevocional(Estado.diaAtual.key, 'scripture', true);
         Estado.atualizar({
           prev: Estado.screen,
-          r: +b.dataset.r,
+          r: rIdx,
           screen: 'read'
         });
+
+        // Quando o usuário clica em Ler, consulta BibliaService para obter o texto bíblico completo online
+        const day = Estado.diaAtual;
+        const rObj = day && day.reads ? day.reads[rIdx] : null;
+        if (rObj && rObj.ref && typeof BibliaService !== 'undefined') {
+          BibliaService.buscarTextoPassagem(rObj.ref, Estado.ver).then((textoOnline) => {
+            if (textoOnline) {
+              rObj.texto = textoOnline;
+              render();
+            }
+          });
+        }
       } else if (a === 'rback') {
         Estado.atualizar({ screen: Estado.prev });
       } else if (a === 'ver') {

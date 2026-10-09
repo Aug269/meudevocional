@@ -1,14 +1,24 @@
 /**
  * MEU DEVOCIONAL - BÍBLIA SERVICE
- * Serviço de busca de textos bíblicos em português com integração ao BIBLIAAPI (bibliaapi.com.br)
- * e abibliadigital.com.br, com suporte às traduções NAA, NTLH, NVI, ARA, ACF,
- * cache local em memória/localStorage e fallback gracioso offline.
+ * Serviço de busca de textos bíblicos em português com integração às APIs públicas
+ * (pesquisarnabiblia.com.br, bibliaapi.com.br e abibliadigital.com.br), com suporte
+ * às traduções NAA, NTLH, NVI, ARA, ACF, cache local e fallback offline gracioso.
  */
 
 const BibliaService = (() => {
-  // Mapeamento de siglas de versões para as APIs públicas
+  function obterApiKeySearch() {
+    if (typeof window !== 'undefined') {
+      if (window.SEARCH_BIBLE_API_KEY) return window.SEARCH_BIBLE_API_KEY;
+      try {
+        const salva = localStorage.getItem('search_bible_api_key');
+        if (salva) return salva;
+      } catch (e) {}
+    }
+    return '';
+  }
+
   const VERSOES_MAPA = {
-    'NAA': 'acf',  // fallback amigável caso NAA não esteja pública
+    'NAA': 'acf',
     'NTLH': 'nvi',
     'NVI-PT': 'nvi',
     'ARA': 'ra',
@@ -30,6 +40,23 @@ const BibliaService = (() => {
     '2 tessalonicenses': '2ts', '1 timóteo': '1tm', '2 timóteo': '2tm', 'tito': 'tt',
     'filemom': 'fm', 'hebreus': 'hb', 'tiago': 'tg', '1 pedro': '1pe', '2 pedro': '2pe',
     '1 joão': '1jo', '2 joão': '2jo', '3 joão': '3jo', 'judas': 'jd', 'revelação': 'ap', 'apocalipse': 'ap'
+  };
+
+  const LIVROS_SEARCH_ID = {
+    'gn': 1, 'ex': 2, 'lv': 3, 'nm': 4, 'dt': 5,
+    'js': 6, 'jz': 7, 'rt': 8, '1sm': 9, '2sm': 10,
+    '1rg': 11, '2rg': 12, '1cr': 13, '2cr': 14,
+    'ez': 15, 'ne': 16, 'et': 17, 'job': 18, 'sl': 19,
+    'pv': 20, 'ec': 21, 'ct': 22, 'is': 23, 'jr': 24,
+    'lm': 25, 'ezk': 26, 'dn': 27, 'os': 28, 'jl': 29,
+    'am': 30, 'ob': 31, 'jn': 32, 'mq': 33, 'na': 34,
+    'hc': 35, 'sf': 36, 'ag': 37, 'zc': 38, 'ml': 39,
+    'mt': 40, 'mc': 41, 'lc': 42, 'jo': 43, 'at': 44,
+    'rm': 45, '1co': 46, '2co': 47, 'gl': 48,
+    'ef': 49, 'fp': 50, 'cl': 51, '1ts': 52,
+    '2ts': 53, '1tm': 54, '2tm': 55, 'tt': 56,
+    'fm': 57, 'hb': 58, 'tg': 59, '1pe': 60, '2pe': 61,
+    '1jo': 62, '2jo': 63, '3jo': 64, 'jd': 65, 'ap': 66
   };
 
   function parseReferencia(refStr) {
@@ -63,6 +90,7 @@ const BibliaService = (() => {
     const chaveCache = `md_bible_${versaoApi}_${parsed.abrev}_${parsed.capitulo}`;
 
     try {
+      // 1. Tenta recuperar do cache local no dispositivo
       if (typeof Armazenamento !== 'undefined') {
         const cached = Armazenamento.obter(chaveCache, null);
         if (cached && Array.isArray(cached.verses)) {
@@ -70,7 +98,34 @@ const BibliaService = (() => {
         }
       }
 
-      // 1. Tenta buscar no BIBLIAAPI (bibliaapi.com.br)
+      // 2. Busca via Biblia Search API caso exista chave configurada
+      const apiKey = obterApiKeySearch();
+      if (apiKey) {
+        const bookId = LIVROS_SEARCH_ID[parsed.abrev] || 1;
+        try {
+          const urlSearchApi = `https://pesquisarnabiblia.com.br/api-projeto/api/get_verses.php?version_id=1&book_id=${bookId}&chapter_id=${parsed.capitulo}`;
+          const resp = await fetch(urlSearchApi, {
+            headers: { 'Authorization': `Bearer ${apiKey}` }
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data && Array.isArray(data.verses)) {
+              const mappedVerses = data.verses.map((v) => ({
+                number: v.verse_number,
+                text: (v.text || '').trim()
+              }));
+              if (typeof Armazenamento !== 'undefined') {
+                Armazenamento.salvar(chaveCache, { verses: mappedVerses });
+              }
+              return formatarVersiculos(mappedVerses, parsed.versiculoInicio, parsed.versiculoFim);
+            }
+          }
+        } catch (e) {
+          // Fallback
+        }
+      }
+
+      // 3. Fallback para BIBLIAAPI (bibliaapi.com.br)
       try {
         const urlBibliaApi = `https://bibliaapi.com.br/api/v2/versions/${versaoApi}/books/${parsed.abrev}/chapters/${parsed.capitulo}`;
         const resp = await fetch(urlBibliaApi);
@@ -84,10 +139,10 @@ const BibliaService = (() => {
           }
         }
       } catch (e) {
-        // Fallback para abibliadigital
+        // Fallback
       }
 
-      // 2. Fallback para abibliadigital.com.br
+      // 4. Fallback para abibliadigital.com.br
       const urlAbiblia = `https://www.abibliadigital.com.br/api/verses/${versaoApi}/${parsed.abrev}/${parsed.capitulo}`;
       const response = await fetch(urlAbiblia);
       if (response.ok) {
