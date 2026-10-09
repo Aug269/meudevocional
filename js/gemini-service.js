@@ -6,9 +6,9 @@
 const GeminiService = (() => {
   // Modelos suportados conforme diretrizes
   const MODELOS = {
-    geral: 'gemini-2.5-flash',
-    complexo: 'gemini-2.5-pro',
-    rapido: 'gemini-2.5-flash-lite'
+    geral: 'gemini-1.5-flash',
+    complexo: 'gemini-1.5-pro',
+    rapido: 'gemini-1.5-flash-8b'
   };
 
   const SYSTEM_INSTRUCTION = `Você é um Conselheiro Bíblico e Teólogo Cristão Protestante sábio, amável, acolhedor e profundamente bíblico. 

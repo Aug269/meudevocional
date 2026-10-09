@@ -28,15 +28,21 @@ const Armazenamento = (() => {
   const temLocalStorage = typeof window !== 'undefined' && storageDisponivel();
 
   function obter(chave, padrao) {
+    if (memoria[chave] !== undefined) {
+      return memoria[chave];
+    }
     if (!temLocalStorage) {
-      return memoria[chave] !== undefined ? memoria[chave] : padrao;
+      return padrao;
     }
     try {
       const item = window.localStorage.getItem(chave);
-      return item ? JSON.parse(item) : padrao;
+      if (item === null || item === undefined) return padrao;
+      const parsed = JSON.parse(item);
+      memoria[chave] = parsed;
+      return parsed;
     } catch (e) {
       console.warn(`Erro ao ler ${chave} do storage:`, e);
-      return memoria[chave] !== undefined ? memoria[chave] : padrao;
+      return padrao;
     }
   }
 
@@ -46,7 +52,7 @@ const Armazenamento = (() => {
     try {
       window.localStorage.setItem(chave, JSON.stringify(valor));
     } catch (e) {
-      console.warn(`Erro ao salvar ${chave} no storage:`, e);
+      console.warn(`Erro ao salvar ${chave} no storage (armazenando em memória):`, e);
     }
   }
 
