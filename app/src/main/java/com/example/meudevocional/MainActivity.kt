@@ -34,6 +34,22 @@ class MainActivity : ComponentActivity() {
             File(cacheBase, "wasm").mkdirs()
         } catch (_: Exception) {}
 
+        initWebView()
+
+        // Suporte ao botão voltar do Android
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (::webView.isInitialized && webView.canGoBack()) {
+                    webView.goBack()
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
+    }
+
+    private fun initWebView() {
         webView = WebView(this).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -67,7 +83,12 @@ class MainActivity : ComponentActivity() {
                 }
 
                 override fun onRenderProcessGone(view: WebView?, detail: RenderProcessGoneDetail?): Boolean {
-                    // Evita encerramento do app caso o processo de renderização do Chromium seja reciclado pelo SO
+                    // Evita encerramento do app e recria a WebView se o processo de renderização for reciclado
+                    try {
+                        (view?.parent as? ViewGroup)?.removeView(view)
+                        view?.destroy()
+                        initWebView()
+                    } catch (_: Exception) {}
                     return true
                 }
 
@@ -101,18 +122,6 @@ class MainActivity : ComponentActivity() {
             view.setPadding(0, systemBars.top, 0, systemBars.bottom)
             insets
         }
-
-        // Suporte ao botão voltar do Android
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (webView.canGoBack()) {
-                    webView.goBack()
-                } else {
-                    isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            }
-        })
     }
 
     override fun onResume() {
